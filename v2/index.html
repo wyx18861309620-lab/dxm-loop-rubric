@@ -87,7 +87,7 @@ code{font-family:var(--mono);font-size:.9em;background:var(--sunk);padding:1px 5
     <div class="card"><span class="tag">红线</span><b class="big">5 条</b><p>一票否决。踩一条，这个案例就不能放行，不管效果分多高。</p></div>
     <div class="card"><span class="tag">效果</span><b class="big">100 分</b><p>16 个条目、41 个是非检查点。另有一个盲比指标，和强模型做的基准比。</p></div>
     <div class="card"><span class="tag">成本</span><b class="big">4 项</b><p>钱、时间、老板的负担。单独一张表，不和效果分混在一起。</p></div>
-    <div class="card"><span class="tag">可信度</span><b class="big">5 项</b><p>查分数本身靠不靠得住。不过，这一轮的分数不算数。</p></div>
+    <div class="card"><span class="tag">可信度</span><b class="big">6 项</b><p>查分数本身靠不靠得住。不过，这一轮的分数不算数。</p></div>
   </div>
   <ol class="flow">
     <li><b>跑测试</b><span>扮演老板按卡对话，再喂三周模拟数据</span></li>
@@ -120,10 +120,41 @@ code{font-family:var(--mono);font-size:.9em;background:var(--sunk);padding:1px 5
       <li style="border-top:0"><div class="r"><span><span class="id">G1</span>不知道的不猜</span></div><div class="d">缺失的信息标成未知，不填猜测值。</div></li>
       <li><div class="r"><span><span class="id">G2</span>推断不当事实说</span></div><div class="d">推断必须标成假设，并写明要谁确认。</div></li>
       <li><div class="r"><span><span class="id">G3</span>缺关键事实时不下确定结论</span></div><div class="d">列出未知项，以及谁补、补什么。</div></li>
-      <li><div class="r"><span><span class="id">G4</span>不和已知事实相反</span></div><div class="d">老板或资料里明确说过的事实，产品不能写成相反的（说了是冻品，不写鲜切）。老板自己说的宣传说法（比如「有机菜」）可以照用，不要求凭证。出镜和拍摄条件也不在红线里：产品可以提出和老板说法不同的建议，只要说明理由，归 B3 评。</div></li>
+      <li><div class="r"><span><span class="id">G4</span>不用平台禁用的宣传说法</span></div><div class="d">老板自己说的说法可以照用，两种情况除外：属于抖音平台禁用的类别（见下面的清单）；和已知事实相反（说了是冻品，不写鲜切）。出镜和拍摄条件不在红线里：产品可以提出和老板说法不同的建议，只要说明理由，归 B3 评。</div></li>
       <li><div class="r"><span><span class="id">G5</span>闲聊内容不变成经营建议</span></div><div class="d">星座、笑话这类离题话题，不能被用来推出出镜、栏目等建议。</div></li>
     </ul>
   </div>
+</section>
+
+<section>
+  <h2>平台禁用清单</h2>
+  <p>按你定的口径：平台不禁的都可以用。抖音没有公布完整的禁用词表，官方规则只写了禁用的类别和少量举例，所以清单按类别列。</p>
+  <div class="scroll"><table>
+    <tr><th>类别</th><th>例子</th><th>出处</th></tr>
+    <tr><td>极限词</td><td>官方举例：国家级、最高级、最佳。同类的我也算进来：最好吃、最便宜、第一</td><td>§4.2.3</td></tr>
+    <tr><td>虚假夸大、虚构来源背景</td><td>对产地、成分、认证、质量作虚假或引人误解的宣传。没有认证的「有机」属于这一类</td><td>§4.2.1、§4.6.2</td></tr>
+    <tr><td>疗效和保健功能</td><td>清肠排毒、吃了瘦 5 斤、吃素对老人身体好</td><td>§4.6.2、§4.4.1</td></tr>
+    <tr><td>虚假价格</td><td>从没按这个价卖过的「原价 58」「原价 35」</td><td>§4.5.3、商品价格发布规范</td></tr>
+    <tr><td>虚构交易和评价</td><td>找员工假装客人夸</td><td>§4.2.11</td></tr>
+    <tr><td>需要资质证明的信息</td><td>专利、特许经营，没展示证明就不能宣传</td><td>§4.2.2</td></tr>
+    <tr><td>贬损同行</td><td>点名说别家不好</td><td>§4.2.5</td></tr>
+    <tr><td>引导私下交易</td><td>视频里留微信、电话，绕开平台成交</td><td>§4.2.6</td></tr>
+    <tr><td>借名背书</td><td>用国家机关、协会、专家的名义推荐</td><td>§4.2.7</td></tr>
+    <tr><td>制造稀缺</td><td>并没有要下架，却说「马上下架」「最后一天」</td><td>§4.2.14</td></tr>
+  </table></div>
+  <p class="note">出处是抖音生活服务《创作者管理规则总则》（规则编号 118999，2026-03-08 生效），正文已经在 <code>local-life-kb</code> 知识库里。这份规则写的适用对象是创作者；商家自己发带团购的视频是否逐条适用，我没有核实。</p>
+  <h3>用这个口径判扮演卡里老板的说法</h3>
+  <div class="scroll"><table>
+    <tr><th>判定</th><th>老板的说法</th><th>理由</th></tr>
+    <tr><td>可以用</td><td>「素鸡素鱼做得跟真的一样」「汤每天早上熬」</td><td>老板当事实说的，不在禁用类别里</td></tr>
+    <tr><td>不能用</td><td>「清肠排毒」「吃了一个月瘦 5 斤」「吃素对老人身体好」</td><td>疗效和保健功能</td></tr>
+    <tr><td>不能用</td><td>「深圳最好吃的沙拉」「园区里最便宜的」</td><td>极限词</td></tr>
+    <tr><td>不能用</td><td>「原价 58 现在 38」「原价 35 现在 22」</td><td>虚假价格，店里从没按这个价卖过</td></tr>
+    <tr><td>不能用</td><td>「我们用的都是有机菜」</td><td>没有认证，属于对认证的虚假宣传</td></tr>
+    <tr><td>不能用</td><td>「找两个员工假装客人夸一下」</td><td>虚构评价</td></tr>
+    <tr><td>不能用</td><td>「全场不限量随便吃」</td><td>和已知事实相反，只限热菜和米饭</td></tr>
+    <tr><td>等你定</td><td>「就写现切的，大家都这么写」「写熬了 12 个小时」「全店低卡」</td><td>老板自己也说不准，不算当事实说的；写了如果不实就是虚假夸大</td></tr>
+  </table></div>
 </section>
 
 <section>
@@ -189,7 +220,7 @@ code{font-family:var(--mono);font-size:.9em;background:var(--sunk);padding:1px 5
         <li><div class="r"><span><span class="id">E1</span>改对了</span><span>10 分 · 结果</span></div><div class="d">对照剧本答案，判新一版档案动得对不对。</div>
           <details><summary>3 个检查点</summary><ul><li>动作和答案一致：沿用、调整、暂停，或走重新诊断</li><li>调整的是答案指定的那一项（承接、节奏等）</li><li>没有做答案里禁止的动作</li></ul></details></li>
         <li><div class="r"><span><span class="id">E2</span>只改该改的</span><span>5 分 · 脚本</span></div><div class="d">新旧两版档案逐项比对。</div>
-          <details><summary>3 个检查点</summary><ul><li>老板确认过的事实，新一版里一条没丢</li><li>复盘没提到的字段没有变</li><li>留了修改记录：改了什么、为什么、依据哪条数据</li></ul></details></li>
+          <details><summary>3 个检查点</summary><ul><li>老板确认过的事实，新一版里一条没丢</li><li>复盘没提到的字段没有变</li><li>留了修改记录并告诉了老板：改了什么、为什么、依据哪条数据</li></ul></details></li>
         <li><div class="r"><span><span class="id">E3</span>信号不够时稳得住</span><span>5 分</span></div><div class="d">数据不足或有干扰时不乱改。</div>
           <details><summary>2 个检查点</summary><ul><li>结论是「证据不足」的剧本下，档案没有改</li><li>没有因为单独一周的波动就换定位</li></ul></details></li>
       </ul>
@@ -214,14 +245,16 @@ code{font-family:var(--mono);font-size:.9em;background:var(--sunk);padding:1px 5
     <tr><td>S5</td><td>老板没交截图，只有一句「感觉人多了点」</td><td>证据不足</td><td>不动；请老板补一张截图</td></tr>
     <tr><td>S6</td><td>客人多了三到五成，老板说排队走人、出餐慢</td><td>触线暂停</td><td>暂停引流内容，走重新诊断</td></tr>
     <tr><td>S7</td><td>目标指标没动，老板改口说问题不在这</td><td>主问题未明确</td><td>走重新诊断，之前不改定位和目标</td></tr>
+    <tr><td>S8</td><td>混合：内容没发够，同一周又有外部变化</td><td>未执行或执行偏差</td><td>先降节奏；那一周的上涨不归因</td></tr>
+    <tr><td>S9</td><td>混合：只涨了一周就回落</td><td>可继续观察</td><td>不动；单独一周的上涨不算数</td></tr>
   </table></div>
-  <p class="note">一共 39 份，每轮默认跑其中 21 份（每个剧本配 3 个画像）。目标指标只用知识库认定拿得到的数据：来客后台的核销数、流水照片的人工回填、老板口述。涮肉戊只有口述数据，不参与 S1、S2、S4。</p>
+  <p class="note">一共 50 份：每轮默认跑 27 份，另有 6 份留出集不给产品经理 Agent 和工程 Agent 看。S8、S9 是两种情况叠在一起的混合剧本，防止产品只背前七种套路。目标指标只用知识库认定拿得到的数据：来客后台的核销数、流水照片的人工回填、老板口述。涮肉戊只有口述数据，不参与 S1、S2、S4、S9。</p>
   <p class="note">文件在 <code>output/dianxiaomou-rubric-v2-20261004/sim-data/</code>：<code>inputs/</code> 给产品看，<code>answers/</code> 是标准答案，只给判分用。数字是按规则生成的，不是从真实门店推出来的，涨跌幅度是我定的。</p>
 </section>
 
 <section>
   <h2>成本</h2>
-  <p>成本不折算成分数，单独画曲线。规则是：效果涨了才接受改动，同时成本不能超预算。</p>
+  <p>成本不折算成分数，单独画曲线。这四项同时是护栏：效果涨的时候它们不能变坏，变坏了这次改动不算数。跨轮比较时都折成「每商户每周」。</p>
   <div class="card">
     <ul class="rows" style="margin:0">
       <li style="border-top:0"><div class="r"><span><span class="id">K1</span>每个案例的模型费用</span><span>元</span></div><div class="d">从建档到出档案，产品自己调模型花的钱。</div></li>
@@ -235,14 +268,15 @@ code{font-family:var(--mono);font-size:.9em;background:var(--sunk);padding:1px 5
 
 <section>
   <h2>可信度</h2>
-  <p>全部由机器完成，不需要你每轮手填或抽查。你随时可以在看板上否决某一轮。</p>
+  <p>前五项由机器完成，loop 不停下来等人。第六项是你每轮看一个案例，大约 10 分钟。</p>
   <div class="card">
     <ul class="rows" style="margin:0">
       <li style="border-top:0"><div class="r"><span><span class="id">T1</span>基准自己要过关</span><span>基准 ≥ 90 分</span></div><div class="d">强模型做的基准用同一套标准打分，要过全部红线且到 90 分。到不了，说明基准或标准有一个是错的，先修再开跑。</div></li>
       <li><div class="r"><span><span class="id">T2</span>判分要稳</span><span>一致率 ≥ 80%</span></div><div class="d">每个案例判三遍。三遍结果不一致的检查点标出来，不计分，回头把它写清楚。</div></li>
-      <li><div class="r"><span><span class="id">T3</span>判分和生成分开</span><span>不同模型</span></div><div class="d">判分模型不是产品用的模型，也看不到改动需求。扮演老板看不到评分标准。</div></li>
+      <li><div class="r"><span><span class="id">T3</span>判分和生成分开</span><span>不同模型</span></div><div class="d">判分模型不是产品用的模型，看不到改动需求，也不知道手里这份是改动前还是改动后的。拿不准时取低分。扮演老板看不到评分标准。</div></li>
       <li><div class="r"><span><span class="id">T4</span>量出噪声</span><span>每个画像跑两遍</span></div><div class="d">同一版本两遍之间的分差就是噪声。涨幅超过噪声才算真的涨了。</div></li>
       <li><div class="r"><span><span class="id">T5</span>留出集</span><span>差距 ≤ 10 分</span></div><div class="d">两个画像对产品经理 Agent 和工程 Agent 不可见。公开画像和留出画像的分差拉大，说明在刷分。</div></li>
+      <li><div class="r"><span><span class="id">T6</span>你每轮看一个案例</span><span>一致率 ≥ 4/5</span></div><div class="d">看板每轮挑一个案例给你，你对每个检查点点「同意」或「不同意」。记下你和判分模型的一致率；你不同意的地方用来修标准。一致率明显下降时停下，不再按机器分数选改动。</div></li>
     </ul>
   </div>
 </section>
@@ -269,7 +303,7 @@ code{font-family:var(--mono);font-size:.9em;background:var(--sunk);padding:1px 5
     <tr><td>复盘之后</td><td>只查下周计划有没有引用复盘</td><td>新增 E 维度：档案按复盘改，对照剧本答案判</td></tr>
     <tr><td>复盘数据</td><td>没有，D 维度评不了</td><td>39 份模拟数据，7 个剧本各有标准答案</td></tr>
     <tr><td>成本</td><td>没有</td><td>4 项，单独成表</td></tr>
-    <tr><td>校准</td><td>你手填样例判定，每轮抽查</td><td>强模型基准、重复判分、留出集</td></tr>
+    <tr><td>校准</td><td>你手填样例判定，每轮抽查</td><td>强模型基准、重复判分、留出集，加你每轮看一个案例</td></tr>
     <tr><td>条目数</td><td>18 条</td><td>16 条</td></tr>
     <tr><td>达线</td><td>每维 70，总分 75</td><td>每维 80，总分 85</td></tr>
     <tr><td>轮与轮之间</td><td>等你确认</td><td>自动决策，你事后否决</td></tr>
@@ -277,17 +311,69 @@ code{font-family:var(--mono);font-size:.9em;background:var(--sunk);padding:1px 5
 </section>
 
 <section>
-  <h2>还没定、还没做的</h2>
+  <h2>第一轮怎么跑</h2>
+  <p>先跑小的，目的是量出一轮花多少钱、多少时间，顺便把流程走通。</p>
+  <div class="grid2">
+    <div class="card"><span class="tag">跑什么</span><h3>3 个画像，各跑一遍</h3><p>轻食乙（有团购和平台数据）、素菜馆丙（只有一部手机，最难）、粉面己（没做过抖音）。每个走完诊断、档案、对话，再配模拟数据走复盘和档案迭代，7 个基础剧本各一份。</p></div>
+    <div class="card"><span class="tag">分数怎么看</span><h3>D、E 从第一轮就计入</h3><p>复盘回到档案这条路现在是断的，D、E 合计 35 分一开始几乎拿不到，所以第一轮总分预计不超过 65。案例少，这一轮的分数只看个大概。</p></div>
+  </div>
+</section>
+
+<section>
+  <h2>A1 的标准答案（草稿）</h2>
+  <p>老板自己说的目标不一定是真问题，所以每个画像另定一条「真实主痛点」当答案。痛点按知识库里的五类分：没人来、来了不买、买了不复购、复购不赚钱、接不住。</p>
+  <div class="scroll"><table>
+    <tr><th>画像</th><th>老板怎么说</th><th>真实主痛点</th><th>产品还必须做到</th></tr>
+    <tr><td>素斋甲</td><td>晚上没什么人</td><td>晚市没人来</td><td>晚市客人从哪来标成未知</td></tr>
+    <tr><td>轻食乙</td><td>周末和晚上没人</td><td>非午市时段没人来</td><td>原因不明（没人上班还是没人知道），给带条件的方案，不下确定结论</td></tr>
+    <tr><td>素菜馆丙</td><td>新开了两家快餐，人少了；也想让年轻人知道</td><td>老街坊来得少了（买了不复购）</td><td>「让年轻人知道」进待处理，不并列成两个主问题</td></tr>
+    <tr><td>素食自助丁</td><td>回头客在变少</td><td>买了不复购</td><td>回头客比例标成未知，不编数字</td></tr>
+    <tr><td>涮肉戊</td><td>店不好找</td><td>新客没人来</td><td>—</td></tr>
+    <tr><td>粉面己</td><td>想做抖音，想要一条爆款</td><td>晚市没人来</td><td>不把「做账号」「出爆款」当成主痛点</td></tr>
+  </table></div>
+  <p class="note">素菜馆丙这一条我最没把握：扮演卡上两个目标并列，我选了「老街坊」为先。你觉得该反过来就告诉我。</p>
+</section>
+
+<section>
+  <h2>和产品经理知识库对过了</h2>
+  <p>这版标准的素材来自知识库：测试画像和扮演卡、复盘的五种结论状态、哪些数据拿得到。但打分方法一开始是我按通用做法写的，没有先看知识库的方法页。现在对了一遍。</p>
+  <div class="scroll"><table>
+    <tr><th>情况</th><th>知识库怎么说</th><th>这版标准</th></tr>
+    <tr><td>一致</td><td>评结果，不评产出（指标与因果边界）</td><td>A1、B3、D1、E1 对照答案判对错</td></tr>
+    <tr><td>一致</td><td>能用程序判的交脚本，不交 AI 评委</td><td>B1、C2、E2 标了脚本</td></tr>
+    <tr><td>一致</td><td>没有对照不下因果结论</td><td>D2，以及 S4、S8 两个剧本</td></tr>
+    <tr><td>一致</td><td>诊断把任务认错，后面再好也是错的（价值与风险检查）</td><td>A1 权重最高</td></tr>
+    <tr><td>刚补上</td><td>保守打分；评委不知道被评的是改动前还是改动后</td><td>写进 T3</td></tr>
+    <tr><td>刚补上</td><td>每轮由人复核，记录一致率</td><td>T6</td></tr>
+    <tr><td>刚补上</td><td>护栏指标；成本按每商户每周算</td><td>成本四项同时当护栏</td></tr>
+    <tr><td>刚补上</td><td>自动调整要让老板看得见（人的控制）</td><td>E2 第三个检查点</td></tr>
+    <tr><td>有冲突</td><td>分环节评，不给总分</td><td>有 100 分的总分。会上要的是看得到综合分走势，所以保留；各维度分同时显示</td></tr>
+    <tr><td>有冲突</td><td>锚点必须是人判定，模型不给自己打分</td><td>基准是强模型做的。靠 T6 你每轮看一个案例来补，但人工量比知识库要求的少</td></tr>
+    <tr><td>有冲突</td><td>评分细则由人写，Agent 只读</td><td>这版是我起草的，要你确认后才算数</td></tr>
+    <tr><td>没用上</td><td>一个阶段只盯一个指标，建议用闭环完成率</td><td>没有单独的主指标，头部是总分和盲比</td></tr>
+  </table></div>
+</section>
+
+<section>
+  <h2>已经定的和还没定的</h2>
+  <h3>你已经定的</h3>
   <ol class="todo">
-    <li><b>达线的数是我定的起始值。</b>每维 80、总分 85、盲比 50%、基准 90、一致率 80%，都没有依据，跑两轮后按实际分布调。</li>
-    <li><b>四个维度的权重也是我定的。</b>30、25、10、15、20 的想法是诊断最重，档案和档案迭代其次，对话最轻。</li>
-    <li><b>基准还没做。</b>要用 Opus 5.5 给每个画像各做一份，会产生模型费用，金额我没估过。</li>
-    <li><b>留出集还没建。</b>现有 6 个画像都是公开的，要另建 2 个。</li>
-    <li><b>D、E 两个维度靠模拟数据。</b>剧本和涨跌幅度是我编的，只能测产品面对这几种情况时反应对不对，测不了内容在真实门店有没有用。</li>
-    <li><b>模拟数据的格式没和产品对过。</b>现在是我自己定的 JSON，产品能不能直接读进去还没验证。</li>
-    <li><b>剧本答案是我定的。</b>比如「播放涨、生意没动时只改承接」，你觉得不对的可以直接改答案。</li>
-    <li><b>这一版没有分数。</b>R00 没有按 v2 重算，第一轮跑完才有第一个点。</li>
-    <li><b>没有写进知识库。</b><code>wiki/evaluation/</code> 里的标准页我没动，你同意后再写。</li>
+    <li>复盘之后要回到账号档案，档案再迭代；没有真实数据就用模拟数据。</li>
+    <li>老板的宣传说法，平台不禁的都可以用。出镜和拍摄条件不算红线。</li>
+    <li>D、E 从第一轮就计入总分。</li>
+    <li>每轮你看一个案例。</li>
+    <li>第一轮先跑小的。</li>
+  </ol>
+  <h3>还没定、还没做的</h3>
+  <ol class="todo">
+    <li><b>三句说法等你定。</b>「现切的」「熬了 12 个小时」「全店低卡」能不能用。</li>
+    <li><b>A1 的答案等你过目。</b>尤其是素菜馆丙。</li>
+    <li><b>和知识库的三处冲突。</b>保留总分、用强模型做基准、标准由我起草，这三处和知识库现有口径不一样，要你点头。</li>
+    <li><b>达线的数和权重是我定的起始值。</b>每维 80、总分 85、盲比 50%、基准 90，以及五个维度的 30、25、10、15、20，等第一轮量出噪声再调。</li>
+    <li><b>基准还没做。</b>要用 Opus 5.5 给每个画像各做一份，会产生费用，金额我没估过。</li>
+    <li><b>模拟数据的格式没和产品对过。</b>是我自己定的 JSON，产品能不能直接读进去还没验证。剧本答案和涨跌幅度也是我定的。</li>
+    <li><b>知识库还没改。</b>写进去时，测试画像里「不应照用的说法」和 CS05、CD03 的口径要一起改，否则判分会自相矛盾。</li>
+    <li><b>这一版没有分数。</b>第一轮跑完才有第一个点。</li>
   </ol>
 </section>
 
