@@ -45,7 +45,7 @@ a{color:var(--accent)}
 .flow li::before{content:counter(s);font-family:var(--mono);font-size:11px;color:var(--accent);display:block}
 .flow b{display:block;font-size:14px}
 .flow span{color:var(--muted)}
-.split{display:grid;grid-template-columns:35fr 30fr 15fr 20fr;gap:4px}
+.split{display:grid;grid-template-columns:30fr 25fr 10fr 15fr 20fr;gap:4px}
 .split div{background:var(--accent-soft);border-radius:4px;padding:8px 10px;font-size:13px;min-width:0;line-height:1.4}
 .split b{display:block;font-size:20px;font-family:var(--serif);font-variant-numeric:tabular-nums}
 .rows{list-style:none;margin:4px 0 0;padding:0}
@@ -78,24 +78,38 @@ code{font-family:var(--mono);font-size:.9em;background:var(--sunk);padding:1px 5
     <span class="pill">草案，还没写进知识库</span>
     <span class="pill">这一版还没有任何实测分数</span>
   </div>
-  <p class="note">范围不变：经营诊断、账号档案、chatbot 对话、发布后数据复盘，不评脚本和视频。<a href="../">上一版（v1）在这里</a>。</p>
+  <p class="note">范围：经营诊断、账号档案、chatbot 对话、发布后数据复盘，以及复盘之后档案怎么改。不评脚本和视频。<a href="../">上一版（v1）在这里</a>。</p>
 </header>
 
 <section>
   <h2>四个部分</h2>
   <div class="grid4">
     <div class="card"><span class="tag">红线</span><b class="big">5 条</b><p>一票否决。踩一条，这个案例就不能放行，不管效果分多高。</p></div>
-    <div class="card"><span class="tag">效果</span><b class="big">100 分</b><p>13 个条目、34 个是非检查点。另有一个盲比指标，和强模型做的基准比。</p></div>
+    <div class="card"><span class="tag">效果</span><b class="big">100 分</b><p>16 个条目、41 个是非检查点。另有一个盲比指标，和强模型做的基准比。</p></div>
     <div class="card"><span class="tag">成本</span><b class="big">4 项</b><p>钱、时间、老板的负担。单独一张表，不和效果分混在一起。</p></div>
     <div class="card"><span class="tag">可信度</span><b class="big">5 项</b><p>查分数本身靠不靠得住。不过，这一轮的分数不算数。</p></div>
   </div>
   <ol class="flow">
-    <li><b>跑测试</b><span>扮演老板按卡对话，每个画像跑两遍</span></li>
+    <li><b>跑测试</b><span>扮演老板按卡对话，再喂三周模拟数据</span></li>
     <li><b>过红线</b><span>逐案例判过或不过</span></li>
     <li><b>算效果和成本</b><span>检查点通过比例，加费用和耗时</span></li>
     <li><b>查可信度</b><span>判分稳不稳，有没有刷分</span></li>
     <li><b>自动决策</b><span>放行、继续改、回退或停下叫人</span></li>
   </ol>
+</section>
+
+<section>
+  <h2>产品自己的闭环</h2>
+  <p>复盘不是终点。复盘的结论要回到账号档案，档案改完再发、再复盘。标准按这条链评，一个画像连着走三周。</p>
+  <ol class="flow">
+    <li><b>诊断</b><span>定主痛点和成功指标</span></li>
+    <li><b>档案第 1 版</b><span>定位、栏目、节奏、承接</span></li>
+    <li><b>发布一周</b><span>没有真实数据，用模拟数据</span></li>
+    <li><b>复盘</b><span>下结论，说清档案要不要改</span></li>
+    <li><b>档案下一版</b><span>按复盘改，只改该改的</span></li>
+    <li><b>回到第 3 步</b><span>连走三周</span></li>
+  </ol>
+  <p class="note">现在的产品里这条回路是断的：我在生成档案的两个代码文件里没有找到读取复盘结果的地方。所以第一轮 E 维度预计接近 0 分，这正是 loop 要先补的。</p>
 </section>
 
 <section>
@@ -115,19 +129,20 @@ code{font-family:var(--mono);font-size:.9em;background:var(--sunk);padding:1px 5
 <section>
   <h2>效果：100 分怎么分</h2>
   <div class="split">
-    <div><b>35</b>A 经营诊断</div>
-    <div><b>30</b>B 账号档案</div>
-    <div><b>15</b>C 对话</div>
-    <div><b>20</b>D 数据复盘</div>
+    <div><b>30</b>A 经营诊断</div>
+    <div><b>25</b>B 账号档案</div>
+    <div><b>10</b>C 对话</div>
+    <div><b>15</b>D 数据复盘</div>
+    <div><b>20</b>E 档案迭代</div>
   </div>
-  <p>每个条目拆成几个只能答「是」或「否」的检查点。条目得分等于通过的检查点比例，再对所有案例取平均。标「结果」的条目直接对照扮演卡上的答案，查的是做对没有，而不是做了没有。</p>
+  <p>每个条目拆成几个只能答「是」或「否」的检查点。条目得分等于通过的检查点比例，再对所有案例取平均。标「结果」的条目直接对照答案判：A、B 对照扮演卡，D、E 对照模拟数据的剧本答案。查的是做对没有，而不是做了没有。</p>
   <div class="grid2">
     <div class="card">
-      <span class="tag">A 经营诊断 · 35 分</span>
+      <span class="tag">A 经营诊断 · 30 分</span>
       <ul class="rows">
-        <li><div class="r"><span><span class="id">A1</span>痛点判对了</span><span>15 分 · 结果</span></div><div class="d">对照扮演卡上老板的目标，判主痛点定得对不对。</div>
+        <li><div class="r"><span><span class="id">A1</span>痛点判对了</span><span>12 分 · 结果</span></div><div class="d">对照扮演卡上老板的目标，判主痛点定得对不对。</div>
           <details><summary>3 个检查点</summary><ul><li>定出的主痛点和扮演卡上老板的目标是同一件事</li><li>只定了一个最高优先问题，其余进待处理</li><li>店里接不住客时，先处理接不住的问题</li></ul></details></li>
-        <li><div class="r"><span><span class="id">A2</span>下结论时信息够用</span><span>10 分</span></div><div class="d">该问的问到了，又没被可选项卡住。</div>
+        <li><div class="r"><span><span class="id">A2</span>下结论时信息够用</span><span>8 分</span></div><div class="d">该问的问到了，又没被可选项卡住。</div>
           <details><summary>3 个检查点</summary><ul><li>给方案前拿到了地区、行业、主营、客单、当前问题五项</li><li>扮演卡「被问到才说」里会改变方案的事实，问到的比例（按比例计）</li><li>没有因为团购等可选项没答就不给方案</li></ul></details></li>
         <li><div class="r"><span><span class="id">A3</span>没有白问的问题</span><span>5 分</span></div><div class="d">每个问题都会改变一个决定。</div>
           <details><summary>3 个检查点</summary><ul><li>每个追问都说了为什么问</li><li>没有答了也不改变任何建议的问题</li><li>没有反复追问同一件事</li></ul></details></li>
@@ -136,36 +151,47 @@ code{font-family:var(--mono);font-size:.9em;background:var(--sunk);padding:1px 5
       </ul>
     </div>
     <div class="card">
-      <span class="tag">B 账号档案 · 30 分</span>
+      <span class="tag">B 账号档案 · 25 分</span>
       <ul class="rows">
-        <li><div class="r"><span><span class="id">B1</span>老板说过的话没丢</span><span>10 分 · 脚本</span></div><div class="d">脚本逐项比对，不靠判断。</div>
+        <li><div class="r"><span><span class="id">B1</span>老板说过的话没丢</span><span>8 分 · 脚本</span></div><div class="d">脚本逐项比对，不靠判断。</div>
           <details><summary>1 个检查点</summary><ul><li>老板确认过的特色、限制、产能、目标，在档案里找得到的比例（按比例计）</li></ul></details></li>
-        <li><div class="r"><span><span class="id">B2</span>方案对得上痛点</span><span>10 分</span></div><div class="d">档案是为诊断定的那个问题服务的。</div>
+        <li><div class="r"><span><span class="id">B2</span>方案对得上痛点</span><span>9 分</span></div><div class="d">档案是为诊断定的那个问题服务的。</div>
           <details><summary>3 个检查点</summary><ul><li>定位和栏目服务于诊断定的主痛点</li><li>成功指标是这个痛点对应的指标，不是播放量</li><li>目标客群没有被泛化成所有人</li></ul></details></li>
-        <li><div class="r"><span><span class="id">B3</span>老板能照做</span><span>10 分 · 结果</span></div><div class="d">对照扮演卡上的设备、人手、时间，判方案做不做得了。</div>
+        <li><div class="r"><span><span class="id">B3</span>老板能照做</span><span>8 分 · 结果</span></div><div class="d">对照扮演卡上的设备、人手、时间，判方案做不做得了。</div>
           <details><summary>3 个检查点</summary><ul><li>给老板的每项任务，在扮演卡写的设备、人手、时间条件下做得了</li><li>发布节奏不超过老板的产能；超过时写明「你说过 X，我们建议 Y，因为 Z」</li><li>扮演卡「陷阱」表里适用于档案的条目，按正确做法处理的比例（按比例计）</li></ul></details></li>
       </ul>
     </div>
     <div class="card">
-      <span class="tag">C Chatbot 对话 · 15 分</span>
+      <span class="tag">C Chatbot 对话 · 10 分</span>
       <ul class="rows">
-        <li><div class="r"><span><span class="id">C1</span>离题接住再拉回</span><span>5 分</span></div>
+        <li><div class="r"><span><span class="id">C1</span>离题接住再拉回</span><span>4 分</span></div>
           <details><summary>2 个检查点</summary><ul><li>用一句话接住，没有冷冰冰拒绝，也没有完整陪聊</li><li>同一条回复里拉回经营话题</li></ul></details></li>
-        <li><div class="r"><span><span class="id">C2</span>记得住</span><span>5 分 · 脚本</span></div>
+        <li><div class="r"><span><span class="id">C2</span>记得住</span><span>3 分 · 脚本</span></div>
           <details><summary>2 个检查点</summary><ul><li>建档收过的城市、行业、主营、价格没有再问</li><li>老板改口后，后续建议全部按新的来</li></ul></details></li>
-        <li><div class="r"><span><span class="id">C3</span>老板看得懂</span><span>5 分</span></div>
+        <li><div class="r"><span><span class="id">C3</span>老板看得懂</span><span>3 分</span></div>
           <details><summary>2 个检查点</summary><ul><li>没有出现「知识库」「Agent」等内部词</li><li>没有运营术语，或者出现时当场用大白话解释了</li></ul></details></li>
       </ul>
     </div>
     <div class="card">
-      <span class="tag">D 发布后数据复盘 · 20 分</span>
+      <span class="tag">D 发布后数据复盘 · 15 分</span>
       <ul class="rows">
-        <li><div class="r"><span><span class="id">D1</span>盯对指标</span><span>8 分</span></div>
-          <details><summary>3 个检查点</summary><ul><li>复盘盯的指标就是诊断定的成功指标</li><li>带基线</li><li>带时间窗口和统计口径</li></ul></details></li>
-        <li><div class="r"><span><span class="id">D2</span>结论有边界</span><span>6 分</span></div>
-          <details><summary>4 个检查点</summary><ul><li>结论是规定的五种状态之一</li><li>没有对照时，不说「因为这条视频」</li><li>老板口述的数据标了「未核实」</li><li>写了「仍不知道什么」</li></ul></details></li>
-        <li><div class="r"><span><span class="id">D3</span>复盘改变了下一步</span><span>6 分</span></div>
-          <details><summary>3 个检查点</summary><ul><li>下周计划引用了复盘的结论</li><li>说明了是沿用还是调整</li><li>要改目标时走重新诊断，没有悄悄改</li></ul></details></li>
+        <li><div class="r"><span><span class="id">D1</span>结论判对了</span><span>6 分 · 结果</span></div><div class="d">对照剧本答案，判复盘下的结论对不对。</div>
+          <details><summary>3 个检查点</summary><ul><li>盯的是诊断定的成功指标，带基线和时间窗口</li><li>结论状态和剧本答案一致（主问题未明确、未执行或执行偏差、证据不足、可继续观察、触线暂停）</li><li>同一周有外部变化时，复盘把它指了出来</li></ul></details></li>
+        <li><div class="r"><span><span class="id">D2</span>结论有边界</span><span>4 分</span></div><div class="d">不把观察说成因果。</div>
+          <details><summary>3 个检查点</summary><ul><li>没有对照时，不说「因为这条视频」</li><li>老板口述的数据标了「未核实」</li><li>写了「仍不知道什么」</li></ul></details></li>
+        <li><div class="r"><span><span class="id">D3</span>说清档案要改什么</span><span>5 分</span></div><div class="d">复盘要给档案一个明确的交代。</div>
+          <details><summary>3 个检查点</summary><ul><li>明确写了档案哪一项要改，或者写明不改</li><li>每个改动都指到一条数据或观察</li><li>一次只提一个主要改变</li></ul></details></li>
+      </ul>
+    </div>
+    <div class="card">
+      <span class="tag">E 档案迭代 · 20 分</span>
+      <ul class="rows">
+        <li><div class="r"><span><span class="id">E1</span>改对了</span><span>10 分 · 结果</span></div><div class="d">对照剧本答案，判新一版档案动得对不对。</div>
+          <details><summary>3 个检查点</summary><ul><li>动作和答案一致：沿用、调整、暂停，或走重新诊断</li><li>调整的是答案指定的那一项（承接、节奏等）</li><li>没有做答案里禁止的动作</li></ul></details></li>
+        <li><div class="r"><span><span class="id">E2</span>只改该改的</span><span>5 分 · 脚本</span></div><div class="d">新旧两版档案逐项比对。</div>
+          <details><summary>3 个检查点</summary><ul><li>老板确认过的事实，新一版里一条没丢</li><li>复盘没提到的字段没有变</li><li>留了修改记录：改了什么、为什么、依据哪条数据</li></ul></details></li>
+        <li><div class="r"><span><span class="id">E3</span>信号不够时稳得住</span><span>5 分</span></div><div class="d">数据不足或有干扰时不乱改。</div>
+          <details><summary>2 个检查点</summary><ul><li>结论是「证据不足」的剧本下，档案没有改</li><li>没有因为单独一周的波动就换定位</li></ul></details></li>
       </ul>
     </div>
   </div>
@@ -174,6 +200,23 @@ code{font-family:var(--mono);font-size:.9em;background:var(--sunk);padding:1px 5
     <h3>和基准比，老板拿到哪份更有用</h3>
     <p>先用强模型（Opus 5.5，推理开最高）给每个画像做一份我们认可的诊断和档案，当作基准。每轮把产品的输出和基准去掉标记放在一起，让判分模型选「老板拿到哪份更有用」。记录产品不输给基准的案例比例。它用来抓检查点没列到的问题：检查点全过但整体不如基准，说明标准漏了东西。</p>
   </div>
+</section>
+
+<section>
+  <h2>模拟数据</h2>
+  <p>没有真实的发布后数据，所以我编了一套。每份数据是「一个画像配一个剧本」：发布前 4 周的基线，加发布后 3 周。剧本是故意设计的，每个都有标准答案，所以复盘和档案改得对不对可以直接判。</p>
+  <div class="scroll"><table>
+    <tr><th>剧本</th><th>数据长什么样</th><th>复盘该下的结论</th><th>档案该怎么动</th></tr>
+    <tr><td>S1</td><td>目标指标连续三周上涨，没有外部干扰</td><td>可继续观察</td><td>不动，按原节奏继续；不说是视频带来的</td></tr>
+    <tr><td>S2</td><td>播放量涨了四到六倍，目标指标没动</td><td>可继续观察</td><td>只改承接，定位不动；不拿播放量报喜</td></tr>
+    <tr><td>S3</td><td>计划的内容大部分没发</td><td>未执行或执行偏差</td><td>把节奏降到老板做得了的量；不评价内容效果</td></tr>
+    <tr><td>S4</td><td>某一周目标指标大涨，但同周有外部变化</td><td>证据不足</td><td>不动；写出外部变化，下周继续看</td></tr>
+    <tr><td>S5</td><td>老板没交截图，只有一句「感觉人多了点」</td><td>证据不足</td><td>不动；请老板补一张截图</td></tr>
+    <tr><td>S6</td><td>客人多了三到五成，老板说排队走人、出餐慢</td><td>触线暂停</td><td>暂停引流内容，走重新诊断</td></tr>
+    <tr><td>S7</td><td>目标指标没动，老板改口说问题不在这</td><td>主问题未明确</td><td>走重新诊断，之前不改定位和目标</td></tr>
+  </table></div>
+  <p class="note">一共 39 份，每轮默认跑其中 21 份（每个剧本配 3 个画像）。目标指标只用知识库认定拿得到的数据：来客后台的核销数、流水照片的人工回填、老板口述。涮肉戊只有口述数据，不参与 S1、S2、S4。</p>
+  <p class="note">文件在 <code>output/dianxiaomou-rubric-v2-20261004/sim-data/</code>：<code>inputs/</code> 给产品看，<code>answers/</code> 是标准答案，只给判分用。数字是按规则生成的，不是从真实门店推出来的，涨跌幅度是我定的。</p>
 </section>
 
 <section>
@@ -223,9 +266,11 @@ code{font-family:var(--mono);font-size:.9em;background:var(--sunk);padding:1px 5
     <tr><td>查结果</td><td>没有</td><td>A1 痛点判对、B3 老板能照做，加盲比</td></tr>
     <tr><td>问诊速度</td><td>按轮数扣效果分</td><td>移到成本表，量老板答了几个问题</td></tr>
     <tr><td>重复扣分</td><td>档案丢信息同时扣 G4、B1、B2、B3</td><td>每个条目只管一件事，和红线不重叠</td></tr>
+    <tr><td>复盘之后</td><td>只查下周计划有没有引用复盘</td><td>新增 E 维度：档案按复盘改，对照剧本答案判</td></tr>
+    <tr><td>复盘数据</td><td>没有，D 维度评不了</td><td>39 份模拟数据，7 个剧本各有标准答案</td></tr>
     <tr><td>成本</td><td>没有</td><td>4 项，单独成表</td></tr>
     <tr><td>校准</td><td>你手填样例判定，每轮抽查</td><td>强模型基准、重复判分、留出集</td></tr>
-    <tr><td>条目数</td><td>18 条</td><td>13 条</td></tr>
+    <tr><td>条目数</td><td>18 条</td><td>16 条</td></tr>
     <tr><td>达线</td><td>每维 70，总分 75</td><td>每维 80，总分 85</td></tr>
     <tr><td>轮与轮之间</td><td>等你确认</td><td>自动决策，你事后否决</td></tr>
   </table></div>
@@ -235,10 +280,12 @@ code{font-family:var(--mono);font-size:.9em;background:var(--sunk);padding:1px 5
   <h2>还没定、还没做的</h2>
   <ol class="todo">
     <li><b>达线的数是我定的起始值。</b>每维 80、总分 85、盲比 50%、基准 90、一致率 80%，都没有依据，跑两轮后按实际分布调。</li>
-    <li><b>四个维度的权重也是我定的。</b>35、30、15、20 的想法是诊断和档案最重，对话最轻。</li>
+    <li><b>四个维度的权重也是我定的。</b>30、25、10、15、20 的想法是诊断最重，档案和档案迭代其次，对话最轻。</li>
     <li><b>基准还没做。</b>要用 Opus 5.5 给每个画像各做一份，会产生模型费用，金额我没估过。</li>
     <li><b>留出集还没建。</b>现有 6 个画像都是公开的，要另建 2 个。</li>
-    <li><b>D 维度用的是合成数据。</b>靠测试集里的回填复盘流程，不是真实发布后的数据。</li>
+    <li><b>D、E 两个维度靠模拟数据。</b>剧本和涨跌幅度是我编的，只能测产品面对这几种情况时反应对不对，测不了内容在真实门店有没有用。</li>
+    <li><b>模拟数据的格式没和产品对过。</b>现在是我自己定的 JSON，产品能不能直接读进去还没验证。</li>
+    <li><b>剧本答案是我定的。</b>比如「播放涨、生意没动时只改承接」，你觉得不对的可以直接改答案。</li>
     <li><b>这一版没有分数。</b>R00 没有按 v2 重算，第一轮跑完才有第一个点。</li>
     <li><b>没有写进知识库。</b><code>wiki/evaluation/</code> 里的标准页我没动，你同意后再写。</li>
   </ol>
