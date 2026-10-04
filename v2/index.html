@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="robots" content="noindex,nofollow"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>店小谋 Loop 评分标准 v2</title>
+<style>
+/* 布局：单栏。先用四张卡讲清四个部分，再逐部分展开；每个维度的检查点折叠在各自卡片里 */
+:root{
+  --bg:#f5f8f8; --surface:#ffffff; --sunk:#ecf1f1; --ink:#15242a; --muted:#58696f; --line:#d5dfe1;
+  --accent:#0d6b6b; --accent-soft:#dcefee; --warn:#8a5d00; --warn-soft:#f8ecd0;
+  --serif:"Songti SC","STSong","Noto Serif SC","Source Han Serif SC",serif;
+  --sans:"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans SC",system-ui,sans-serif;
+  --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0f1618; --surface:#172124; --sunk:#1d2a2e; --ink:#e2ebeb; --muted:#93a5a9; --line:#2b3a3e;
+    --accent:#5ec6bf; --accent-soft:#17383a; --warn:#e4b657; --warn-soft:#3a2f14; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0f1618; --surface:#172124; --sunk:#1d2a2e; --ink:#e2ebeb; --muted:#93a5a9; --line:#2b3a3e;
+  --accent:#5ec6bf; --accent-soft:#17383a; --warn:#e4b657; --warn-soft:#3a2f14; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.7;margin:0}
+.wrap{max-width:1000px;margin:0 auto;padding:36px 20px 72px;display:flex;flex-direction:column;gap:48px}
+header,section{display:flex;flex-direction:column;gap:14px;min-width:0}
+.eyebrow{font-size:12px;letter-spacing:.14em;color:var(--accent);font-weight:600}
+h1{font-family:var(--serif);font-size:clamp(28px,5vw,40px);line-height:1.2;margin:0;text-wrap:balance}
+h2{font-family:var(--serif);font-size:24px;line-height:1.3;margin:0}
+h3{font-size:16px;margin:0;font-weight:600}
+p{margin:0;max-width:44em}
+a{color:var(--accent)}
+.lede{font-size:17px}
+.note{font-size:13px;color:var(--muted)}
+.pill{display:inline-block;font-size:12px;padding:2px 10px;border-radius:999px;white-space:nowrap;color:var(--warn);background:var(--warn-soft)}
+.status{display:flex;flex-wrap:wrap;gap:8px}
+.grid4{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(200px,100%),1fr));gap:12px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(380px,100%),1fr));gap:12px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:16px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.card .tag{font-size:12px;color:var(--accent);font-weight:600;letter-spacing:.06em}
+.card b.big{font-family:var(--serif);font-size:36px;line-height:1.2;font-variant-numeric:tabular-nums}
+.card p{font-size:13.5px;color:var(--muted)}
+.flow{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;list-style:none;padding:0;margin:0;counter-reset:s}
+.flow li{counter-increment:s;background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:10px 12px;font-size:13px;line-height:1.5}
+.flow li::before{content:counter(s);font-family:var(--mono);font-size:11px;color:var(--accent);display:block}
+.flow b{display:block;font-size:14px}
+.flow span{color:var(--muted)}
+.split{display:grid;grid-template-columns:35fr 30fr 15fr 20fr;gap:4px}
+.split div{background:var(--accent-soft);border-radius:4px;padding:8px 10px;font-size:13px;min-width:0;line-height:1.4}
+.split b{display:block;font-size:20px;font-family:var(--serif);font-variant-numeric:tabular-nums}
+.rows{list-style:none;margin:4px 0 0;padding:0}
+.rows>li{padding:10px 0;border-top:1px solid var(--line);font-size:14px}
+.rows .r{display:flex;justify-content:space-between;gap:12px;align-items:baseline}
+.rows .r>span:first-child{font-weight:600}
+.rows .r>span:last-child{white-space:nowrap;font-variant-numeric:tabular-nums;color:var(--muted);font-size:13px}
+.rows .d{color:var(--muted);font-size:13px;margin-top:2px}
+.id{font-family:var(--mono);font-size:12.5px;color:var(--accent);margin-right:6px;font-weight:400}
+details{margin-top:6px}
+summary{cursor:pointer;font-size:13px;color:var(--accent)}
+details ul{margin:6px 0 0;padding-left:1.2em;font-size:13px;color:var(--ink)}
+details li{margin:3px 0}
+.scroll{overflow-x:auto;border:1px solid var(--line);border-radius:6px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:13.5px;line-height:1.55;min-width:620px}
+th,td{text-align:left;vertical-align:top;padding:9px 12px;border-bottom:1px solid var(--line)}
+tr:last-child td{border-bottom:0}
+th{font-size:12px;color:var(--muted);font-weight:600;background:var(--sunk);white-space:nowrap}
+ol.todo{margin:0;padding-left:1.4em;max-width:46em}
+ol.todo li{margin:6px 0}
+code{font-family:var(--mono);font-size:.9em;background:var(--sunk);padding:1px 5px;border-radius:3px}
+</style></head>
+<body><div class="wrap">
+
+<header>
+  <div class="eyebrow">店小谋 · 产品 LOOP · 评分标准 V2 草案</div>
+  <h1>店小谋 Loop 评分标准 v2</h1>
+  <p class="lede">每一轮回答四个问题：有没有踩红线，效果多少分，花了多少，这个分数能不能信。四个都有答案，loop 就能自己决定下一步。</p>
+  <div class="status">
+    <span class="pill">草案，还没写进知识库</span>
+    <span class="pill">这一版还没有任何实测分数</span>
+  </div>
+  <p class="note">范围不变：经营诊断、账号档案、chatbot 对话、发布后数据复盘，不评脚本和视频。<a href="../">上一版（v1）在这里</a>。</p>
+</header>
+
+<section>
+  <h2>四个部分</h2>
+  <div class="grid4">
+    <div class="card"><span class="tag">红线</span><b class="big">5 条</b><p>一票否决。踩一条，这个案例就不能放行，不管效果分多高。</p></div>
+    <div class="card"><span class="tag">效果</span><b class="big">100 分</b><p>13 个条目、34 个是非检查点。另有一个盲比指标，和强模型做的基准比。</p></div>
+    <div class="card"><span class="tag">成本</span><b class="big">4 项</b><p>钱、时间、老板的负担。单独一张表，不和效果分混在一起。</p></div>
+    <div class="card"><span class="tag">可信度</span><b class="big">5 项</b><p>查分数本身靠不靠得住。不过，这一轮的分数不算数。</p></div>
+  </div>
+  <ol class="flow">
+    <li><b>跑测试</b><span>扮演老板按卡对话，每个画像跑两遍</span></li>
+    <li><b>过红线</b><span>逐案例判过或不过</span></li>
+    <li><b>算效果和成本</b><span>检查点通过比例，加费用和耗时</span></li>
+    <li><b>查可信度</b><span>判分稳不稳，有没有刷分</span></li>
+    <li><b>自动决策</b><span>放行、继续改、回退或停下叫人</span></li>
+  </ol>
+</section>
+
+<section>
+  <h2>红线</h2>
+  <p>不计分。和效果条目查的不是同一件事：红线查「做了不该做的」，效果条目查「该做的做到了多少」，同一个毛病不会扣两次。</p>
+  <div class="card">
+    <ul class="rows" style="margin:0">
+      <li style="border-top:0"><div class="r"><span><span class="id">G1</span>不知道的不猜</span></div><div class="d">缺失的信息标成未知，不填猜测值。</div></li>
+      <li><div class="r"><span><span class="id">G2</span>推断不当事实说</span></div><div class="d">推断必须标成假设，并写明要谁确认。</div></li>
+      <li><div class="r"><span><span class="id">G3</span>缺关键事实时不下确定结论</span></div><div class="d">列出未知项，以及谁补、补什么。</div></li>
+      <li><div class="r"><span><span class="id">G4</span>不越过事实</span></div><div class="d">三类：真实性（冻品不写鲜切，没有凭证的「有机菜」不照用）、肖像（不同意出镜就不安排出镜）、物理条件（午高峰不能拍、厨房只有两个人）。</div></li>
+      <li><div class="r"><span><span class="id">G5</span>闲聊内容不变成经营建议</span></div><div class="d">星座、笑话这类离题话题，不能被用来推出出镜、栏目等建议。</div></li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <h2>效果：100 分怎么分</h2>
+  <div class="split">
+    <div><b>35</b>A 经营诊断</div>
+    <div><b>30</b>B 账号档案</div>
+    <div><b>15</b>C 对话</div>
+    <div><b>20</b>D 数据复盘</div>
+  </div>
+  <p>每个条目拆成几个只能答「是」或「否」的检查点。条目得分等于通过的检查点比例，再对所有案例取平均。标「结果」的条目直接对照扮演卡上的答案，查的是做对没有，而不是做了没有。</p>
+  <div class="grid2">
+    <div class="card">
+      <span class="tag">A 经营诊断 · 35 分</span>
+      <ul class="rows">
+        <li><div class="r"><span><span class="id">A1</span>痛点判对了</span><span>15 分 · 结果</span></div><div class="d">对照扮演卡上老板的目标，判主痛点定得对不对。</div>
+          <details><summary>3 个检查点</summary><ul><li>定出的主痛点和扮演卡上老板的目标是同一件事</li><li>只定了一个最高优先问题，其余进待处理</li><li>店里接不住客时，先处理接不住的问题</li></ul></details></li>
+        <li><div class="r"><span><span class="id">A2</span>下结论时信息够用</span><span>10 分</span></div><div class="d">该问的问到了，又没被可选项卡住。</div>
+          <details><summary>3 个检查点</summary><ul><li>给方案前拿到了地区、行业、主营、客单、当前问题五项</li><li>扮演卡「被问到才说」里会改变方案的事实，问到的比例（按比例计）</li><li>没有因为团购等可选项没答就不给方案</li></ul></details></li>
+        <li><div class="r"><span><span class="id">A3</span>没有白问的问题</span><span>5 分</span></div><div class="d">每个问题都会改变一个决定。</div>
+          <details><summary>3 个检查点</summary><ul><li>每个追问都说了为什么问</li><li>没有答了也不改变任何建议的问题</li><li>没有反复追问同一件事</li></ul></details></li>
+        <li><div class="r"><span><span class="id">A4</span>判断能追到来源</span><span>5 分</span></div><div class="d">关键判断有出处，出处站得住。</div>
+          <details><summary>2 个检查点</summary><ul><li>每条关键判断标了来源</li><li>回到对话原文核对，来源确实支持这条判断</li></ul></details></li>
+      </ul>
+    </div>
+    <div class="card">
+      <span class="tag">B 账号档案 · 30 分</span>
+      <ul class="rows">
+        <li><div class="r"><span><span class="id">B1</span>老板说过的话没丢</span><span>10 分 · 脚本</span></div><div class="d">脚本逐项比对，不靠判断。</div>
+          <details><summary>1 个检查点</summary><ul><li>老板确认过的特色、限制、产能、目标，在档案里找得到的比例（按比例计）</li></ul></details></li>
+        <li><div class="r"><span><span class="id">B2</span>方案对得上痛点</span><span>10 分</span></div><div class="d">档案是为诊断定的那个问题服务的。</div>
+          <details><summary>3 个检查点</summary><ul><li>定位和栏目服务于诊断定的主痛点</li><li>成功指标是这个痛点对应的指标，不是播放量</li><li>目标客群没有被泛化成所有人</li></ul></details></li>
+        <li><div class="r"><span><span class="id">B3</span>老板能照做</span><span>10 分 · 结果</span></div><div class="d">对照扮演卡上的设备、人手、时间，判方案做不做得了。</div>
+          <details><summary>3 个检查点</summary><ul><li>给老板的每项任务，在扮演卡写的设备、人手、时间条件下做得了</li><li>发布节奏不超过老板的产能；超过时写明「你说过 X，我们建议 Y，因为 Z」</li><li>扮演卡「陷阱」表里适用于档案的条目，按正确做法处理的比例（按比例计）</li></ul></details></li>
+      </ul>
+    </div>
+    <div class="card">
+      <span class="tag">C Chatbot 对话 · 15 分</span>
+      <ul class="rows">
+        <li><div class="r"><span><span class="id">C1</span>离题接住再拉回</span><span>5 分</span></div>
+          <details><summary>2 个检查点</summary><ul><li>用一句话接住，没有冷冰冰拒绝，也没有完整陪聊</li><li>同一条回复里拉回经营话题</li></ul></details></li>
+        <li><div class="r"><span><span class="id">C2</span>记得住</span><span>5 分 · 脚本</span></div>
+          <details><summary>2 个检查点</summary><ul><li>建档收过的城市、行业、主营、价格没有再问</li><li>老板改口后，后续建议全部按新的来</li></ul></details></li>
+        <li><div class="r"><span><span class="id">C3</span>老板看得懂</span><span>5 分</span></div>
+          <details><summary>2 个检查点</summary><ul><li>没有出现「知识库」「Agent」等内部词</li><li>没有运营术语，或者出现时当场用大白话解释了</li></ul></details></li>
+      </ul>
+    </div>
+    <div class="card">
+      <span class="tag">D 发布后数据复盘 · 20 分</span>
+      <ul class="rows">
+        <li><div class="r"><span><span class="id">D1</span>盯对指标</span><span>8 分</span></div>
+          <details><summary>3 个检查点</summary><ul><li>复盘盯的指标就是诊断定的成功指标</li><li>带基线</li><li>带时间窗口和统计口径</li></ul></details></li>
+        <li><div class="r"><span><span class="id">D2</span>结论有边界</span><span>6 分</span></div>
+          <details><summary>4 个检查点</summary><ul><li>结论是规定的五种状态之一</li><li>没有对照时，不说「因为这条视频」</li><li>老板口述的数据标了「未核实」</li><li>写了「仍不知道什么」</li></ul></details></li>
+        <li><div class="r"><span><span class="id">D3</span>复盘改变了下一步</span><span>6 分</span></div>
+          <details><summary>3 个检查点</summary><ul><li>下周计划引用了复盘的结论</li><li>说明了是沿用还是调整</li><li>要改目标时走重新诊断，没有悄悄改</li></ul></details></li>
+      </ul>
+    </div>
+  </div>
+  <div class="card">
+    <span class="tag">盲比 · 第二个头部指标</span>
+    <h3>和基准比，老板拿到哪份更有用</h3>
+    <p>先用强模型（Opus 5.5，推理开最高）给每个画像做一份我们认可的诊断和档案，当作基准。每轮把产品的输出和基准去掉标记放在一起，让判分模型选「老板拿到哪份更有用」。记录产品不输给基准的案例比例。它用来抓检查点没列到的问题：检查点全过但整体不如基准，说明标准漏了东西。</p>
+  </div>
+</section>
+
+<section>
+  <h2>成本</h2>
+  <p>成本不折算成分数，单独画曲线。规则是：效果涨了才接受改动，同时成本不能超预算。</p>
+  <div class="card">
+    <ul class="rows" style="margin:0">
+      <li style="border-top:0"><div class="r"><span><span class="id">K1</span>每个案例的模型费用</span><span>元</span></div><div class="d">从建档到出档案，产品自己调模型花的钱。</div></li>
+      <li><div class="r"><span><span class="id">K2</span>每个案例的耗时</span><span>分钟</span></div><div class="d">老板从开始对话到拿到档案等了多久。</div></li>
+      <li><div class="r"><span><span class="id">K3</span>老板的负担</span><span>问题数</span></div><div class="d">说出主痛点之前，老板回答了几个问题。你说的「快速问出痛点」放在这里量，不再按轮数扣效果分。</div></li>
+      <li><div class="r"><span><span class="id">K4</span>每轮 loop 的开销</span><span>元、小时</span></div><div class="d">跑测试、判分、改代码、重评，一整轮花的钱和时间。</div></li>
+    </ul>
+  </div>
+  <p class="note">预算现在定不了，因为还没量过。第一轮实测值当基线，预算先按基线的 1.2 倍。</p>
+</section>
+
+<section>
+  <h2>可信度</h2>
+  <p>全部由机器完成，不需要你每轮手填或抽查。你随时可以在看板上否决某一轮。</p>
+  <div class="card">
+    <ul class="rows" style="margin:0">
+      <li style="border-top:0"><div class="r"><span><span class="id">T1</span>基准自己要过关</span><span>基准 ≥ 90 分</span></div><div class="d">强模型做的基准用同一套标准打分，要过全部红线且到 90 分。到不了，说明基准或标准有一个是错的，先修再开跑。</div></li>
+      <li><div class="r"><span><span class="id">T2</span>判分要稳</span><span>一致率 ≥ 80%</span></div><div class="d">每个案例判三遍。三遍结果不一致的检查点标出来，不计分，回头把它写清楚。</div></li>
+      <li><div class="r"><span><span class="id">T3</span>判分和生成分开</span><span>不同模型</span></div><div class="d">判分模型不是产品用的模型，也看不到改动需求。扮演老板看不到评分标准。</div></li>
+      <li><div class="r"><span><span class="id">T4</span>量出噪声</span><span>每个画像跑两遍</span></div><div class="d">同一版本两遍之间的分差就是噪声。涨幅超过噪声才算真的涨了。</div></li>
+      <li><div class="r"><span><span class="id">T5</span>留出集</span><span>差距 ≤ 10 分</span></div><div class="d">两个画像对产品经理 Agent 和工程 Agent 不可见。公开画像和留出画像的分差拉大，说明在刷分。</div></li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <h2>每轮自动决策</h2>
+  <div class="grid2">
+    <div class="card"><span class="tag">放行</span><h3>全部达线</h3><p>红线零阻塞，每维 ≥ 80，总分 ≥ 85，盲比不输率 ≥ 50%，留出集差距 ≤ 10，成本在预算内。</p></div>
+    <div class="card"><span class="tag">继续改</span><h3>没达线，但可信度过了</h3><p>从没过的检查点里选 1 到 3 个预期涨分最多的改动，工程 Agent 改完，同一测试集重评。</p></div>
+    <div class="card"><span class="tag">回退</span><h3>改了反而变差</h3><p>任何条目的跌幅超过噪声，或出现新的红线，撤掉这次改动。</p></div>
+    <div class="card"><span class="tag">停下叫你</span><h3>机器定不了</h3><p>连续三轮涨幅没超过噪声；可信度连续两轮不过；成本连续两轮超预算；或改动要动数据库、部署、产品方向。</p></div>
+  </div>
+  <p class="note">每轮结束把学到的东西写回知识库。标准本身改了，就用新标准把之前各轮重算一遍，曲线才可比。</p>
+</section>
+
+<section>
+  <h2>和上一版比，改了什么</h2>
+  <div class="scroll"><table>
+    <tr><th>项</th><th>v1</th><th>v2</th></tr>
+    <tr><td>打分方式</td><td>每条 0 到 4 分，1 分和 3 分没有定义</td><td>是非检查点，按通过比例算</td></tr>
+    <tr><td>查结果</td><td>没有</td><td>A1 痛点判对、B3 老板能照做，加盲比</td></tr>
+    <tr><td>问诊速度</td><td>按轮数扣效果分</td><td>移到成本表，量老板答了几个问题</td></tr>
+    <tr><td>重复扣分</td><td>档案丢信息同时扣 G4、B1、B2、B3</td><td>每个条目只管一件事，和红线不重叠</td></tr>
+    <tr><td>成本</td><td>没有</td><td>4 项，单独成表</td></tr>
+    <tr><td>校准</td><td>你手填样例判定，每轮抽查</td><td>强模型基准、重复判分、留出集</td></tr>
+    <tr><td>条目数</td><td>18 条</td><td>13 条</td></tr>
+    <tr><td>达线</td><td>每维 70，总分 75</td><td>每维 80，总分 85</td></tr>
+    <tr><td>轮与轮之间</td><td>等你确认</td><td>自动决策，你事后否决</td></tr>
+  </table></div>
+</section>
+
+<section>
+  <h2>还没定、还没做的</h2>
+  <ol class="todo">
+    <li><b>达线的数是我定的起始值。</b>每维 80、总分 85、盲比 50%、基准 90、一致率 80%，都没有依据，跑两轮后按实际分布调。</li>
+    <li><b>四个维度的权重也是我定的。</b>35、30、15、20 的想法是诊断和档案最重，对话最轻。</li>
+    <li><b>基准还没做。</b>要用 Opus 5.5 给每个画像各做一份，会产生模型费用，金额我没估过。</li>
+    <li><b>留出集还没建。</b>现有 6 个画像都是公开的，要另建 2 个。</li>
+    <li><b>D 维度用的是合成数据。</b>靠测试集里的回填复盘流程，不是真实发布后的数据。</li>
+    <li><b>这一版没有分数。</b>R00 没有按 v2 重算，第一轮跑完才有第一个点。</li>
+    <li><b>没有写进知识库。</b><code>wiki/evaluation/</code> 里的标准页我没动，你同意后再写。</li>
+  </ol>
+</section>
+
+</div></body></html>
