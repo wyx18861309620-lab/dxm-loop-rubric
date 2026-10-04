@@ -64,45 +64,57 @@ details .body p{max-width:none}
   <div class="eyebrow">店小谋 · 产品 LOOP · 一期：经营诊断</div>
   <h1>Loop 看板</h1>
   <div class="pills">
-    <span class="pill on">R02 改动中：让诊断问清原因并及时给出方案，让档案按老板说过的话来写</span>
+    <span class="pill on">R02 正在跑：诊断和档案已改，等分数</span>
     <span class="pill">已跑 1 轮，最新 R01</span>
     <span class="pill">产品版本 1f12c98 · 模型 doubao-seed-2-1-turbo-260628</span>
-    <span class="pill">更新于 10-04 13:56</span>
+    <span class="pill">更新于 10-04 14:15</span>
   </div>
   <p class="note">按<a href="../v2/">评分标准 v2</a>打分。每轮用三个虚构画像和产品的真实接口对话，判分模型对照检查点逐条判。</p>
 </header>
 
 <section>
   <div class="tiles">
-    <div class="tile"><span class="k">总分（R01）</span><b>29.2</b><span class="s">离放行线还差 60.8 分；目标 100</span></div>
-    <div class="tile"><span class="k">业务分</span><b>23.4</b><span class="s">判断对不对，满分 100</span></div>
-    <div class="tile"><span class="k">模型能力分</span><b>41.4</b><span class="s">做事靠不靠谱，满分 100</span></div>
+    <div class="tile"><span class="k">总分（满分 100，R01）</span><b>29.2</b><span class="s">离放行线还差 60.8 分；目标 100</span></div>
+    <div class="tile"><span class="k">业务分（满分 100）</span><b>23.4</b><span class="s">判断对不对</span></div>
+    <div class="tile"><span class="k">模型能力分（满分 100）</span><b>41.4</b><span class="s">做事靠不靠谱</span></div>
     <div class="tile"><span class="k">踩红线的案例</span><b>3/3</b><span class="s">有一个就不能放行</span></div>
   </div>
 </section>
 
 <section>
-  <h2>每轮打分走势</h2>
+  <h2>总分</h2>
+  <p class="note">满分 100。五个部分按各自的权重合起来：诊断 28、档案 22、对话 15、复盘 15、档案迭代 20。</p>
   <div class="card">
-    <h3>总分和五个维度</h3>
+    <div class="key" id="key0"></div>
+    <div class="fig" id="c0"></div>
+  </div>
+  <div class="scroll"><table>
+    <tr><th>轮次</th><th>这一轮改了什么</th><th class="num">总分（满分 100）</th><th class="num">踩红线的案例</th><th>决策</th></tr>
+    <tr><td class='id'>R01</td><td>基线：线上当前版本，没有改动</td><td class='num'><b>29.2</b></td><td class='num'>3/3</td><td>继续改</td></tr>
+  </table></div>
+</section>
+
+<section>
+  <h2>各部分的分数</h2>
+  <p class="note">每一项单独看，满分都是 100。数据复盘和档案迭代这两个功能产品还没做，所以是 0 分。业务分和模型能力分是把全部 55 个检查点按「业务」「模型」两类分开算的。</p>
+  <div class="card">
+    <h3>五个部分</h3>
     <div class="key" id="key1"></div>
     <div class="fig" id="c1"></div>
-    <p class="note">总分满分 100。五个维度各按自己的 100 分画。虚线是放行线 90。数据复盘和档案迭代这两个功能产品还没做，所以是 0 分，也把总分压住了。</p>
   </div>
   <div class="card">
     <h3>业务分和模型能力分</h3>
     <div class="key" id="key2"></div>
     <div class="fig" id="c2"></div>
-    <p class="note">只算已经在评的三个维度（诊断、档案、对话）里的检查点。</p>
   </div>
-</section>
-
-<section>
-  <h2>每轮记录</h2>
   <div class="scroll"><table>
-    <tr><th>轮次</th><th>这一轮改了什么</th><th class="num">总分</th><th class="num">诊断</th><th class="num">档案</th><th class="num">对话</th><th class="num">复盘</th><th class="num">迭代</th><th class="num">业务</th><th class="num">模型</th><th class="num">红线</th><th>决策</th></tr>
-    <tr><td class='id'>R01</td><td>基线：线上当前版本，没有改动</td><td class='num'><b>29.2</b></td><td class='num'>36.3</td><td class='num'>31.7</td><td class='num'>80.0</td><td class='num'>0.0</td><td class='num'>0.0</td><td class='num'>23.4</td><td class='num'>41.4</td><td class='num'>3/3</td><td>继续改</td></tr>
+    <tr><th>轮次</th><th class="num">经营诊断</th><th class="num">账号档案</th><th class="num">对话</th><th class="num">数据复盘</th><th class="num">档案迭代</th><th class="num">业务分</th><th class="num">模型能力分</th></tr>
+    <tr><td class='id'>R01</td><td class='num'>36.3</td><td class='num'>31.7</td><td class='num'>80.0</td><td class='num'>0.0</td><td class='num'>0.0</td><td class='num'>23.4</td><td class='num'>41.4</td></tr>
   </table></div>
+  <details><summary>R01 每个条目的分数（每条满分 100）</summary><div class="body"><div class="scroll"><table>
+    <tr><th>条目</th><th>部分</th><th>名称</th><th class="num">得分</th><th class="num">在总分里占</th><th>备注</th></tr>
+    <tr><td class='id'>A1</td><td>经营诊断</td><td>痛点判对了</td><td class='num'><b>45.8</b></td><td class='num'>14</td><td></td></tr><tr><td class='id'>A2</td><td>经营诊断</td><td>下结论时信息够用</td><td class='num'><b>30.0</b></td><td class='num'>7</td><td></td></tr><tr><td class='id'>A3</td><td>经营诊断</td><td>没有白问的问题</td><td class='num'><b>33.3</b></td><td class='num'>5</td><td></td></tr><tr><td class='id'>A4</td><td>经营诊断</td><td>判断能追到来源</td><td class='num'><b>0.0</b></td><td class='num'>2</td><td></td></tr><tr><td class='id'>B1</td><td>账号档案</td><td>老板说过的话没丢</td><td class='num'><b>43.3</b></td><td class='num'>4</td><td></td></tr><tr><td class='id'>B2</td><td>账号档案</td><td>方案对得上痛点</td><td class='num'><b>50.0</b></td><td class='num'>9</td><td></td></tr><tr><td class='id'>B3</td><td>账号档案</td><td>老板能照做</td><td class='num'><b>8.3</b></td><td class='num'>9</td><td></td></tr><tr><td class='id'>C1</td><td>对话</td><td>离题接住再拉回</td><td class='num'><b>100.0</b></td><td class='num'>3</td><td></td></tr><tr><td class='id'>C2</td><td>对话</td><td>记得住</td><td class='num'><b>100.0</b></td><td class='num'>3</td><td></td></tr><tr><td class='id'>C3</td><td>对话</td><td>老板看得懂</td><td class='num'><b>66.7</b></td><td class='num'>3</td><td></td></tr><tr><td class='id'>C4</td><td>对话</td><td>回答有用</td><td class='num'><b>66.7</b></td><td class='num'>6</td><td></td></tr><tr><td class='id'>D1</td><td>数据复盘</td><td>结论判对了</td><td class='num'><b>0.0</b></td><td class='num'>5</td><td>产品还没有这个功能</td></tr><tr><td class='id'>D2</td><td>数据复盘</td><td>结论有边界</td><td class='num'><b>0.0</b></td><td class='num'>3</td><td>产品还没有这个功能</td></tr><tr><td class='id'>D3</td><td>数据复盘</td><td>说清档案要改什么</td><td class='num'><b>0.0</b></td><td class='num'>3</td><td>产品还没有这个功能</td></tr><tr><td class='id'>D4</td><td>数据复盘</td><td>定期问老板经营现况</td><td class='num'><b>0.0</b></td><td class='num'>4</td><td>产品还没有这个功能</td></tr><tr><td class='id'>E1</td><td>档案迭代</td><td>改对了</td><td class='num'><b>0.0</b></td><td class='num'>10</td><td>产品还没有这个功能</td></tr><tr><td class='id'>E2</td><td>档案迭代</td><td>只改该改的</td><td class='num'><b>0.0</b></td><td class='num'>5</td><td>产品还没有这个功能</td></tr><tr><td class='id'>E3</td><td>档案迭代</td><td>信号不够时稳得住</td><td class='num'><b>0.0</b></td><td class='num'>5</td><td>产品还没有这个功能</td></tr>
+  </table></div></div></details>
 </section>
 
 <section>
@@ -144,7 +156,8 @@ details .body p{max-width:none}
 (function(){
   var D={"hist": [{"round": "R01", "date": "2026-10-04", "appVersion": "1f12c98", "model": "doubao-seed-2-1-turbo-260628", "change": "基线：线上当前版本，没有改动", "total": 29.2, "dims": {"A": 36.3, "B": 31.7, "C": 80.0, "D": 0.0, "E": 0.0}, "biz": 23.4, "model_score": 41.4, "cases": 3, "blocked": 3, "redlines": {"TP02": ["G2", "G3"], "TP03": ["G3", "G4"], "TP06": ["G2", "G3"]}, "agreement": 0.94, "cost": {"product_minutes_per_case": 2.2, "diagnosis_reached": 2, "owner_turns": [5, 4, null]}, "decision": "继续改"}], "dims": {"A": "经营诊断", "B": "账号档案", "C": "对话", "D": "数据复盘", "E": "档案迭代"}}, H=D.hist;
   var dimKeys=["A","B","C","D","E"], cols=["var(--s1)","var(--s2)","var(--s3)","var(--s4)","var(--s5)"];
-  var S1=[{name:"总分",color:"var(--ink)",w:3,get:function(h){return h.total}}].concat(dimKeys.map(function(k,i){return {name:D.dims[k],color:cols[i],w:2,get:function(h){return h.dims[k]}}}));
+  var S0=[{name:"总分",color:"var(--accent)",w:3,get:function(h){return h.total}}];
+  var S1=dimKeys.map(function(k,i){return {name:D.dims[k],color:cols[i],w:2,get:function(h){return h.dims[k]}}});
   var S2=[{name:"业务分",color:"var(--s1)",w:2,get:function(h){return h.biz}},{name:"模型能力分",color:"var(--s2)",w:2,get:function(h){return h.model_score}}];
   function key(el,S){el.innerHTML=S.map(function(s){return '<span><i style="background:'+s.color+'"></i>'+s.name+'</span>'}).join("")+'<span><i style="background:none;border-top:1px dashed var(--muted);height:0"></i>放行线 90</span>'}
   function draw(el,S){
@@ -173,8 +186,8 @@ details .body p{max-width:none}
     });
     el.innerHTML=h+"</svg>";
   }
-  function render(){draw(document.getElementById("c1"),S1);draw(document.getElementById("c2"),S2)}
-  key(document.getElementById("key1"),S1);key(document.getElementById("key2"),S2);
+  function render(){draw(document.getElementById("c0"),S0);draw(document.getElementById("c1"),S1);draw(document.getElementById("c2"),S2)}
+  key(document.getElementById("key0"),S0);key(document.getElementById("key1"),S1);key(document.getElementById("key2"),S2);
   var tip=document.createElement("div");tip.className="tip";
   function show(e){var c=e.target;if(!c.getAttribute||!c.getAttribute("data-tip")){tip.style.display="none";return}
     var box=c.closest(".card"),fig=c.ownerSVGElement.parentNode;box.appendChild(tip);tip.textContent=c.getAttribute("data-tip");tip.style.whiteSpace=box.clientWidth<560?"normal":"nowrap";tip.style.display="block";
