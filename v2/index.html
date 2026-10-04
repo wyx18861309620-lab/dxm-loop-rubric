@@ -86,7 +86,7 @@ code{font-family:var(--mono);font-size:.9em;background:var(--sunk);padding:1px 5
   <h2>四个部分</h2>
   <div class="grid4">
     <div class="card"><span class="tag">红线</span><b class="big">5 条</b><p>一票否决。踩一条，这个案例就不能放行，不管效果分多高。</p></div>
-    <div class="card"><span class="tag">效果</span><b class="big">100 分</b><p>17 个条目、47 个是非检查点。另有一个盲比指标，和强模型做的基准比。</p></div>
+    <div class="card"><span class="tag">效果</span><b class="big">100 分</b><p>18 个条目、53 个是非检查点。另有一个盲比指标，和强模型做的基准比。</p></div>
     <div class="card"><span class="tag">成本</span><b class="big">4 项</b><p>钱、时间、老板的负担。单独一张表，不和效果分混在一起。</p></div>
     <div class="card"><span class="tag">可信度</span><b class="big">6 项</b><p>查分数本身靠不靠得住。不过，这一轮的分数不算数。</p></div>
   </div>
@@ -110,6 +110,13 @@ code{font-family:var(--mono);font-size:.9em;background:var(--sunk);padding:1px 5
     <li><b>档案下一版</b><span>按复盘改，只改该改的</span></li>
     <li><b>回到第 3 步</b><span>连走三周</span></li>
   </ol>
+  <h3>账号阶段</h3>
+  <p>档案能改多大，看账号在哪个阶段。档案里要写明当前阶段。</p>
+  <div class="grid2">
+    <div class="card"><span class="tag">试水期</span><h3>可以放开试</h3><p>刚开号或刚接手，还没找到有效的栏目。换栏目、换定位都可以，只要写明依据。</p></div>
+    <div class="card"><span class="tag">稳定期</span><h3>不适合大改</h3><p>已经有栏目连续两周以上带动目标指标。只做小改（承接、节奏、栏目排期）；改定位、主痛点或成功指标，要两周以上的证据，并且老板点头。</p></div>
+  </div>
+  <p class="note">两个阶段怎么划界是我的草稿：发满 10 条，且有栏目连续两周目标指标不低于基线，算进入稳定期。模拟数据里先按画像定：已有作品的轻食乙、素食自助丁算稳定期，其余四家算试水期。</p>
   <p class="note">现在的产品里这条回路是断的：我在生成档案的两个代码文件里没有找到读取复盘结果的地方。所以第一轮 E 维度预计接近 0 分，这正是 loop 要先补的。</p>
 </section>
 
@@ -168,7 +175,7 @@ code{font-family:var(--mono);font-size:.9em;background:var(--sunk);padding:1px 5
     <div><b>20</b>E 档案迭代</div>
   </div>
   <p>每个条目拆成几个只能答「是」或「否」的检查点。条目得分等于通过的检查点比例，再对所有案例取平均。标「结果」的条目直接对照答案判：A、B 对照扮演卡，D、E 对照模拟数据的剧本答案。查的是做对没有，而不是做了没有。</p>
-  <p>每个检查点另外标了「业务」或「模型」。同一个条目里两种问题分开看：业务看判断对不对（痛点、方案、复盘结论、档案怎么改），模型看做事靠不靠谱（记不记得住、丢没丢信息、守不守规矩、说话清不清楚）。两种分的修法不一样：业务分低要改产品逻辑和知识库，模型能力分低要改提示词、结构或换模型。看板上两种分法都显示：按环节五条线，加业务分和模型能力分两条线。按现在的标法，100 分里业务占 66 分，模型能力占 34 分。</p>
+  <p>每个检查点另外标了「业务」或「模型」。同一个条目里两种问题分开看：业务看判断对不对（痛点、方案、复盘结论、档案怎么改），模型看做事靠不靠谱（记不记得住、丢没丢信息、守不守规矩、说话清不清楚）。两种分的修法不一样：业务分低要改产品逻辑和知识库，模型能力分低要改提示词、结构或换模型。看板上两种分法都显示：按环节五条线，加业务分和模型能力分两条线。按现在的标法，100 分里业务占 68 分，模型能力占 32 分。</p>
   <div class="grid2">
     <div class="card">
       <span class="tag">A 经营诊断 · 28 分</span>
@@ -210,23 +217,25 @@ code{font-family:var(--mono);font-size:.9em;background:var(--sunk);padding:1px 5
     <div class="card">
       <span class="tag">D 发布后数据复盘 · 15 分</span>
       <ul class="rows">
-        <li><div class="r"><span><span class="id">D1</span>结论判对了</span><span>6 分 · 结果</span></div><div class="d">对照剧本答案，判复盘下的结论对不对。</div>
+        <li><div class="r"><span><span class="id">D1</span>结论判对了</span><span>5 分 · 结果</span></div><div class="d">对照剧本答案，判复盘下的结论对不对。</div>
           <details><summary>3 个检查点</summary><ul><li><span class="tg">业务</span>盯的是诊断定的成功指标，带基线和时间窗口</li><li><span class="tg">业务</span>结论状态和剧本答案一致（主问题未明确、未执行或执行偏差、证据不足、可继续观察、触线暂停）</li><li><span class="tg">业务</span>同一周有外部变化时，复盘把它指了出来</li></ul></details></li>
-        <li><div class="r"><span><span class="id">D2</span>结论有边界</span><span>4 分</span></div><div class="d">不把观察说成因果。</div>
+        <li><div class="r"><span><span class="id">D2</span>结论有边界</span><span>3 分</span></div><div class="d">不把观察说成因果。</div>
           <details><summary>3 个检查点</summary><ul><li><span class="tg">业务</span>没有对照时，不说「因为这条视频」</li><li><span class="tg">模型</span>老板口述的数据标了「未核实」</li><li><span class="tg">模型</span>写了「仍不知道什么」</li></ul></details></li>
-        <li><div class="r"><span><span class="id">D3</span>说清档案要改什么</span><span>5 分</span></div><div class="d">复盘要给档案一个明确的交代。</div>
+        <li><div class="r"><span><span class="id">D3</span>说清档案要改什么</span><span>3 分</span></div><div class="d">复盘要给档案一个明确的交代。</div>
           <details><summary>3 个检查点</summary><ul><li><span class="tg">模型</span>明确写了档案哪一项要改，或者写明不改</li><li><span class="tg">模型</span>每个改动都指到一条数据或观察</li><li><span class="tg">业务</span>一次只提一个主要改变</li></ul></details></li>
+        <li><div class="r"><span><span class="id">D4</span>定期问老板经营现况</span><span>4 分</span></div><div class="d">数据只说了一半，另一半要问老板。每周复盘前问一次，最多 3 个问题。</div>
+          <details><summary>4 个检查点</summary><ul><li><span class="tg">业务</span>每周复盘前问了老板这周的经营情况，问题不超过 3 个</li><li><span class="tg">业务</span>目标指标连续上涨时，问了老板视频帮了多少（有没有客人说是刷到视频来的）</li><li><span class="tg">业务</span>播放涨而目标指标没动时，先问老板目标指标的实际变化，再下结论</li><li><span class="tg">模型</span>老板的回答记进了复盘，并标了「口述未核实」</li></ul></details></li>
       </ul>
     </div>
     <div class="card">
       <span class="tag">E 档案迭代 · 20 分</span>
       <ul class="rows">
         <li><div class="r"><span><span class="id">E1</span>改对了</span><span>10 分 · 结果</span></div><div class="d">对照剧本答案，判新一版档案动得对不对。</div>
-          <details><summary>3 个检查点</summary><ul><li><span class="tg">业务</span>动作和答案一致：沿用、调整、暂停，或走重新诊断</li><li><span class="tg">业务</span>调整的是答案指定的那一项（承接、节奏等）</li><li><span class="tg">业务</span>没有做答案里禁止的动作</li></ul></details></li>
+          <details><summary>4 个检查点</summary><ul><li><span class="tg">业务</span>动作和答案一致：沿用、调整、暂停，或走重新诊断</li><li><span class="tg">业务</span>调整的是答案指定的那一项（承接、节奏、栏目排期等）</li><li><span class="tg">业务</span>没有做答案里禁止的动作</li><li><span class="tg">业务</span>改动幅度和账号阶段相符：试水期可以放开试，稳定期只做小改</li></ul></details></li>
         <li><div class="r"><span><span class="id">E2</span>只改该改的</span><span>5 分 · 脚本</span></div><div class="d">新旧两版档案逐项比对。</div>
-          <details><summary>3 个检查点</summary><ul><li><span class="tg">模型</span>老板确认过的事实，新一版里一条没丢</li><li><span class="tg">模型</span>复盘没提到的字段没有变</li><li><span class="tg">模型</span>留了修改记录并告诉了老板：改了什么、为什么、依据哪条数据</li></ul></details></li>
+          <details><summary>4 个检查点</summary><ul><li><span class="tg">模型</span>老板确认过的事实，新一版里一条没丢</li><li><span class="tg">模型</span>复盘没提到的字段没有变</li><li><span class="tg">模型</span>小改直接生效，并用一句话告诉老板：改了什么、为什么、依据哪条数据</li><li><span class="tg">模型</span>大改（定位、主痛点、成功指标）等老板点头后才生效</li></ul></details></li>
         <li><div class="r"><span><span class="id">E3</span>信号不够时稳得住</span><span>5 分</span></div><div class="d">数据不足或有干扰时不乱改。</div>
-          <details><summary>2 个检查点</summary><ul><li><span class="tg">业务</span>结论是「证据不足」的剧本下，档案没有改</li><li><span class="tg">业务</span>没有因为单独一周的波动就换定位</li></ul></details></li>
+          <details><summary>2 个检查点</summary><ul><li><span class="tg">业务</span>结论是「证据不足」的剧本下，档案没有改</li><li><span class="tg">业务</span>稳定期的账号，没有因为单独一周的波动就换定位</li></ul></details></li>
       </ul>
     </div>
   </div>
@@ -242,8 +251,8 @@ code{font-family:var(--mono);font-size:.9em;background:var(--sunk);padding:1px 5
   <p>没有真实的发布后数据，所以我编了一套。每份数据是「一个画像配一个剧本」：发布前 4 周的基线，加发布后 3 周。剧本是故意设计的，每个都有标准答案，所以复盘和档案改得对不对可以直接判。</p>
   <div class="scroll"><table>
     <tr><th>剧本</th><th>数据长什么样</th><th>复盘该下的结论</th><th>档案该怎么动</th></tr>
-    <tr><td>S1</td><td>目标指标连续三周上涨，没有外部干扰</td><td>可继续观察</td><td>不动，按原节奏继续；不说是视频带来的</td></tr>
-    <tr><td>S2</td><td>播放量涨了四到六倍，目标指标没动</td><td>可继续观察</td><td>只改承接，定位不动；不拿播放量报喜</td></tr>
+    <tr><td>S1</td><td>目标指标连续三周上涨，没有外部干扰</td><td>可继续观察</td><td>先问老板经营反馈（视频帮了多少），再把数据最好的栏目多排几条；定位不动</td></tr>
+    <tr><td>S2</td><td>播放量涨了四到六倍，目标指标没动</td><td>可继续观察</td><td>先问老板目标指标的实际变化；确认没动后只改承接，定位不动</td></tr>
     <tr><td>S3</td><td>计划的内容大部分没发</td><td>未执行或执行偏差</td><td>把节奏降到老板做得了的量；不评价内容效果</td></tr>
     <tr><td>S4</td><td>某一周目标指标大涨，但同周有外部变化</td><td>证据不足</td><td>不动；写出外部变化，下周继续看</td></tr>
     <tr><td>S5</td><td>老板没交截图，只有一句「感觉人多了点」</td><td>证据不足</td><td>不动；请老板补一张截图</td></tr>
@@ -308,7 +317,7 @@ code{font-family:var(--mono);font-size:.9em;background:var(--sunk);padding:1px 5
     <tr><td>复盘数据</td><td>没有，D 维度评不了</td><td>39 份模拟数据，7 个剧本各有标准答案</td></tr>
     <tr><td>成本</td><td>没有</td><td>4 项，单独成表</td></tr>
     <tr><td>校准</td><td>你手填样例判定，每轮抽查</td><td>强模型基准、重复判分、留出集，加你每轮看一个案例</td></tr>
-    <tr><td>条目数</td><td>18 条</td><td>17 条</td></tr>
+    <tr><td>条目数</td><td>18 条</td><td>18 条</td></tr>
     <tr><td>达线</td><td>每维 70，总分 75</td><td>目标 100 分；放行线每维 90、总分 90</td></tr>
     <tr><td>轮与轮之间</td><td>等你确认</td><td>自动决策，你事后否决</td></tr>
   </table></div>
@@ -369,8 +378,8 @@ code{font-family:var(--mono);font-size:.9em;background:var(--sunk);padding:1px 5
     <tr><td>B 账号档案</td><td>B1 到 B3</td><td>已定：B1 记下来就行（5 分）；B2 10 分；B2 里加了一个独特性检查点；B3 要说明理由、给最低版本、发得多时安排集中拍摄。分值现为 4、9、9</td></tr>
     <tr><td>整体</td><td>业务分和模型能力分</td><td>已定：两种分法都显示；同一条目里的业务问题和模型问题分开标，标到每个检查点。具体每个点标哪边是我的草稿</td></tr>
     <tr><td>C 对话</td><td>C1 到 C4</td><td>已定：加 C4 回答有用（6 分）；C3 加查长度，一屏看完；C 升到 15 分，A 降到 28、B 降到 22</td></tr>
-    <tr><td>D 数据复盘</td><td>D1 到 D3，以及九个剧本的答案</td><td>待商量</td></tr>
-    <tr><td>E 档案迭代</td><td>E1 到 E3</td><td>待商量</td></tr>
+    <tr><td>D 数据复盘</td><td>D1 到 D4，以及九个剧本的答案</td><td>已定：加 D4 定期问老板经营现况；S1 先问老板再加码有效栏目；S2 先问老板再改承接。每周问一次、最多 3 个问题是我的草稿。其余七个剧本的答案待你过目</td></tr>
+    <tr><td>E 档案迭代</td><td>E1 到 E3</td><td>已定：改动幅度看账号阶段，试水期放开、稳定期不大改；小改直接生效并告知，大改要老板点头。两个阶段怎么划界是我的草稿</td></tr>
     <tr><td>成本、可信度</td><td>K1 到 K4，T1 到 T6</td><td>待商量</td></tr>
     <tr><td>整体</td><td>五个维度的权重，放行线的数</td><td>待商量</td></tr>
   </table></div>
