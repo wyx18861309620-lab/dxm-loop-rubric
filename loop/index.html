@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="robots" content="noindex,nofollow"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>店小谋 Loop 看板</title>
+<style>
+/* 布局：先四个大数字，再两张折线图，再每轮记录和丢分明细 */
+:root{
+  --bg:#f5f8f8; --surface:#ffffff; --sunk:#ecf1f1; --ink:#15242a; --muted:#58696f; --line:#d5dfe1; --accent:#0d6b6b; --accent-soft:#dcefee;
+  --warn:#8a5d00; --warn-soft:#f8ecd0;
+  --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a; --s4:#eda100; --s5:#e87ba4;
+  --serif:"Songti SC","STSong","Noto Serif SC",serif; --sans:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif; --mono:ui-monospace,"SF Mono",Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0f1618; --surface:#172124; --sunk:#1d2a2e; --ink:#e2ebeb; --muted:#93a5a9; --line:#2b3a3e; --accent:#5ec6bf; --accent-soft:#17383a; --warn:#e4b657; --warn-soft:#3a2f14;
+  --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; --s5:#d55181; color-scheme:dark;}}
+:root[data-theme="dark"]{
+  --bg:#0f1618; --surface:#172124; --sunk:#1d2a2e; --ink:#e2ebeb; --muted:#93a5a9; --line:#2b3a3e; --accent:#5ec6bf; --accent-soft:#17383a; --warn:#e4b657; --warn-soft:#3a2f14;
+  --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; --s5:#d55181; color-scheme:dark;}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.7;margin:0}
+.wrap{max-width:1040px;margin:0 auto;padding:32px 20px 72px;display:flex;flex-direction:column;gap:40px}
+header,section{display:flex;flex-direction:column;gap:14px;min-width:0}
+.eyebrow{font-size:12px;letter-spacing:.14em;color:var(--accent);font-weight:600}
+h1{font-family:var(--serif);font-size:clamp(26px,5vw,36px);line-height:1.2;margin:0}
+h2{font-family:var(--serif);font-size:22px;margin:0}
+h3{font-size:15px;margin:0}
+p{margin:0;max-width:46em}
+a{color:var(--accent)}
+.note{font-size:13px;color:var(--muted)}
+.pills{display:flex;flex-wrap:wrap;gap:8px}
+.pill{font-size:12px;padding:2px 10px;border-radius:999px;background:var(--surface);border:1px solid var(--line);white-space:nowrap}
+.pill.on{background:var(--warn-soft);color:var(--warn);border-color:transparent}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(190px,100%),1fr));gap:12px}
+.tile,.card{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:14px 16px;min-width:0}
+.tile{display:flex;flex-direction:column;gap:2px}
+.tile .k,.tile .s{font-size:12px;color:var(--muted)}
+.tile b{font-family:var(--serif);font-size:44px;line-height:1.15;font-variant-numeric:tabular-nums}
+.card{display:flex;flex-direction:column;gap:8px;position:relative}
+.fig svg{display:block}
+.key{display:flex;flex-wrap:wrap;gap:4px 16px;font-size:12.5px;color:var(--muted)}
+.key i{display:inline-block;width:14px;height:3px;border-radius:2px;margin-right:6px;vertical-align:middle}
+.g{stroke:var(--line);stroke-width:1}
+.th{stroke:var(--muted);stroke-width:1;stroke-dasharray:4 4}
+.t{fill:var(--muted);font-size:11px;font-family:var(--sans)}
+.v{fill:var(--ink);font-size:12px;font-weight:600;font-family:var(--sans);paint-order:stroke;stroke:var(--surface);stroke-width:4px;stroke-linejoin:round}
+.ln{fill:none;stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
+.dot{stroke:var(--surface);stroke-width:2}
+.hit{fill:transparent;cursor:pointer}
+.tip{position:absolute;pointer-events:none;background:var(--ink);color:var(--bg);font-size:12px;line-height:1.5;padding:6px 10px;border-radius:4px;white-space:nowrap;transform:translate(-50%,-100%);display:none;z-index:2}
+.scroll{overflow-x:auto;border:1px solid var(--line);border-radius:6px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:13.5px;line-height:1.55;min-width:720px}
+th,td{text-align:left;vertical-align:top;padding:8px 12px;border-bottom:1px solid var(--line)}
+tr:last-child td{border-bottom:0}
+th{font-size:12px;color:var(--muted);font-weight:600;background:var(--sunk);white-space:nowrap}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+td.id{font-family:var(--mono);font-size:12.5px;color:var(--accent);white-space:nowrap}
+.tg{display:inline-block;font-size:11px;padding:0 6px;border-radius:3px;background:var(--sunk);color:var(--muted);margin-left:6px}
+details{background:var(--surface);border:1px solid var(--line);border-radius:6px}
+summary{cursor:pointer;padding:10px 14px;font-weight:600;font-size:14px}
+details .body{padding:0 14px 14px;font-size:13.5px;display:flex;flex-direction:column;gap:8px}
+details .body p{max-width:none}
+</style></head><body><div class="wrap">
+
+<header>
+  <div class="eyebrow">店小谋 · 产品 LOOP · 一期：经营诊断</div>
+  <h1>Loop 看板</h1>
+  <div class="pills">
+    <span class="pill on">R01 基线已跑完，正在选 R02 的改动</span>
+    <span class="pill">已跑 1 轮，最新 R01</span>
+    <span class="pill">产品版本 1f12c98 · 模型 doubao-seed-2-1-turbo-260628</span>
+    <span class="pill">更新于 10-04 13:55</span>
+  </div>
+  <p class="note">按<a href="../v2/">评分标准 v2</a>打分。每轮用三个虚构画像和产品的真实接口对话，判分模型对照检查点逐条判。</p>
+</header>
+
+<section>
+  <div class="tiles">
+    <div class="tile"><span class="k">总分（R01）</span><b>29.2</b><span class="s">离放行线还差 60.8 分；目标 100</span></div>
+    <div class="tile"><span class="k">业务分</span><b>23.4</b><span class="s">判断对不对，满分 100</span></div>
+    <div class="tile"><span class="k">模型能力分</span><b>41.4</b><span class="s">做事靠不靠谱，满分 100</span></div>
+    <div class="tile"><span class="k">踩红线的案例</span><b>3/3</b><span class="s">有一个就不能放行</span></div>
+  </div>
+</section>
+
+<section>
+  <h2>每轮打分走势</h2>
+  <div class="card">
+    <h3>总分和五个维度</h3>
+    <div class="key" id="key1"></div>
+    <div class="fig" id="c1"></div>
+    <p class="note">总分满分 100。五个维度各按自己的 100 分画。虚线是放行线 90。数据复盘和档案迭代这两个功能产品还没做，所以是 0 分，也把总分压住了。</p>
+  </div>
+  <div class="card">
+    <h3>业务分和模型能力分</h3>
+    <div class="key" id="key2"></div>
+    <div class="fig" id="c2"></div>
+    <p class="note">只算已经在评的三个维度（诊断、档案、对话）里的检查点。</p>
+  </div>
+</section>
+
+<section>
+  <h2>每轮记录</h2>
+  <div class="scroll"><table>
+    <tr><th>轮次</th><th>这一轮改了什么</th><th class="num">总分</th><th class="num">诊断</th><th class="num">档案</th><th class="num">对话</th><th class="num">复盘</th><th class="num">迭代</th><th class="num">业务</th><th class="num">模型</th><th class="num">红线</th><th>决策</th></tr>
+    <tr><td class='id'>R01</td><td>基线：线上当前版本，没有改动</td><td class='num'><b>29.2</b></td><td class='num'>36.3</td><td class='num'>31.7</td><td class='num'>80.0</td><td class='num'>0.0</td><td class='num'>0.0</td><td class='num'>23.4</td><td class='num'>41.4</td><td class='num'>3/3</td><td>继续改</td></tr>
+  </table></div>
+</section>
+
+<section>
+  <h2>R01 丢分最多的地方</h2>
+  <p class="note">按丢掉的分数从多到少排。下一轮的改动从这里选。</p>
+  <div class="scroll"><table>
+    <tr><th>检查点</th><th>条目</th><th>要求</th><th class="num">丢分</th><th>哪里没过</th></tr>
+    <tr><td class='id'>A1.2</td><td>痛点判对了<span class='tg'>业务</span></td><td>问清了为什么：是店偏僻、新店没宣传、小众品类、被新店分流，还是别的。原因和答案一致；老板也说不清的，标成待验证，不替他猜一个</td><td class='num'>-2.33</td><td>轻食乙：没问原因就下定论：「周末和下班后人就走了，自然没生意」，未标待验证。；粉面己：没有诊断，也没问晚市客少的原因；A1.1不过，本条随之为0。</td></tr><tr><td class='id'>A1.3</td><td>痛点判对了<span class='tg'>业务</span></td><td>只定了一个最高优先问题，其余进待处理</td><td class='num'>-2.33</td><td>素菜馆丙：三条发现并列，未定唯一最高优先，也没有待处理区；月目标同时含「摸清原因」和「测试团购」。；粉面己：没有诊断，没定唯一最高优先问题，也没有待处理清单。</td></tr><tr><td class='id'>A2.1</td><td>下结论时信息够用<span class='tg'>模型</span></td><td>给方案前拿到了七项：地区、行业、主营、客单、当前问题、能不能出镜、什么时候能拍</td><td class='num'>-2.33</td><td>轻食乙：客单、能否出镜、何时能拍都没问，只问到「双人午餐团购，69 块」就给了方案。；素菜馆丙：七项里能不能出镜、什么时候能拍都没问；客单只拿到老板说的「一份十几块」。；粉面己：地区、客单、能否出镜、何时能拍都没问，只问到「周边晚上是居民区多，还是写字楼多」，且没给方案。</td></tr><tr><td class='id'>B1.1</td><td>老板说过的话没丢<span class='tg'>模型</span></td><td>老板确认过的特色、限制、产能、目标，在档案里找得到的比例（按比例计）。以后接上抖音或美团的接口，从接口拿到的店铺信息也算进来</td><td class='num'>-2.27</td><td>轻食乙：六项留住三项；丢了科技园底商、69元团购周核销40单、自剪已发40条。；素菜馆丙：档案只留了20年、老街坊、平价；没团购被写反成「上线12.9元单人素餐团购券」，没人帮、抖音在女儿手机都丢了。；粉面己：8项留住4项；8个月写成「刚开2周」，没团购却「挂9.9元…团购券」，帮工不出镜、小区门口丢失。</td></tr><tr><td class='id'>B3.1</td><td>老板能照做<span class='tg'>业务</span></td><td>给老板的每项任务，在扮演卡写的设备、人手、时间条件下做得了</td><td class='num'>-2.25</td><td>轻食乙：「每周发5条」且拍「从装盘到递到顾客手里」，午市满负荷做不了；「多送半份蔬菜」老板没答应。；素菜馆丙：「老板本人出镜」「工作日每天1条」、置顶评论、回私信、挂团购券，掌勺且手机没抖音的老板做不了。；粉面己：「每天发1条」且要拍早高峰前和晚上8点；没账号没团购却要「挂9.9元…团购券」，做不了。</td></tr><tr><td class='id'>B3.2</td><td>老板能照做<span class='tg'>业务</span></td><td>发布节奏、出镜、拍摄时段和老板说的不一样时，写明「你说过 X，我们建议 Y，因为 Z」，并给出按老板现有条件也能开始的最低版本</td><td class='num'>-2.25</td><td>轻食乙：老板说「没空天天拍」，档案仍是「每周发5条」，没写「你说过X建议Y因为Z」和最低版本。；素菜馆丙：老板说「我自己弄，哪有人帮忙」，档案仍定「工作日每天发1条」，没写理由，也没给最低版本。；粉面己：档案没有「你说过X，我们建议Y，因为Z」的说明，也没给最低版本。</td></tr><tr><td class='id'>B3.3</td><td>老板能照做<span class='tg'>业务</span></td><td>发布次数多于老板能拍的次数时，安排集中拍摄：一次拍完、传完素材，够后面多条用，老板不用每天管</td><td class='num'>-2.25</td><td>轻食乙：档案没排集中拍摄；聊天虽说「一次集中拍」，却让「抽中午忙的时候拍」。；素菜馆丙：档案没有集中拍摄安排；聊天里虽说集中拍，仍要「每天打饭时顺手拍10秒」。；粉面己：档案写「每天发1条」「每天10分钟左右的拍摄时间」，没安排集中拍；只在聊天里被问才提。</td></tr><tr><td class='id'>A2.2</td><td>下结论时信息够用<span class='tg'>业务</span></td><td>扮演卡「被问到才说」里会改变方案的事实，问到的比例（按比例计）</td><td class='num'>-1.79</td><td>轻食乙：四项只问到团购「每周大概核销 40 单」；自调酱汁、可拍时段、店员出镜都没问。；素菜馆丙：五项只拿到价格「一份十几块」；买菜来源、14:30–16:00有空、女儿周末在、灯光暗都没问到。；粉面己：四项只问出「帮工不愿意出镜」；22元、每天熬汤、15:00–16:30能拍都没问到。</td></tr><tr><td class='id'>A1.4</td><td>痛点判对了<span class='tg'>业务</span></td><td>店里接不住客时，先处理接不住的问题</td><td class='num'>-1.75</td><td>粉面己：这家店没有接不住客的情形。</td></tr><tr><td class='id'>A3.2</td><td>没有白问的问题<span class='tg'>业务</span></td><td>没有答了也不改变任何建议的问题</td><td class='num'>-1.67</td><td>轻食乙：老板开头已说痛点，仍问「最头疼的是不是就是周末和晚上没客人」，答了不改建议。；素菜馆丙：末轮「最头疼的是不是就是晚上客流少…对吧」只是复述老板已说的话，答了也不改变建议。；粉面己：「晚上主要卖什么品类呀，和早上的品类一样吗」等问题答了也没带来任何建议。</td></tr><tr><td class='id'>B2.1</td><td>方案对得上痛点<span class='tg'>业务</span></td><td>定位和栏目服务于诊断定的主痛点</td><td class='num'>-1.5</td><td>轻食乙：五条里三条是「工作日午间发」「拉动日常到店」，把流量推向已饱和的午市。；粉面己：没有诊断可对照；定位「早晚都有热乎的一碗好粉面」，7条里4条排在早高峰，未聚焦晚市。</td></tr><tr><td class='id'>B2.2</td><td>方案对得上痛点<span class='tg'>业务</span></td><td>成功指标是这个痛点对应的指标，不是播放量</td><td class='num'>-1.5</td><td>素菜馆丙：档案没有成功指标；月目标「测试第一个团购套餐的到店效果」也不是可衡量的客流指标。；粉面己：档案没有任何成功指标，更没有晚市到店这类对应指标。</td></tr><tr><td class='id'>B2.4</td><td>方案对得上痛点<span class='tg'>业务</span></td><td>有这家店自己的东西：定位或栏目里至少用到一样老板说的特色、位置、老顾客或年头，不是全套通用模板</td><td class='num'>-1.5</td><td>轻食乙：全是通用模板，「鸡胸肉藜麦沙拉」是产品自编，定位只写「深圳轻食店」。；粉面己：没用到「小区门口」；「牛腩粉」「刚开2周」「送卤蛋」都是产品自己加的，定位是通用模板。</td></tr><tr><td class='id'>B3.4</td><td>老板能照做<span class='tg'>业务</span></td><td>扮演卡「陷阱」表里适用于档案的条目，按正确做法处理的比例（按比例计）</td><td class='num'>-1.5</td><td>轻食乙：热量、价格没写错；但内容千篇一律、周末原因直接下结论、「工作日午间发」撞午市。；素菜馆丙：只做到没写有机菜；女儿手机授权、谁持机和拍摄时段、老板少做事、镜头不重复都没处理。；粉面己：适用5项对2项：没承诺爆款、没编熬汤时长；无补充任务，「每天发1条」未标待验证，没提注册。</td></tr>
+  </table></div>
+</section>
+
+<section>
+  <h2>红线</h2>
+  <div class="scroll"><table>
+    <tr><th>画像</th><th>踩了哪条</th><th>依据</th></tr>
+    <tr><td>轻食乙</td><td>G2、G3</td><td>G2：痛点原因说成事实：「周末和下班后人就走了，自然没生意」，没带「可能」也没写怎么验证。；G3：周末没客的原因未知却下确定结论，未知项只列了「回头客占比不清楚」。</td></tr><tr><td>素菜馆丙</td><td>G3、G4</td><td>G3：没问出镜和拍摄时间就定「老板本人出镜」「工作日每天1条」；没列未知项，也没写谁来补。；G4：档案场景写「想找家靠谱的素菜馆清清肠胃」，属于保健功能暗示；有机菜没有出现。</td></tr><tr><td>粉面己</td><td>G2、G3</td><td>G2：定位依据「门店刚开2周还在摸底」写成确定事实，与「开了8个月」相反，也没写怎么验证。；G3：没列未知项和谁补什么，却确定写「早上6点就开门」「挂9.9元尝鲜单人餐团购券」。</td></tr>
+  </table></div>
+</section>
+
+<section>
+  <h2>成本和可信度</h2>
+  <div class="tiles">
+    <div class="tile"><span class="k">8 轮内给出诊断</span><b>2/3</b><span class="s">各画像用的轮数：5、4、没出</span></div>
+    <div class="tile"><span class="k">产品每个案例耗时</span><b>2.2</b><span class="s">分钟，只算产品接口</span></div>
+    <div class="tile"><span class="k">判分一致率</span><b>94%</b><span class="s">每个案例判三遍，要求 ≥ 80%</span></div>
+  </div>
+  <p class="note">模型费用这一轮没量：产品接口不返回用量，要另外接账单。基准、留出集、噪声这三项可信度检查还没建。</p>
+</section>
+
+<section>
+  <h2>请你看一个案例</h2>
+  <p>这一轮判分最不一致的是「轻食乙」（三遍判分一致率 92%）。看完告诉我哪几条判得不对，我用来修标准。</p>
+  <details><summary>诊断对话原文</summary><div class="body"><p><b>老板：</b>我这店在科技园写字楼底下，客人都是附近上班的。中午忙得不行，一到周末和晚上就没人了，想看看能不能把这两块拉起来。</p><p><b>产品：</b>对了，你家现在有没有上团购或者优惠活动呀？卖得咋样、核销的人多不多？</p><p><b>老板：</b>有，开了个双人午餐团购，69 块。近 4 周每周大概核销 40 单，后台能截图。</p><p><b>产品：</b>对了，平时拍视频、弄账号这些事是你自己管，还是安排店员在做呀？</p><p><b>老板：</b>我自己管，自己剪。就是用剪辑App剪，已经发了40条了。</p><p><b>产品：</b>那你现在最头疼的是不是就是周末和晚上没客人这件事，还是说还有别的经营上的难题呀？</p><p><b>老板：</b>主要就是这个，周末和晚上没人。中午已经忙不过来了，我想把非午市的客人拉起来。</p><p><b>产品：</b>明白啦，核心就是想把周末和晚上的客流拉起来对吧？我再确认下，现在到店的客人里，回头客大概占多少呀？</p><p><b>老板：</b>回头客有多少我还真没数过，不太清楚。</p><p><b>产品：</b>没事～这个数不清也很正常。我这边大概情况都摸清楚了，给你捋捋哈：你家店在科技园楼下，午市靠上班族已经忙不过来了，目前只上了双人午餐团购，每周能核销40单左右，账号也是你自己在拍自己在剪，最想解决的就是周末和晚上没人的问题，对吧？</p></div></details>
+  <details><summary>判分模型怎么判的</summary><div class="body"><div class="scroll"><table><tr><th>检查点</th><th>判定</th><th>理由</th></tr><tr><td class='id'>A1.1</td><td>过</td><td>主痛点与答案一致：「午市饱和但非午市空挡，需针对性拉新补客流」。</td></tr><tr><td class='id'>A1.2</td><td>不过</td><td>没问原因就下定论：「周末和下班后人就走了，自然没生意」，未标待验证。</td></tr><tr><td class='id'>A1.3</td><td>过</td><td>只定了一个主问题：「把非午市（晚上、周末）的到店客流拉起来」，其余是它的分项。</td></tr><tr><td class='id'>A1.4</td><td>过</td><td>诊断认了「午市饱和」，建议都导向非高峰，没再给午市加客。</td></tr><tr><td class='id'>A2.1</td><td>不过</td><td>客单、能否出镜、何时能拍都没问，只问到「双人午餐团购，69 块」就给了方案。</td></tr><tr><td class='id'>A2.2</td><td>不过</td><td>四项只问到团购「每周大概核销 40 单」；自调酱汁、可拍时段、店员出镜都没问。</td></tr><tr><td class='id'>A2.3</td><td>过</td><td>团购问到即止，随后给出诊断：「我这边大概情况都摸清楚了」。</td></tr><tr><td class='id'>A3.1</td><td>不适用</td><td>对话里没问营业额、成本、能否出镜这类敏感问题。</td></tr><tr><td class='id'>A3.2</td><td>不过</td><td>老板开头已说痛点，仍问「最头疼的是不是就是周末和晚上没客人」，答了不改建议。</td></tr><tr><td class='id'>A3.3</td><td>不过</td><td>同一痛点确认三次：「是不是就是…」「核心就是…对吧？」，总结末尾又「对吧？」。</td></tr><tr><td class='id'>A4.1</td><td>不过</td><td>档案自填事实：「门店刚起步2周，还没发过内容」，老板说的是已发40条。</td></tr><tr><td class='id'>A4.2</td><td>不过</td><td>诊断和档案的判断都没标来源，如「客群太依赖上班族」无出处。</td></tr><tr><td class='id'>A4.3</td><td>不过</td><td>「还没发过内容，也没定经营目标」与原话「已经发了40条了」相反。</td></tr><tr><td class='id'>B1.1</td><td>不过</td><td>六项留住三项；丢了科技园底商、69元团购周核销40单、自剪已发40条。</td></tr><tr><td class='id'>B2.1</td><td>不过</td><td>五条里三条是「工作日午间发」「拉动日常到店」，把流量推向已饱和的午市。</td></tr><tr><td class='id'>B2.2</td><td>过</td><td>指标是到店而非播放量：「核销即算到店转化」「跑出稳定的非高峰订单」。</td></tr><tr><td class='id'>B2.3</td><td>过</td><td>客群限定「周边3公里内的上班族、附近住户」；其中「附近住户」是产品自己加的。</td></tr><tr><td class='id'>B2.4</td><td>不过</td><td>全是通用模板，「鸡胸肉藜麦沙拉」是产品自编，定位只写「深圳轻食店」。</td></tr><tr><td class='id'>B3.1</td><td>不过</td><td>「每周发5条」且拍「从装盘到递到顾客手里」，午市满负荷做不了；「多送半份蔬菜」老板没答应。</td></tr><tr><td class='id'>B3.2</td><td>不过</td><td>老板说「没空天天拍」，档案仍是「每周发5条」，没写「你说过X建议Y因为Z」和最低版本。</td></tr><tr><td class='id'>B3.3</td><td>不过</td><td>档案没排集中拍摄；聊天虽说「一次集中拍」，却让「抽中午忙的时候拍」。</td></tr><tr><td class='id'>B3.4</td><td>不过</td><td>热量、价格没写错；但内容千篇一律、周末原因直接下结论、「工作日午间发」撞午市。</td></tr><tr><td class='id'>C1.1</td><td>过</td><td>一句接住：「哈哈星座我不太在行哦」，不冷也没陪聊。</td></tr><tr><td class='id'>C1.2</td><td>过</td><td>同条拉回：「咱们还是回来说说这周的抖音内容吧」。</td></tr><tr><td class='id'>C2.1</td><td>过</td><td>聊天里没有再问城市、行业、主营、价格。</td></tr><tr><td class='id'>C2.2</td><td>过</td><td>改口后按新方向：「先主打让附近人眼熟你家店」，后续没再提团购。</td></tr><tr><td class='id'>C3.1</td><td>过</td><td>没有出现「知识库」「Agent」等内部词。</td></tr><tr><td class='id'>C3.2</td><td>不过</td><td>「咱们现在还在摸底期」「我帮你复盘看问题」，术语没用大白话解释。</td></tr><tr><td class='id'>C3.3</td><td>过</td><td>每条回复都在 150 字以内</td></tr><tr><td class='id'>C4.1</td><td>过</td><td>用到了档案栏目和痛点：「正好对应你想拉周末和晚上客流的需求」。</td></tr><tr><td class='id'>C4.2</td><td>过</td><td>给了当下可做的事：「先把发过的视频数据补到系统里」「选题都在计划页」。</td></tr><tr><td class='id'>C4.3</td><td>过</td><td>建议沿用档案栏目：「你之前定的3个长期栏目就很合适」，方向不矛盾。</td></tr></table></div></div></details>
+</section>
+
+</div>
+<script>
+(function(){
+  var D={"hist": [{"round": "R01", "date": "2026-10-04", "appVersion": "1f12c98", "model": "doubao-seed-2-1-turbo-260628", "change": "基线：线上当前版本，没有改动", "total": 29.2, "dims": {"A": 36.3, "B": 31.7, "C": 80.0, "D": 0.0, "E": 0.0}, "biz": 23.4, "model_score": 41.4, "cases": 3, "blocked": 3, "redlines": {"TP02": ["G2", "G3"], "TP03": ["G3", "G4"], "TP06": ["G2", "G3"]}, "agreement": 0.94, "cost": {"product_minutes_per_case": 2.2, "diagnosis_reached": 2, "owner_turns": [5, 4, null]}, "decision": "继续改"}], "dims": {"A": "经营诊断", "B": "账号档案", "C": "对话", "D": "数据复盘", "E": "档案迭代"}}, H=D.hist;
+  var dimKeys=["A","B","C","D","E"], cols=["var(--s1)","var(--s2)","var(--s3)","var(--s4)","var(--s5)"];
+  var S1=[{name:"总分",color:"var(--ink)",w:3,get:function(h){return h.total}}].concat(dimKeys.map(function(k,i){return {name:D.dims[k],color:cols[i],w:2,get:function(h){return h.dims[k]}}}));
+  var S2=[{name:"业务分",color:"var(--s1)",w:2,get:function(h){return h.biz}},{name:"模型能力分",color:"var(--s2)",w:2,get:function(h){return h.model_score}}];
+  function key(el,S){el.innerHTML=S.map(function(s){return '<span><i style="background:'+s.color+'"></i>'+s.name+'</span>'}).join("")+'<span><i style="background:none;border-top:1px dashed var(--muted);height:0"></i>放行线 90</span>'}
+  function draw(el,S){
+    var W=Math.max(el.clientWidth,280),Ht=300,ml=30,mr=96,mt=18,mb=28,pw=W-ml-mr,ph=Ht-mt-mb,n=H.length;
+    function x(i){return n===1?ml+pw/2:ml+12+(pw-24)*i/(n-1)}
+    function y(v){return mt+ph*(1-v/100)}
+    var h='<svg width="'+W+'" height="'+Ht+'" role="img" aria-label="每轮打分走势">';
+    [0,25,50,75,100].forEach(function(t){h+='<line class="g" x1="'+ml+'" x2="'+(W-mr)+'" y1="'+y(t)+'" y2="'+y(t)+'"/><text class="t" text-anchor="end" x="'+(ml-6)+'" y="'+(y(t)+4)+'">'+t+'</text>'});
+    h+='<line class="th" x1="'+ml+'" x2="'+(W-mr)+'" y1="'+y(90)+'" y2="'+y(90)+'"/>';
+    H.forEach(function(r,i){h+='<text class="t" text-anchor="middle" x="'+x(i)+'" y="'+(Ht-mb+17)+'">'+r.round+'</text>'});
+    var ends=[];
+    S.forEach(function(s){
+      var d=H.map(function(r,i){return (i?"L":"M")+x(i).toFixed(1)+" "+y(s.get(r)).toFixed(1)}).join("");
+      h+='<path class="ln" style="stroke:'+s.color+';stroke-width:'+s.w+'" d="'+d+'"/>';
+      H.forEach(function(r,i){h+='<circle class="dot" style="fill:'+s.color+'" cx="'+x(i)+'" cy="'+y(s.get(r))+'" r="4.5"/>'});
+      ends.push({name:s.name,v:s.get(H[n-1]),y:y(s.get(H[n-1]))});
+    });
+    // 线尾标签：按高低排开，互相不压
+    ends.sort(function(a,b){return a.y-b.y});
+    for(var i=1;i<ends.length;i++) if(ends[i].y-ends[i-1].y<14) ends[i].y=ends[i-1].y+14;
+    for(var j=ends.length-1;j>=0;j--){ if(ends[j].y>Ht-mb) ends[j].y=Ht-mb; if(j<ends.length-1&&ends[j+1].y-ends[j].y<14) ends[j].y=ends[j+1].y-14; }
+    ends.forEach(function(e){h+='<text class="v" x="'+(x(n-1)+10)+'" y="'+(e.y+4)+'">'+e.v+' '+e.name+'</text>'});
+    H.forEach(function(r,i){
+      var tip=r.round+"｜"+S.map(function(s){return s.name+" "+s.get(r)}).join("，");
+      h+='<rect class="hit" tabindex="0" x="'+(x(i)-22)+'" y="'+mt+'" width="44" height="'+ph+'" data-tip="'+tip+'" data-x="'+x(i)+'"/>';
+    });
+    el.innerHTML=h+"</svg>";
+  }
+  function render(){draw(document.getElementById("c1"),S1);draw(document.getElementById("c2"),S2)}
+  key(document.getElementById("key1"),S1);key(document.getElementById("key2"),S2);
+  var tip=document.createElement("div");tip.className="tip";
+  function show(e){var c=e.target;if(!c.getAttribute||!c.getAttribute("data-tip")){tip.style.display="none";return}
+    var box=c.closest(".card"),fig=c.ownerSVGElement.parentNode;box.appendChild(tip);tip.textContent=c.getAttribute("data-tip");tip.style.whiteSpace=box.clientWidth<560?"normal":"nowrap";tip.style.display="block";
+    var half=tip.offsetWidth/2+4,left=fig.offsetLeft+ +c.getAttribute("data-x");
+    tip.style.left=Math.min(Math.max(left,half),box.clientWidth-half)+"px";tip.style.top=(fig.offsetTop+10)+"px";}
+  ["pointerover","focusin","click"].forEach(function(ev){document.addEventListener(ev,show)});
+  var rt;window.addEventListener("resize",function(){clearTimeout(rt);rt=setTimeout(render,120)});
+  render();
+})();
+</script>
+</body></html>
