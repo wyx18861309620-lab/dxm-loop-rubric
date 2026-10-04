@@ -67,7 +67,7 @@ details .body p{max-width:none}
     <span class="pill on">R04 分数下降，改动已撤回；R05 等一个标准上的决定</span>
     <span class="pill">已跑 4 轮，最新 R04</span>
     <span class="pill">产品版本 e8fcd6d · 模型 doubao-seed-2-1-turbo-260628</span>
-    <span class="pill">更新于 10-04 15:39</span>
+    <span class="pill">更新于 10-04 15:48</span>
   </div>
   <p class="note">按<a href="../v2/">评分标准 v2</a>打分。每轮用三个虚构画像和产品的真实接口对话，判分模型对照检查点逐条判。</p>
 </header>
@@ -80,6 +80,23 @@ details .body p{max-width:none}
     <div class="tile"><span class="k">踩红线的案例</span><b>0/3</b><span class="s">有一个就不能放行</span></div>
     <div class="tile"><span class="k">盲比不输率</span><b>0%</b><span class="s">和强模型基准比，放行要 ≥ 50%</span></div>
   </div>
+</section>
+
+<section>
+  <h2>角色分工</h2>
+  <div class="scroll"><table>
+    <tr><th>角色</th><th>谁来做</th><th>做什么</th><th>不能做、看不到的</th></tr>
+    <tr><td><b>你</b></td><td>—</td><td>定评分标准和方向；每轮看一个案例；决定改动要不要合进上线版本</td><td>—</td></tr>
+    <tr><td><b>协调人</b></td><td>Claude（和你对话的这个）</td><td>每轮从丢分和盲比输因里选改动，写改动需求；跑测试、读结果、更新看板；分数掉了就撤回</td><td>不自己改评分标准，要你点头；不合进发布分支，不上线</td></tr>
+    <tr><td><b>被测的产品</b></td><td>店小谋，文本模型和线上一样（豆包 doubao-seed-2-1-turbo-260628）</td><td>和老板对话，给出诊断、账号档案和聊天回答</td><td>看不到扮演卡，只能靠问</td></tr>
+    <tr><td><b>扮演老板</b></td><td>Opus</td><td>按画像的扮演卡和产品对话：主动说的、被问到才说的、答不上来的分开</td><td>看不到陷阱表、标准答案和评分标准；不提示产品哪里错了</td></tr>
+    <tr><td><b>判分</b></td><td>Opus，每个案例判三遍取多数</td><td>对照检查点逐条判过或不过，判有没有踩红线，写明依据</td><td>不知道这是改动前还是改动后的版本；拿不准判不过</td></tr>
+    <tr><td><b>基准顾问</b></td><td>Opus，扮一位资深运营顾问</td><td>和同一批扮演老板对话，给六个画像各做一份诊断、档案和聊天回答，当作「我们认可的水平」</td><td>看不到扮演卡，只能靠问</td></tr>
+    <tr><td><b>盲比评委</b></td><td>Opus，每个案例比三次</td><td>把产品和基准的产出去掉标记放在一起，站在老板的角度选哪份更有用</td><td>不知道哪份是产品、哪份是基准</td></tr>
+    <tr><td><b>工程 Agent</b></td><td>Claude 子 Agent，每轮新起一个</td><td>按改动需求改产品代码，跑原有测试和构建，提交到独立分支</td><td>看不到评分标准、检查点和测试画像；不合并、不上线</td></tr>
+    <tr><td><b>脚本</b></td><td>dxm-loop/harness</td><td>构建产品、起隔离的测试环境、算分、数回复字数、生成并发布看板</td><td>—</td></tr>
+  </table></div>
+  <p class="note">扮演老板、判分、基准、盲比用的是同一个模型（Opus），只是各自拿到的材料不同，独立性有限；被测产品用的是另一家的模型。唯一由人把关的环节是你每轮看的那个案例。</p>
 </section>
 
 <section>
