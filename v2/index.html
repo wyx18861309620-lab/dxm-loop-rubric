@@ -266,16 +266,21 @@ code{font-family:var(--mono);font-size:.9em;background:var(--sunk);padding:1px 5
 
 <section>
   <h2>成本</h2>
-  <p>成本不折算成分数，单独画曲线。这四项同时是护栏：效果涨的时候它们不能变坏，变坏了这次改动不算数。跨轮比较时都折成「每商户每周」。</p>
+  <p>成本不折算成分数，单独画曲线，都折成「每商户每周」。两项有硬上限：老板的负担和模型费用，超一个就不算过。</p>
   <div class="card">
     <ul class="rows" style="margin:0">
-      <li style="border-top:0"><div class="r"><span><span class="id">K1</span>每个案例的模型费用</span><span>元</span></div><div class="d">从建档到出档案，产品自己调模型花的钱。</div></li>
-      <li><div class="r"><span><span class="id">K2</span>每个案例的耗时</span><span>分钟</span></div><div class="d">老板从开始对话到拿到档案等了多久。</div></li>
-      <li><div class="r"><span><span class="id">K3</span>老板的负担</span><span>问题数</span></div><div class="d">说出主痛点之前，老板回答了几个问题。你说的「快速问出痛点」放在这里量，不再按轮数扣效果分。</div></li>
-      <li><div class="r"><span><span class="id">K4</span>每轮 loop 的开销</span><span>元、小时</span></div><div class="d">跑测试、判分、改代码、重评，一整轮花的钱和时间。</div></li>
+      <li style="border-top:0"><div class="r"><span><span class="id">K1</span>模型费用</span><span>硬上限 · 元</span></div><div class="d">每家店每周产品自己调模型花的钱。第一阶段只记录，过了放行线进第二阶段后变成硬上限。上限的数等第一轮量出来再定。</div></li>
+      <li><div class="r"><span><span class="id">K2</span>耗时</span><span>只记录 · 分钟</span></div><div class="d">老板从开始对话到拿到档案等了多久。</div></li>
+      <li><div class="r"><span><span class="id">K3</span>老板的负担</span><span>硬上限 · 分钟</span></div><div class="d">每周总共要老板花多少分钟：回答问题、拍摄、交截图、每周问经营现况都算。从第一轮起就是硬上限，起始值每周 30 分钟。另外单独记「说出主痛点之前老板答了几个问题」。</div></li>
+      <li><div class="r"><span><span class="id">K4</span>每轮 loop 的开销</span><span>只记录 · 元、小时</span></div><div class="d">跑测试、判分、改代码、重评，一整轮花的钱和时间。</div></li>
     </ul>
   </div>
-  <p class="note">预算现在定不了，因为还没量过。第一轮实测值当基线，预算先按基线的 1.2 倍。</p>
+  <h3>先追效果，再压成本</h3>
+  <div class="grid2">
+    <div class="card"><span class="tag">第一阶段</span><h3>用强模型把效果做到放行线</h3><p>模型费用只记录，不拦改动。老板的负担始终不能超上限。</p></div>
+    <div class="card"><span class="tag">第二阶段</span><h3>换便宜模型，分数不能掉</h3><p>过了放行线之后，模型费用变成硬上限，逐步换便宜的模型。每换一次重评，分数掉得超过噪声就退回去。</p></div>
+  </div>
+  <p class="note">30 分钟来自产品定义里「老板每周投入三十分钟」的待验证目标，不是量出来的。知识库现有标准 S03 规定每周只让老板做三类事（拍摄、一次确认、一张截图），「每周问经营现况」是多出来的第四类，写进知识库时要一起改。</p>
 </section>
 
 <section>
@@ -284,10 +289,10 @@ code{font-family:var(--mono);font-size:.9em;background:var(--sunk);padding:1px 5
   <div class="card">
     <ul class="rows" style="margin:0">
       <li style="border-top:0"><div class="r"><span><span class="id">T1</span>基准自己要过关</span><span>基准 ≥ 90 分</span></div><div class="d">强模型做的基准用同一套标准打分，要过全部红线且到 90 分。到不了，说明基准或标准有一个是错的，先修再开跑。</div></li>
-      <li><div class="r"><span><span class="id">T2</span>判分要稳</span><span>一致率 ≥ 80%</span></div><div class="d">每个案例判三遍。三遍结果不一致的检查点标出来，不计分，回头把它写清楚。</div></li>
+      <li><div class="r"><span><span class="id">T2</span>判分要稳</span><span>一致率 ≥ 80%</span></div><div class="d">标「业务」的检查点靠模型判断，判三遍取多数；三遍不一致的标出来，不计分，回头把它写清楚。标「模型」的大多能用脚本查，判一遍。</div></li>
       <li><div class="r"><span><span class="id">T3</span>判分和生成分开</span><span>不同模型</span></div><div class="d">判分模型不是产品用的模型，看不到改动需求，也不知道手里这份是改动前还是改动后的。拿不准时取低分。扮演老板看不到评分标准。</div></li>
       <li><div class="r"><span><span class="id">T4</span>量出噪声</span><span>每个画像跑两遍</span></div><div class="d">同一版本两遍之间的分差就是噪声。涨幅超过噪声才算真的涨了。</div></li>
-      <li><div class="r"><span><span class="id">T5</span>留出集</span><span>差距 ≤ 10 分</span></div><div class="d">两个画像对产品经理 Agent 和工程 Agent 不可见。公开画像和留出画像的分差拉大，说明在刷分。</div></li>
+      <li><div class="r"><span><span class="id">T5</span>留出集</span><span>差距 ≤ 10 分</span></div><div class="d">对产品经理 Agent 和工程 Agent 不可见：2 个新画像（换品类、换痛点，由强模型起草，你过目），加 6 份留出的模拟数据。公开部分和留出部分的分差拉大，说明在刷分。</div></li>
       <li><div class="r"><span><span class="id">T6</span>你每轮看一个案例</span><span>一致率 ≥ 4/5</span></div><div class="d">看板每轮挑一个案例给你，你对每个检查点点「同意」或「不同意」。记下你和判分模型的一致率；你不同意的地方用来修标准。一致率明显下降时停下，不再按机器分数选改动。</div></li>
     </ul>
   </div>
@@ -381,7 +386,7 @@ code{font-family:var(--mono);font-size:.9em;background:var(--sunk);padding:1px 5
     <tr><td>C 对话</td><td>C1 到 C4</td><td>已定：加 C4 回答有用（6 分）；C3 加查长度，一屏看完；C 升到 15 分，A 降到 28、B 降到 22</td></tr>
     <tr><td>D 数据复盘</td><td>D1 到 D4，以及九个剧本的答案</td><td>已定：加 D4 定期问老板经营现况；S1 先问老板再加码有效栏目；S2 先问老板再改承接。每周问一次、最多 3 个问题是我的草稿。S3 先集中拍摄再降节奏；S6 改成错峰引流，要老板点头；其余五个剧本按草稿</td></tr>
     <tr><td>E 档案迭代</td><td>E1 到 E3</td><td>已定：改动幅度看账号阶段，试水期放开、稳定期不大改；小改直接生效并告知，大改要老板点头。两个阶段怎么划界是我的草稿</td></tr>
-    <tr><td>成本、可信度</td><td>K1 到 K4，T1 到 T6</td><td>待商量</td></tr>
+    <tr><td>成本、可信度</td><td>K1 到 K4，T1 到 T6</td><td>已定：老板的负担和模型费用都设硬上限；先把效果做到放行线，再换便宜模型压成本；业务类判三遍，其余一遍；留出集再建 2 个新画像。上限的数是起始值或待量</td></tr>
     <tr><td>整体</td><td>五个维度的权重，放行线的数</td><td>待商量</td></tr>
   </table></div>
 </section>
