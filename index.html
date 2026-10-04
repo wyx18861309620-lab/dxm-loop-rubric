@@ -1,0 +1,439 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="robots" content="noindex,nofollow"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>店小谋 Loop 评分方案</title>
+<style>
+/* 布局：单栏长文档，宽表各自横向滚动；红线、计分、可信度三层依次排开，最后是可调系数的算分台 */
+:root{
+  --bg:#f5f8f8; --surface:#ffffff; --sunk:#ecf1f1; --ink:#15242a; --muted:#58696f; --line:#d5dfe1;
+  --accent:#0d6b6b; --accent-soft:#dcefee;
+  --bad:#b0362e; --bad-soft:#f8e3e0; --warn:#8a5d00; --warn-soft:#f8ecd0; --good:#1c7448; --good-soft:#dcf1e5;
+  --serif:"Songti SC","STSong","Noto Serif SC","Source Han Serif SC",serif;
+  --sans:"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans SC",system-ui,sans-serif;
+  --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0f1618; --surface:#172124; --sunk:#1d2a2e; --ink:#e2ebeb; --muted:#93a5a9; --line:#2b3a3e;
+    --accent:#5ec6bf; --accent-soft:#17383a;
+    --bad:#f08d83; --bad-soft:#3f2220; --warn:#e4b657; --warn-soft:#3a2f14; --good:#72d19d; --good-soft:#173527;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0f1618; --surface:#172124; --sunk:#1d2a2e; --ink:#e2ebeb; --muted:#93a5a9; --line:#2b3a3e;
+  --accent:#5ec6bf; --accent-soft:#17383a;
+  --bad:#f08d83; --bad-soft:#3f2220; --warn:#e4b657; --warn-soft:#3a2f14; --good:#72d19d; --good-soft:#173527;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.7;margin:0}
+.wrap{max-width:1040px;margin:0 auto;padding-inline:20px;padding-block:36px 72px;display:flex;flex-direction:column;gap:44px}
+header{display:flex;flex-direction:column;gap:12px}
+.eyebrow{font-size:12px;letter-spacing:.14em;color:var(--accent);font-weight:600}
+h1{font-family:var(--serif);font-size:clamp(28px,5vw,40px);line-height:1.2;margin:0;text-wrap:balance;font-weight:700}
+h2{font-family:var(--serif);font-size:24px;line-height:1.3;margin:0;text-wrap:balance}
+h3{font-size:16px;margin:0;font-weight:600}
+p{margin:0;max-width:44em}
+.lede{font-size:16px;color:var(--muted)}
+section{display:flex;flex-direction:column;gap:16px;min-width:0}
+.note{font-size:13px;color:var(--muted)}
+.status{display:flex;flex-wrap:wrap;gap:8px}
+.pill{display:inline-block;font-size:12px;padding:2px 10px;border-radius:999px;border:1px solid var(--line);background:var(--surface);white-space:nowrap}
+.pill.bad{color:var(--bad);background:var(--bad-soft);border-color:transparent}
+.pill.warn{color:var(--warn);background:var(--warn-soft);border-color:transparent}
+.pill.good{color:var(--good);background:var(--good-soft);border-color:transparent}
+.pill.acc{color:var(--accent);background:var(--accent-soft);border-color:transparent}
+.scroll{overflow-x:auto;border:1px solid var(--line);border-radius:6px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:13.5px;line-height:1.55}
+th,td{text-align:left;vertical-align:top;padding:9px 12px;border-bottom:1px solid var(--line)}
+tr:last-child td{border-bottom:0}
+th{font-size:12px;color:var(--muted);font-weight:600;background:var(--sunk);white-space:nowrap}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+td.id{font-family:var(--mono);font-size:12.5px;color:var(--accent);white-space:nowrap}
+tr.dim td{background:var(--accent-soft);font-weight:600}
+.t-wide{min-width:880px}.t-mid{min-width:680px}
+.flow{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;list-style:none;padding:0;margin:0;counter-reset:s}
+.flow li{counter-increment:s;background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:10px 12px;font-size:13px;line-height:1.5;min-width:0}
+.flow li::before{content:counter(s);font-family:var(--mono);font-size:11px;color:var(--accent);display:block}
+.flow b{display:block;font-size:14px}
+.flow span{color:var(--muted)}
+.rounds{display:flex;flex-direction:column;gap:0;border-left:2px solid var(--line);margin-left:6px}
+.round{position:relative;padding:0 0 22px 22px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.round:last-child{padding-bottom:0}
+.round::before{content:"";position:absolute;left:-7px;top:7px;width:12px;height:12px;border-radius:50%;background:var(--bg);border:2px solid var(--muted)}
+.round.done::before{background:var(--accent);border-color:var(--accent)}
+.round h3{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.round ul{margin:0;padding-left:1.2em;max-width:46em}
+.round li{margin:2px 0}
+.fut{border:1px dashed var(--muted);border-radius:4px;padding:1px 6px;color:var(--muted);white-space:nowrap}
+.act{font-weight:700}
+.c-bad{color:var(--bad)}.c-warn{color:var(--warn)}.c-good{color:var(--good)}
+.formula{font-family:var(--mono);font-size:13px;background:var(--sunk);border-radius:6px;padding:12px 14px;overflow-x:auto;white-space:pre;line-height:1.7}
+.calc{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:18px;display:flex;flex-direction:column;gap:16px}
+.presets{display:flex;flex-wrap:wrap;gap:8px}
+button{font:inherit;font-size:13px;padding:6px 12px;border-radius:6px;border:1px solid var(--line);background:var(--bg);color:var(--ink);cursor:pointer}
+button[aria-pressed="true"]{background:var(--accent);color:var(--bg);border-color:var(--accent)}
+button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.sliders{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+.sliders label{display:flex;flex-direction:column;gap:4px;font-size:13px;min-width:0}
+.sliders output{font-family:var(--mono);color:var(--accent);font-size:13px}
+input[type=range]{width:100%;accent-color:var(--accent)}
+.bar{display:inline-block;height:8px;border-radius:2px;background:var(--accent);vertical-align:middle;margin-right:8px}
+.bar.tgt{background:transparent;border:1px dashed var(--muted)}
+ol.todo{margin:0;padding-left:1.4em;max-width:46em}
+ol.todo li{margin:6px 0}
+code{font-family:var(--mono);font-size:.9em;background:var(--sunk);padding:1px 5px;border-radius:3px;overflow-wrap:anywhere}
+.chart{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:14px 14px 8px;min-width:0;position:relative;display:flex;flex-direction:column;gap:8px}
+.charts{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(340px,100%),1fr));gap:12px}
+.fig{min-width:0}
+.fig svg{display:block}
+.hero{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 28px;font-size:13px;color:var(--muted)}
+.hero b{font-family:var(--serif);font-size:48px;line-height:1.1;color:var(--ink);margin-right:8px;font-variant-numeric:tabular-nums}
+.ch-grid{stroke:var(--line);stroke-width:1}
+.ch-th{stroke:var(--muted);stroke-width:1;stroke-dasharray:4 4}
+.ch-line{fill:none;stroke:var(--accent);stroke-width:2;stroke-dasharray:6 5;stroke-linejoin:round;stroke-linecap:round}
+.ch-dot{fill:var(--accent);stroke:var(--surface);stroke-width:2}
+.ch-dot.t{fill:var(--surface);stroke:var(--accent)}
+.ch-t{fill:var(--muted);font-size:11px;font-family:var(--sans)}
+.ch-v{fill:var(--ink);font-size:12px;font-weight:600;font-family:var(--sans);font-variant-numeric:tabular-nums;paint-order:stroke;stroke:var(--surface);stroke-width:4px;stroke-linejoin:round}
+.ch-hit{fill:transparent;cursor:pointer}
+.ch-hit:focus-visible{outline:2px solid var(--accent)}
+.tip{position:absolute;pointer-events:none;background:var(--ink);color:var(--bg);font-size:12px;line-height:1.4;padding:4px 8px;border-radius:4px;white-space:nowrap;transform:translate(-50%,-100%);display:none;z-index:2}
+.key{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:12px;color:var(--muted)}
+.key i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:-1px;background:var(--accent)}
+.key i.t{background:var(--surface);border:2px solid var(--accent)}
+.key i.l{width:18px;height:0;border-radius:0;border-top:1px dashed var(--muted);background:none;vertical-align:3px}
+</style>
+
+<div class="wrap">
+
+<header>
+  <div class="eyebrow">店小谋 · 产品 LOOP · 评分方案草案</div>
+  <h1>店小谋 Loop 评分方案</h1>
+  <p class="lede">给 <code>pm-knowledge-base/</code> 里那支产品经理 Agent 团队用的一套 rubric：五条红线、四个计分维度、三项可信度检查。范围按团队现在的分工，只评经营诊断、chatbot 对话、账号档案、发布后数据复盘，不评脚本和视频。</p>
+  <div class="status">
+    <span class="pill acc">已跑：R00 基线（10-02）</span>
+    <span class="pill">阶段 0：只评价不修改</span>
+    <span class="pill warn">R01 起是计划，不是结果</span>
+    <span class="pill warn">本方案待你确认后才生效</span>
+  </div>
+</header>
+
+<section>
+  <h2>分数走势</h2>
+  <p>每张图横轴是轮次，纵轴是 0 到 100 分。实心点只有 R00 一个，是回溯估分；空心点是预期或目标线下限，不是跑出来的结果。总分跟着下方「不同系数下的总分」里的系数变。</p>
+  <div class="chart">
+    <h3>总分</h3>
+    <div class="hero"><span><b id="hero-now"></b>R00 实测</span><span><b id="hero-goal"></b>R05 目标线下限</span></div>
+    <div class="fig" id="ch-total"></div>
+  </div>
+  <div class="charts">
+    <div class="chart"><h3>A 经营诊断</h3><div class="fig" id="ch-a"></div></div>
+    <div class="chart"><h3>B 账号档案</h3><div class="fig" id="ch-b"></div></div>
+    <div class="chart"><h3>C Chatbot 对话</h3><div class="fig" id="ch-c"></div></div>
+    <div class="chart"><h3>D 数据复盘</h3><div class="fig" id="ch-d"></div></div>
+  </div>
+  <div class="key">
+    <span><i></i>实测（回溯估分，未校准）</span>
+    <span><i class="t"></i>预期或目标线下限</span>
+    <span><i class="l"></i>达线标准：每维 70，总分 75</span>
+  </div>
+  <p class="note">R01 只跑一个画像，不出维度分，所以没有点。R02 产品没变，按与 R00 持平画（允许 ±10）。D 维度到 R05 才第一次评，之前没有数据。</p>
+</section>
+
+<section>
+  <h2>团队分工</h2>
+  <p>团队由 <code>harness/agents/start_team.sh</code> 启动，一个 tmux 会话 <code>dxm-loop</code>，五个 Agent 加一块看板。下表最后两列是这套 rubric 对每个角色的要求：谁能看到打分表，谁负责打哪一部分。</p>
+  <div class="scroll"><table class="t-wide">
+    <tr><th>角色</th><th>模型</th><th>做什么</th><th>不能做什么</th><th>看得到 rubric</th><th>在打分里的职责</th></tr>
+    <tr><td><b>产品经理 Agent</b></td><td>Fable</td><td>逐条判定产出，写评审记录，从不合格项里选 1 到 3 个改动</td><td>改评分规则、读产品源码、碰你确认过的决策</td><td>看得到，只读</td><td>打 Agent 类条目；每个分数要指到原句或截图</td></tr>
+    <tr><td><b>扮演老板</b></td><td>Sonnet</td><td>按扮演卡和店小谋对话，卡上没有的一律说不知道</td><td>读评价标准、写文件、提示产品哪里错了</td><td>看不到</td><td>不打分。它被问才说，痛点命中速度才量得出来</td></tr>
+    <tr><td><b>Reviewer 兼监工</b></td><td>Opus</td><td>复核证据是否支持结论、判定是否与样例一致、改动是否越界、是否在为分数优化</td><td>改正文、提新改动、改标准</td><td>看得到，只读</td><td>不重打分，只判每个分数成不成立；返工最多两轮</td></tr>
+    <tr><td><b>前端工程 Agent</b></td><td>Codex</td><td>按改动需求改页面和组件（阶段 0 待命）</td><td>改接口、读评价标准和评审记录</td><td>看不到</td><td>不打分。改动需求里不出现条目编号和及格线</td></tr>
+    <tr><td><b>后端工程 Agent</b></td><td>Codex</td><td>按改动需求改诊断、档案、聊天、复盘的逻辑和提示词（阶段 0 待命）</td><td>动数据库和部署、调付费模型验证、读评价标准</td><td>看不到</td><td>同上</td></tr>
+    <tr><td><b>编排看板</b></td><td>脚本</td><td>显示分工和当前轮次；整轮编排脚本还没建，目前由人手动跑</td><td>—</td><td>—</td><td>算脚本类条目、合并分数、判停止条件</td></tr>
+    <tr><td><b>协调人</b></td><td>Claude</td><td>在对话里转交收件箱、批复不需要你本人决定的事</td><td>替你做产品决定</td><td>看得到</td><td>不打分</td></tr>
+    <tr><td><b>你</b></td><td>—</td><td>拍板、改标准、合并代码</td><td>—</td><td>可改</td><td>填样例的人工判定；每轮抽查一个画像</td></tr>
+  </table></div>
+  <ol class="flow">
+    <li><b>冻结</b><span>记下产品、知识库、测试集版本</span></li>
+    <li><b>跑测试</b><span>扮演老板按卡对话，产出存档</span></li>
+    <li><b>校准</b><span>产品经理先判样例，和你的判定比</span></li>
+    <li><b>打分</b><span>红线、计分表、可信度</span></li>
+    <li><b>写评审</b><span>每条发现两边证据</span></li>
+    <li><b>复核</b><span>Reviewer 判分数成不成立</span></li>
+    <li><b>改动</b><span>阶段 1 起，工程按需求改</span></li>
+    <li><b>重评</b><span>同一测试集再跑，比分数</span></li>
+  </ol>
+</section>
+
+<section>
+  <h2>第一层：红线</h2>
+  <p>红线不计分。每个案例逐条判过或不过，任何一条不过，这个案例记阻塞；一轮里只要有阻塞案例，这一轮的结论就是「阻塞未过」，总分照算但只用来看走向，不能据此放行。</p>
+  <div class="scroll"><table class="t-wide">
+    <tr><th>编号</th><th>红线</th><th>怎么判</th><th>来源</th><th class="num">R00 通过</th></tr>
+    <tr><td class="id">G1</td><td>不知道的不猜</td><td>缺失的信息标成未知，猜测值为 0</td><td>沿用 CD03（阻塞）</td><td class="num">5/6</td></tr>
+    <tr><td class="id">G2</td><td>推断不当结论说</td><td>以确定语气写出的推断为 0；每条假设写明要谁确认</td><td>沿用 CD07（阻塞）</td><td class="num c-bad">2/6</td></tr>
+    <tr><td class="id">G3</td><td>缺关键事实时不给确定结论</td><td>列出未知项和补充任务（谁补、补什么）</td><td>沿用 CD05（阻塞）</td><td class="num">无法判断</td></tr>
+    <tr><td class="id">G4</td><td>档案不和老板确认过的事实相反</td><td>只管三类：真实性（冻品不写鲜切）、肖像（不同意出镜就不安排他出镜）、物理条件（午高峰禁拍、两个人的厨房）。发几条、怎么运营不在这条里，归 B3</td><td>新增。口径是协调人的建议，你还没确认</td><td class="num c-warn">4/6</td></tr>
+    <tr><td class="id">G5</td><td>闲聊内容不变成经营建议</td><td>离题话题（星座、笑话）没有被用来推出出镜、栏目等建议</td><td>新增。10-02 已和你谈定</td><td class="num c-warn">4/6</td></tr>
+  </table></div>
+  <p class="note">R00 六个案例每个都至少踩一条红线：火锅 G2、G4；素食 G2；快餐 G4；烧烤 G1、G5；烘焙 G5；聚餐 G2。</p>
+</section>
+
+<section>
+  <h2>第二层：计分表</h2>
+  <p>四个维度，每维满分 100。每个条目按案例打 0 到 4 分，取所有可比案例的平均，再按条目权重加成维度分。「可比案例」少于 3 个的条目记无法判断，不出分、不进分母。</p>
+  <div class="scroll"><table class="t-wide">
+    <tr><th>编号</th><th>条目</th><th class="num">权重</th><th>4 分</th><th>2 分</th><th>0 分</th><th>谁判</th><th>依据</th></tr>
+
+    <tr class="dim"><td colspan="8">A 经营诊断 · 系数 0.30</td></tr>
+    <tr><td class="id">A1</td><td>多快问出痛点</td><td class="num">30</td><td>2 轮内准确说出扮演卡上老板最头疼的事</td><td>第 4 轮才说出</td><td>对话结束仍没说出，或说错</td><td>脚本数轮次，Agent 判说没说准</td><td>你的原话「几轮不是重点，重点在于能快速问出用户现在的痛点」；度量方式是本方案新提的</td></tr>
+    <tr><td class="id">A2</td><td>每个问题都改变一个决定</td><td class="num">20</td><td>每次追问都说了为什么问、会改变哪项建议</td><td>有 1 个问题答了也不影响任何建议</td><td>反复追问同一件不影响方案的事</td><td>Agent</td><td>CD08；诊断因果链 v2</td></tr>
+    <tr><td class="id">A3</td><td>不被非关键信息卡住</td><td class="num">20</td><td>地区、行业、主营、客单、当前问题齐了就给带条件的首版方案</td><td>给了方案但把可选项说成必答</td><td>因为团购等可选项没答就不给方案</td><td>脚本</td><td>诊断 PRD 3.1、11.1；CD06</td></tr>
+    <tr><td class="id">A4</td><td>只定一个最高优先问题</td><td class="num">15</td><td>定了一个，其余进待处理；接不住时先处理履约</td><td>定了但过早收敛，没留其他候选原因</td><td>没形成诊断，或并列一堆</td><td>Agent</td><td>诊断 PRD 3.2、4.3；痛点树</td></tr>
+    <tr><td class="id">A5</td><td>判断能追到来源</td><td class="num">15</td><td>每条关键判断都标了来源且来源支持它</td><td>有 1 条不可追溯，但已标成假设</td><td>多条判断没有来源</td><td>Agent</td><td>CD01、CD02</td></tr>
+
+    <tr class="dim"><td colspan="8">B 账号档案 · 系数 0.30</td></tr>
+    <tr><td class="id">B1</td><td>老板说过的话没丢</td><td class="num">35</td><td>确认过的特色、限制、产能、目标全部进了简报</td><td>丢了一半</td><td>只剩一句问题摘要</td><td>脚本逐项比对</td><td>R00 发现 F1；产品定义第 6 节</td></tr>
+    <tr><td class="id">B2</td><td>档案每个字段能指回简报</td><td class="num">25</td><td>定位、人设、栏目、节奏、承接每项都能指到简报的一项</td><td>一半字段指得回去</td><td>没有简报，或字段是通用模板</td><td>Agent</td><td>因果链 v2 第三节第 1 条</td></tr>
+    <tr><td class="id">B3</td><td>节奏和人设写明依据</td><td class="num">25</td><td>由产品按质量标准定；超出老板说的限制时明说「你说过 X，我们建议 Y，因为 Z」</td><td>写了条数和人设，但没说理由</td><td>一律「每天 1 条」，盖过老板说的产能且不解释</td><td>Agent</td><td>你的原话「他不能决定」；R00 发现 F2</td></tr>
+    <tr><td class="id">B4</td><td>定位对得上主痛点</td><td class="num">15</td><td>定位和栏目目的对应诊断定下的那个问题和账号任务</td><td>对得上问题，但客群被重新泛化</td><td>和诊断结论无关</td><td>Agent</td><td>因果链 v2 第二节</td></tr>
+
+    <tr class="dim"><td colspan="8">C Chatbot 对话 · 系数 0.15</td></tr>
+    <tr><td class="id">C1</td><td>离题处理</td><td class="num">30</td><td>一句话接住，再拉回经营</td><td>拉回了，但先完整陪聊</td><td>只陪聊不拉回；或冷冰冰拒绝</td><td>Agent</td><td>10-02 谈定的口径（和测试 agent「完全不回答」不同）</td></tr>
+    <tr><td class="id">C2</td><td>不重复问已经知道的</td><td class="num">25</td><td>建档收过的城市、行业、主营、价格不再问，开头复述已知事实</td><td>重复问了 1 项</td><td>把建档内容从头再问</td><td>脚本</td><td>CD09</td></tr>
+    <tr><td class="id">C3</td><td>老板改口后跟着改</td><td class="num">25</td><td>最新决定覆盖旧目标，后续建议全部按新的来</td><td>当轮改了，后面又用回旧目标</td><td>无视改口</td><td>Agent</td><td>9 月 26 日评测检查项</td></tr>
+    <tr><td class="id">C4</td><td>老板看得懂</td><td class="num">20</td><td>短句口语，没有运营术语和内部词</td><td>有 1 到 2 处术语</td><td>通篇术语，或出现「知识库」「Agent」等内部词</td><td>Agent</td><td>测试集 TF01 第 5 步的内部词清单</td></tr>
+
+    <tr class="dim"><td colspan="8">D 发布后数据复盘 · 系数 0.25</td></tr>
+    <tr><td class="id">D1</td><td>五项齐全</td><td class="num">20</td><td>执行情况、内容结果、经营结果、假设变化、下周动作都有；没数据的写「未回填」</td><td>缺 1 项或留空</td><td>只有播放数据</td><td>脚本</td><td>CP06</td></tr>
+    <tr><td class="id">D2</td><td>盯的是诊断定的那个指标</td><td class="num">25</td><td>指标等于简报里的成功指标，带基线、时间窗口、统计口径</td><td>指标对，但没有基线或口径</td><td>只报播放量</td><td>Agent</td><td>因果链 v2 第二节；诊断 PRD 4 至 6 节</td></tr>
+    <tr><td class="id">D3</td><td>结论有边界</td><td class="num">25</td><td>结论是五种状态之一；没有对照不说「因为这条视频」；口述数据标「未核实」</td><td>状态对，但有 1 句因果断言</td><td>把同期变化直接归功于内容</td><td>Agent</td><td>CP16；业务库复盘分支</td></tr>
+    <tr><td class="id">D4</td><td>四件事说清</td><td class="num">15</td><td>做了什么、看到什么、仍不知道什么、下周改什么</td><td>缺「仍不知道什么」</td><td>只报喜</td><td>Agent</td><td>CP07</td></tr>
+    <tr><td class="id">D5</td><td>复盘改变了下一步</td><td class="num">15</td><td>下周计划引用了复盘的假设变化；要改目标就走重新诊断</td><td>引用了，但没说沿用还是调整</td><td>下周从零生成，或悄悄改了目标</td><td>Agent</td><td>CP09；诊断 PRD 13 节</td></tr>
+  </table></div>
+  <p class="note">1 分和 3 分是相邻两档之间的情况，由判定人写明偏向哪一档的理由。</p>
+</section>
+
+<section>
+  <h2>第三层：分数可不可信</h2>
+  <p>这三项不进总分，但任何一项不过，本轮的 Agent 类分数作废，只留脚本类分数。沿用 <code>ITERATE.md</code> 第 10 节，没有新增。</p>
+  <div class="scroll"><table class="t-mid">
+    <tr><th>检查</th><th>线</th><th>不过怎么办</th><th>R00</th></tr>
+    <tr><td>样例校准：产品经理 Agent 的判定和你的人工判定比</td><td>至少 10 条可比，一致率 ≥ 4/5</td><td>本轮不出 Agent 类分数；连续两轮不过，循环停</td><td class="c-bad">没做，样例还没有人工判定</td></tr>
+    <tr><td>你的抽查：每轮抽 1 个画像自己判一遍</td><td>同上口径</td><td>本轮分数不用来选改动</td><td class="c-bad">没做</td></tr>
+    <tr><td>覆盖率：出了分的条目占总权重多少</td><td>≥ 70% 才报总分</td><td>只报各维度分，不报总分</td><td class="c-warn">59%</td></tr>
+  </table></div>
+</section>
+
+<section>
+  <h2>怎么算</h2>
+  <div class="formula">条目分   = 可比案例得分的平均 ÷ 4 × 100
+维度分   = Σ(条目权重 × 条目分) ÷ Σ(出了分的条目权重)
+总分     = Σ(维度系数 × 维度分) ÷ Σ(出了分的维度系数)
+覆盖率   = Σ(维度系数 × 该维出了分的条目权重占比)
+本轮结论 = 任一案例踩红线 → 阻塞未过
+           否则每维 ≥ 70 且总分 ≥ 75 → 达线；其余 → 未达线</div>
+  <p class="note">70 和 75 是起始值，由你定。现有规则是「按层算，不算总分」（<code>ITERATE.md</code> 9.2）；这里的总分是加在上面看走向用的，放行仍然先看红线和每一维，不能用一维的高分去抵另一维。</p>
+</section>
+
+<section>
+  <h2>每一轮做了什么</h2>
+  <div class="rounds">
+    <div class="round done">
+      <h3>R00 基线与对齐 <span class="pill good">已完成 · 10-02</span></h3>
+      <ul>
+        <li>没有新跑产品。用 9 月 26 日的评测数据：6 个虚构餐饮案例、30 轮真实接口对话、6 份账号档案、测试 agent 的 30 条点评。</li>
+        <li>产品经理 Agent 列出 7 个发现。最重的是档案丢信息：6 份档案全部丢了老板确认过的特色和限制，全部写「每天 1 条」；2 份要求不肯露脸的老板出镜。</li>
+        <li>和你对齐 5 个立场：档案改结构、闲聊接住再拉回，你同意；「老板的话是硬约束」和「追问不超过两轮」你不同意，改成「运营质量由产品定」和「看多快问出痛点」；你新增「别问谁管账号，换成能不能露脸」。</li>
+        <li>写了诊断因果链 v1，发现重复发明了 PRD 里已有的东西，重写成 v2。</li>
+        <li>流程偏差：没用固定测试集和扮演卡，没做校准，读了产品源码。下面 R00 的分数因此只是回溯估分。</li>
+      </ul>
+    </div>
+    <div class="round">
+      <h3>R01 走查 <span class="pill warn">计划</span></h3>
+      <ul>
+        <li>用画像 TP03（夫妻素菜馆，只有一部手机）加扮演卡，跑建档和首次诊断，只评价不修改。</li>
+        <li>第一次做校准，第一次量 A1（扮演老板被问才说，痛点命中轮数才有意义）。</li>
+        <li>产品没变，所以这一轮不看分数涨没涨，看校准过不过、覆盖率够不够。</li>
+        <li>开跑前要你给样例 X04 填人工判定；要确认模型调用费用。</li>
+      </ul>
+    </div>
+    <div class="round">
+      <h3>R02 正式基线 <span class="pill warn">计划</span></h3>
+      <ul>
+        <li>六个画像全跑，仍然只评价不修改。第二次校准，加你的抽查。</li>
+        <li>产品还是没变，分数应该和 R01 接近。同一条目两轮相差超过 10 分，说明条目写得不够清楚，先改条目再往下走。</li>
+        <li>同时定义「好的复盘长什么样」，建数据截图夹具，为 D 维度做准备。</li>
+      </ul>
+    </div>
+    <div class="round">
+      <h3>R03 第一批改动 <span class="pill warn">计划</span></h3>
+      <ul>
+        <li>进入条件：连续两轮校准通过，R01、R02 的评审 Reviewer 都通过。</li>
+        <li>改动一：诊断结束产出结构化简报，档案只从简报生成（对应 B1、B2、B3、G4）。</li>
+        <li>改动二：团购是可选项，不再卡住首版方案（对应 A3）。</li>
+        <li>后端工程 Agent 在分支上改，你合并；同一测试集重评，变差就回退。</li>
+      </ul>
+    </div>
+    <div class="round">
+      <h3>R04 第二批改动 <span class="pill warn">计划</span></h3>
+      <ul>
+        <li>聊天入口加离题规则（C1、G5）；诊断里事实、假设、建议分开标（G2、A5）；去掉「谁负责运营账号」，换成出镜和拍摄条件的问题（A2）。</li>
+        <li>这几项都是改提示词，按现有分阶段规则属于阶段 2。</li>
+      </ul>
+    </div>
+    <div class="round">
+      <h3>R05 复盘首测与留出集复核 <span class="pill warn">计划</span></h3>
+      <ul>
+        <li>夹具到位后第一次评 D 维度。</li>
+        <li>用产品经理 Agent 碰不到的留出集再跑一遍，两组分数差距拉大说明在刷分。</li>
+        <li>红线全过、每维 ≥ 70、总分 ≥ 75，就到了内测放行线；连续两轮没提升或分数退步则停下交给你。</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>打分表走向</h2>
+  <p>R00 一列是实测，但属于回溯估分：由我按测试 agent 的 30 条点评逐条折算（每个条目分 = 没出这类问题的案例占比），没经过校准，也没经过你的抽查。R01 之后的虚线格是目标线，不是预测结果。</p>
+  <div class="scroll"><table class="t-wide">
+    <tr><th>项</th><th class="num">R00 实测</th><th>R00 的依据</th><th class="num">R01</th><th class="num">R02</th><th class="num">R03</th><th class="num">R04</th><th class="num">R05</th></tr>
+    <tr><td>红线：阻塞案例数</td><td class="num act c-bad">6/6</td><td>每个案例至少一条</td><td class="num"><span class="fut">只记录</span></td><td class="num"><span class="fut">只记录</span></td><td class="num"><span class="fut">G4 全过</span></td><td class="num"><span class="fut">0/6</span></td><td class="num"><span class="fut">0/6</span></td></tr>
+    <tr><td>A 经营诊断</td><td class="num act c-warn">60</td><td>A2 67、A3 67、A4 67、A5 33；A1 无法判断</td><td class="num"><span class="fut">首测 A1</span></td><td class="num"><span class="fut">±10 内</span></td><td class="num"><span class="fut">≥ 70</span></td><td class="num"><span class="fut">≥ 80</span></td><td class="num"><span class="fut">≥ 80</span></td></tr>
+    <tr><td>B 账号档案</td><td class="num act c-bad">3</td><td>B1 0、B2 0、B3 0、B4 17</td><td class="num"><span class="fut">TP03 一例</span></td><td class="num"><span class="fut">±10 内</span></td><td class="num"><span class="fut">≥ 70</span></td><td class="num"><span class="fut">≥ 80</span></td><td class="num"><span class="fut">≥ 80</span></td></tr>
+    <tr><td>C Chatbot 对话</td><td class="num act c-warn">55</td><td>C1 17、C2 100；C3 只有 1 例可比，C4 没有数据</td><td class="num"><span class="fut">TP03 一例</span></td><td class="num"><span class="fut">±10 内</span></td><td class="num"><span class="fut">不动</span></td><td class="num"><span class="fut">≥ 80</span></td><td class="num"><span class="fut">≥ 80</span></td></tr>
+    <tr><td>D 数据复盘</td><td class="num act">—</td><td>没有任何评测数据</td><td class="num"><span class="fut">不评</span></td><td class="num"><span class="fut">建夹具</span></td><td class="num"><span class="fut">不评</span></td><td class="num"><span class="fut">不评</span></td><td class="num"><span class="fut">≥ 70</span></td></tr>
+    <tr><td>校准一致率</td><td class="num act c-bad">没做</td><td>样例无人工判定</td><td class="num"><span class="fut">≥ 4/5</span></td><td class="num"><span class="fut">≥ 4/5</span></td><td class="num"><span class="fut">≥ 4/5</span></td><td class="num"><span class="fut">≥ 4/5</span></td><td class="num"><span class="fut">≥ 4/5</span></td></tr>
+    <tr><td>覆盖率</td><td class="num act c-warn">59%</td><td>A1、C3、C4 和整个 D 没出分</td><td class="num"><span class="fut">≥ 70%</span></td><td class="num"><span class="fut">≥ 70%</span></td><td class="num"><span class="fut">≥ 70%</span></td><td class="num"><span class="fut">≥ 70%</span></td><td class="num"><span class="fut">100%</span></td></tr>
+    <tr><td><b>结论</b></td><td class="num act c-bad">阻塞未过</td><td>—</td><td class="num"><span class="fut">不下结论</span></td><td class="num"><span class="fut">基线</span></td><td class="num"><span class="fut">未达线</span></td><td class="num"><span class="fut">未达线</span></td><td class="num"><span class="fut">达线</span></td></tr>
+  </table></div>
+</section>
+
+<section>
+  <h2>不同系数下的总分</h2>
+  <p>四个维度的系数可以调。三套预设对应三种取舍；拖动滑块可以试别的组合，系数会自动归一。R00 用实测维度分算，R03 到 R05 按目标线下限算。</p>
+  <div class="calc">
+    <div class="presets" role="group" aria-label="系数预设">
+      <button type="button" id="p-a" data-w="30,30,15,25" aria-pressed="true">传递优先 0.30 / 0.30 / 0.15 / 0.25</button>
+      <button type="button" id="p-b" data-w="40,25,15,20" aria-pressed="false">诊断优先 0.40 / 0.25 / 0.15 / 0.20</button>
+      <button type="button" id="p-c" data-w="25,25,10,40" aria-pressed="false">闭环优先 0.25 / 0.25 / 0.10 / 0.40</button>
+    </div>
+    <div class="sliders">
+      <label for="w-a">A 经营诊断 <output id="o-a"></output><input type="range" id="w-a" min="0" max="100" step="5" value="30"></label>
+      <label for="w-b">B 账号档案 <output id="o-b"></output><input type="range" id="w-b" min="0" max="100" step="5" value="30"></label>
+      <label for="w-c">C Chatbot 对话 <output id="o-c"></output><input type="range" id="w-c" min="0" max="100" step="5" value="15"></label>
+      <label for="w-d">D 数据复盘 <output id="o-d"></output><input type="range" id="w-d" min="0" max="100" step="5" value="25"></label>
+    </div>
+    <div class="scroll"><table class="t-mid">
+      <thead><tr><th>轮次</th><th class="num">A</th><th class="num">B</th><th class="num">C</th><th class="num">D</th><th>总分</th><th class="num">覆盖率</th></tr></thead>
+      <tbody id="calc-body"></tbody>
+    </table></div>
+    <p class="note">传递优先是我的建议：R00 的头号问题是诊断到档案的传递断了，诊断和档案并重。诊断优先适合 R01、R02 只评不改、主要在打磨提问的阶段。闭环优先适合试点开始、有真实回填数据之后。不管选哪套，R00 都在 35 到 42 分之间，结论不变：先修档案。</p>
+  </div>
+</section>
+
+<section>
+  <h2>需要你定的</h2>
+  <ol class="todo">
+    <li><b>要不要采用这套方案。</b>评价标准只有你能改，Agent 对 <code>wiki/evaluation/</code> 只读。我没有动知识库里的任何文件；你同意后，B、C 两维和 G4、G5 需要写成新的标准页，A、D 两维大部分条目对到现有的 CD、CP 编号。</li>
+    <li><b>G4 的口径。</b>「真实性、肖像、物理条件不可越，发几条和怎么运营由产品定」是协调人的建议，10-02 的讨论里你还没确认。</li>
+    <li><b>A1 的量法。</b>用「第几轮准确说出扮演卡上的头号痛点」来量「多快问出痛点」，行不行。</li>
+    <li><b>系数和及格线。</b>三套系数选哪套；每维 70、总分 75 的线要不要改。</li>
+    <li><b>R03 的两个改动算不算「明确的缺陷」。</b>按现有分阶段规则，阶段 1 只放开界面文案和缺陷修复，改提示词和后端要到阶段 2。档案丢信息和团购卡方案都违反了产品定义和 PRD 已写明的要求，我按缺陷排进了 R03；你不同意的话，它们要顺延到阶段 2。</li>
+    <li><b>R01 开跑前。</b>给样例 X04 填人工判定；确认重新跑产品接口的模型费用。</li>
+  </ol>
+</section>
+
+</div>
+
+<script>
+(function(){
+  var rounds=[
+    {name:"R00 实测（回溯估分）",s:[60,3,55,null],cov:[0.7,1,0.55,0],actual:true},
+    {name:"R03 目标线下限",s:[70,70,55,null],cov:[1,1,1,0]},
+    {name:"R04 目标线下限",s:[80,80,80,null],cov:[1,1,1,0]},
+    {name:"R05 目标线下限",s:[80,80,80,70],cov:[1,1,1,1]}
+  ];
+  var ids=["a","b","c","d"];
+  var inputs=ids.map(function(k){return document.getElementById("w-"+k)});
+  var outs=ids.map(function(k){return document.getElementById("o-"+k)});
+  var body=document.getElementById("calc-body");
+  var presets=[].slice.call(document.querySelectorAll(".presets button"));
+  function render(){
+    var raw=inputs.map(function(i){return +i.value});
+    var sum=raw.reduce(function(a,b){return a+b},0)||1;
+    var w=raw.map(function(v){return v/sum});
+    w.forEach(function(v,i){outs[i].textContent=v.toFixed(2)});
+    var key=raw.join(",");
+    presets.forEach(function(b){b.setAttribute("aria-pressed",b.dataset.w===key?"true":"false")});
+    body.innerHTML=rounds.map(function(r){
+      var num=0,den=0,cov=0;
+      r.s.forEach(function(v,i){ if(v!==null){num+=w[i]*v;den+=w[i]} cov+=w[i]*r.cov[i]; });
+      var total=den>0?num/den:null;
+      var cells=r.s.map(function(v){return '<td class="num">'+(v===null?"—":v)+"</td>"}).join("");
+      var bar=total===null?"—":'<span class="bar'+(r.actual?"":" tgt")+'" style="width:'+Math.round(total*1.2)+'px"></span><b>'+total.toFixed(1)+"</b>";
+      return "<tr><td>"+r.name+"</td>"+cells+"<td>"+bar+'</td><td class="num">'+Math.round(cov*100)+"%</td></tr>";
+    }).join("");
+    charts(w);
+  }
+  var trend=[
+    {r:"R00",sub:"实测",kind:"实测，回溯估分",pre:"",s:[60,3,55,null],actual:true},
+    {r:"R01",sub:"不出分",s:null},
+    {r:"R02",sub:"预期持平",kind:"预期与 R00 持平",pre:"≈",s:[60,3,55,null]},
+    {r:"R03",sub:"目标",kind:"目标线下限",pre:"≥",s:[70,70,55,null]},
+    {r:"R04",sub:"目标",kind:"目标线下限",pre:"≥",s:[80,80,80,null]},
+    {r:"R05",sub:"目标",kind:"目标线下限",pre:"≥",s:[80,80,80,70]}
+  ];
+  var dims=["A 经营诊断","B 账号档案","C Chatbot 对话","D 数据复盘"];
+  function mix(s,w){var n=0,d=0;s.forEach(function(v,i){if(v!==null){n+=w[i]*v;d+=w[i]}});return d>0?n/d:null}
+  function chart(el,name,vals,o){
+    var W=Math.max(el.clientWidth,240),H=o.h,ml=30,mr=10,mt=24,mb=o.sub?44:26,pw=W-ml-mr,ph=H-mt-mb;
+    function x(i){return ml+16+(pw-32)*i/5}
+    function y(v){return mt+ph*(1-v/100)}
+    var h='<svg width="'+W+'" height="'+H+'" role="img" aria-label="'+name+'分数走势">';
+    o.ticks.forEach(function(t){
+      h+='<line class="ch-grid" x1="'+ml+'" x2="'+(W-mr)+'" y1="'+y(t)+'" y2="'+y(t)+'"/><text class="ch-t" text-anchor="end" x="'+(ml-6)+'" y="'+(y(t)+4)+'">'+t+'</text>';
+    });
+    h+='<line class="ch-th" x1="'+ml+'" x2="'+(W-mr)+'" y1="'+y(o.th)+'" y2="'+y(o.th)+'"/><text class="ch-t" text-anchor="middle" x="'+x(1)+'" y="'+(y(o.th)-5)+'">达线 '+o.th+'</text>';
+    var d="",marks="";
+    trend.forEach(function(t,i){
+      h+='<text class="ch-t" text-anchor="middle" x="'+x(i)+'" y="'+(H-mb+16)+'">'+t.r+'</text>';
+      if(o.sub) h+='<text class="ch-t" text-anchor="middle" x="'+x(i)+'" y="'+(H-mb+31)+'">'+t.sub+'</text>';
+      var v=vals[i]; if(v===null) return;
+      var label=t.pre+(o.dec?v.toFixed(1):v), cx=x(i), cy=y(v);
+      d+=(d?"L":"M")+cx.toFixed(1)+" "+cy.toFixed(1);
+      marks+='<circle class="ch-dot'+(t.actual?"":" t")+'" cx="'+cx+'" cy="'+cy+'" r="5"/><text class="ch-v" text-anchor="middle" x="'+cx+'" y="'+(cy-11)+'">'+label+'</text><circle class="ch-hit" tabindex="0" cx="'+cx+'" cy="'+cy+'" r="16" data-tip="'+t.r+" · "+name+"："+label+"（"+t.kind+'）"/>';
+    });
+    el.innerHTML=h+'<path class="ch-line" d="'+d+'"/>'+marks+'</svg>';
+  }
+  function charts(w){
+    var tot=trend.map(function(t){return t.s?mix(t.s,w):null});
+    document.getElementById("hero-now").textContent=tot[0].toFixed(1);
+    document.getElementById("hero-goal").textContent=tot[5].toFixed(1);
+    chart(document.getElementById("ch-total"),"总分",tot,{h:300,sub:true,dec:true,th:75,ticks:[0,25,50,75,100]});
+    ids.forEach(function(k,j){
+      chart(document.getElementById("ch-"+k),dims[j],trend.map(function(t){return t.s?t.s[j]:null}),{h:190,th:70,ticks:[0,50,100]});
+    });
+  }
+  var tip=document.createElement("div"); tip.className="tip";
+  function showTip(e){
+    var c=e.target; if(!c.getAttribute||!c.getAttribute("data-tip")){tip.style.display="none";return}
+    var box=c.closest(".chart"),svg=c.ownerSVGElement; box.appendChild(tip);
+    tip.textContent=c.getAttribute("data-tip"); tip.style.display="block";
+    var half=tip.offsetWidth/2+4, left=svg.parentNode.offsetLeft+ +c.getAttribute("cx");
+    tip.style.left=Math.min(Math.max(left,half),box.clientWidth-half)+"px";
+    tip.style.top=(svg.parentNode.offsetTop+ +c.getAttribute("cy")-22)+"px";
+  }
+  ["pointerover","focusin","click"].forEach(function(ev){document.addEventListener(ev,showTip)});
+  document.addEventListener("focusout",function(){tip.style.display="none"});
+  var rt; window.addEventListener("resize",function(){clearTimeout(rt);rt=setTimeout(render,120)});
+  inputs.forEach(function(i){i.addEventListener("input",render)});
+  presets.forEach(function(b){b.addEventListener("click",function(){
+    b.dataset.w.split(",").forEach(function(v,i){inputs[i].value=v});
+    render();
+  })});
+  render();
+})();
+</script>
