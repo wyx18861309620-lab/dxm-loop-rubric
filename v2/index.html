@@ -86,7 +86,7 @@ code{font-family:var(--mono);font-size:.9em;background:var(--sunk);padding:1px 5
   <h2>四个部分</h2>
   <div class="grid4">
     <div class="card"><span class="tag">红线</span><b class="big">4 条</b><p>一票否决。踩一条，这个案例就不能放行，不管效果分多高。</p></div>
-    <div class="card"><span class="tag">效果</span><b class="big">100 分</b><p>18 个条目、54 个是非检查点。另有一个盲比指标，和强模型做的基准比。</p></div>
+    <div class="card"><span class="tag">效果</span><b class="big">100 分</b><p>18 个条目、55 个是非检查点。另有一个盲比指标，和强模型做的基准比。</p></div>
     <div class="card"><span class="tag">成本</span><b class="big">4 项</b><p>钱、时间、老板的负担。单独一张表，不和效果分混在一起。</p></div>
     <div class="card"><span class="tag">可信度</span><b class="big">6 项</b><p>查分数本身靠不靠得住。不过，这一轮的分数不算数。</p></div>
   </div>
@@ -179,8 +179,8 @@ code{font-family:var(--mono);font-size:.9em;background:var(--sunk);padding:1px 5
     <div class="card">
       <span class="tag">A 经营诊断 · 28 分</span>
       <ul class="rows">
-        <li><div class="r"><span><span class="id">A1</span>痛点判对了</span><span>14 分 · 结果</span></div><div class="d">对照每个画像的「真实主痛点」答案。判错了，这一条直接 0 分。</div>
-          <details><summary>3 个检查点</summary><ul><li><span class="tg">业务</span>定出的主痛点和答案一致。不一致则整条 0 分，下面两点不再看</li><li><span class="tg">业务</span>只定了一个最高优先问题，其余进待处理</li><li><span class="tg">业务</span>店里接不住客时，先处理接不住的问题</li></ul></details></li>
+        <li><div class="r"><span><span class="id">A1</span>痛点判对了</span><span>14 分 · 结果</span></div><div class="d">对照每个画像的答案：主痛点是什么，以及为什么。判错了，这一条直接 0 分。</div>
+          <details><summary>4 个检查点</summary><ul><li><span class="tg">业务</span>定出的主痛点和答案一致。不一致则整条 0 分，下面三点不再看</li><li><span class="tg">业务</span>问清了为什么：是店偏僻、新店没宣传、小众品类、被新店分流，还是别的。原因和答案一致；老板也说不清的，标成待验证，不替他猜一个</li><li><span class="tg">业务</span>只定了一个最高优先问题，其余进待处理</li><li><span class="tg">业务</span>店里接不住客时，先处理接不住的问题</li></ul></details></li>
         <li><div class="r"><span><span class="id">A2</span>下结论时信息够用</span><span>7 分</span></div><div class="d">该问的问到了，又没被可选项卡住。</div>
           <details><summary>3 个检查点</summary><ul><li><span class="tg">模型</span>给方案前拿到了七项：地区、行业、主营、客单、当前问题、能不能出镜、什么时候能拍</li><li><span class="tg">业务</span>扮演卡「被问到才说」里会改变方案的事实，问到的比例（按比例计）</li><li><span class="tg">业务</span>没有因为团购等可选项没答就不给方案</li></ul></details></li>
         <li><div class="r"><span><span class="id">A3</span>没有白问的问题</span><span>5 分</span></div><div class="d">每个问题都会改变一个决定。</div>
@@ -252,13 +252,13 @@ code{font-family:var(--mono);font-size:.9em;background:var(--sunk);padding:1px 5
     <tr><th>剧本</th><th>数据长什么样</th><th>复盘该下的结论</th><th>档案该怎么动</th></tr>
     <tr><td>S1</td><td>目标指标连续三周上涨，没有外部干扰</td><td>可继续观察</td><td>先问老板经营反馈（视频帮了多少），再把数据最好的栏目多排几条；定位不动</td></tr>
     <tr><td>S2</td><td>播放量涨了四到六倍，目标指标没动</td><td>可继续观察</td><td>先问老板目标指标的实际变化；确认没动后只改承接，定位不动</td></tr>
-    <tr><td>S3</td><td>计划的内容大部分没发</td><td>未执行或执行偏差</td><td>把节奏降到老板做得了的量；不评价内容效果</td></tr>
+    <tr><td>S3</td><td>计划的内容大部分没发</td><td>未执行或执行偏差</td><td>发布次数先不动，改成集中拍摄；下一周还发不出来再降次数。不评价内容效果</td></tr>
     <tr><td>S4</td><td>某一周目标指标大涨，但同周有外部变化</td><td>证据不足</td><td>不动；写出外部变化，下周继续看</td></tr>
     <tr><td>S5</td><td>老板没交截图，只有一句「感觉人多了点」</td><td>证据不足</td><td>不动；请老板补一张截图</td></tr>
-    <tr><td>S6</td><td>客人多了三到五成，老板说排队走人、出餐慢</td><td>触线暂停</td><td>暂停引流内容，走重新诊断</td></tr>
+    <tr><td>S6</td><td>客人多了三到五成，老板说排队走人、出餐慢</td><td>触线暂停</td><td>不停发，把内容从「快来」改成「错峰来」；提醒老板先解决接待。属于大改，要老板点头</td></tr>
     <tr><td>S7</td><td>目标指标没动，老板改口说问题不在这</td><td>主问题未明确</td><td>走重新诊断，之前不改定位和目标</td></tr>
-    <tr><td>S8</td><td>混合：内容没发够，同一周又有外部变化</td><td>未执行或执行偏差</td><td>先降节奏；那一周的上涨不归因</td></tr>
-    <tr><td>S9</td><td>混合：只涨了一周就回落</td><td>可继续观察</td><td>不动；单独一周的上涨不算数</td></tr>
+    <tr><td>S8</td><td>混合：内容没发够，同一周又有外部变化</td><td>未执行或执行偏差</td><td>先改成集中拍摄，还不行再降次数；那一周的上涨不归因</td></tr>
+    <tr><td>S9</td><td>混合：只涨了一周就回落</td><td>可继续观察</td><td>稳定期不动，试水期可以小幅试别的栏目；单独一周的上涨不算数</td></tr>
   </table></div>
   <p class="note">一共 50 份：每轮默认跑 27 份，另有 6 份留出集不给产品经理 Agent 和工程 Agent 看。S8、S9 是两种情况叠在一起的混合剧本，防止产品只背前七种套路。目标指标只用知识库认定拿得到的数据：来客后台的核销数、流水照片的人工回填、老板口述。涮肉戊只有口述数据，不参与 S1、S2、S4、S9。</p>
   <p class="note">格式按产品来：经营数据和作品数据都是 CSV，表头和产品「数据导入」功能的一致，可以直接上传。我用产品自己的导入校验代码跑了一遍，418 个文件全部通过。产品的导入格式放不下的三样东西（老板口述、外部变化、计划发几条实际发几条），由扮演老板在对话里说出来；其中外部变化设成「被问到才说」，产品不问就拿不到。</p>
@@ -332,17 +332,18 @@ code{font-family:var(--mono);font-size:.9em;background:var(--sunk);padding:1px 5
 </section>
 
 <section>
-  <h2>A1 的标准答案（草稿）</h2>
-  <p>老板自己说的目标不一定是真问题，所以每个画像另定一条「真实主痛点」当答案。痛点按知识库里的五类分：没人来、来了不买、买了不复购、复购不赚钱、接不住。</p>
+  <h2>A1 的标准答案</h2>
+  <p>每个画像的答案分两层：主痛点是什么，以及为什么。「没人来」只是现象，店偏僻、新店没宣传、小众品类，对应的做法完全不同，所以产品必须把原因问清楚。原因老板自己也说不清的，答案就是「待验证」，产品不能替他猜一个。</p>
   <div class="scroll"><table>
-    <tr><th>画像</th><th>老板怎么说</th><th>真实主痛点</th><th>产品还必须做到</th></tr>
-    <tr><td>素斋甲</td><td>晚上没什么人</td><td>晚市没人来</td><td>晚市客人从哪来标成未知</td></tr>
-    <tr><td>轻食乙</td><td>周末和晚上没人</td><td>非午市时段没人来</td><td>原因不明（没人上班还是没人知道），给带条件的方案，不下确定结论</td></tr>
-    <tr><td>素菜馆丙</td><td>新开了两家快餐，人少了；也想让年轻人知道</td><td>没人来</td><td>你定的：老客被分流了，新客还没到位，合起来是没人来。不拆成两个主问题</td></tr>
-    <tr><td>素食自助丁</td><td>回头客在变少</td><td>买了不复购</td><td>回头客比例标成未知，不编数字</td></tr>
-    <tr><td>涮肉戊</td><td>店不好找</td><td>新客没人来</td><td>—</td></tr>
-    <tr><td>粉面己</td><td>想做抖音，想要一条爆款</td><td>晚市没人来</td><td>不把「做账号」「出爆款」当成主痛点</td></tr>
+    <tr><th>画像</th><th>老板怎么说</th><th>主痛点</th><th>为什么</th></tr>
+    <tr><td>素斋甲</td><td>晚上没什么人</td><td>晚市没人来</td><td>待验证。老板答不上晚市客人从哪来；可能的原因有小众品类、晚市只有桌餐。产品要列出来，不下定论</td></tr>
+    <tr><td>轻食乙</td><td>周末和晚上没人</td><td>非午市时段没人来</td><td>待验证。是园区周末没人上班，还是没人知道这家店，老板分不清。产品给带条件的方案</td></tr>
+    <tr><td>素菜馆丙</td><td>新开了两家快餐，人少了；也想让年轻人知道</td><td>没人来</td><td>老街坊被新开的两家快餐分流了，新客又还没到位</td></tr>
+    <tr><td>素食自助丁</td><td>回头客在变少</td><td>买了不复购</td><td>可能是菜不换样（被问到才说每周只换 5 个）。回头客比例没有数据，标成未知</td></tr>
+    <tr><td>涮肉戊</td><td>店不好找</td><td>新客没人来</td><td>店偏僻：在酒店停车场里面，街上看不到门头</td></tr>
+    <tr><td>粉面己</td><td>想做抖音，想要一条爆款</td><td>晚市没人来</td><td>新店没做宣传：刚开不久，没有抖音账号。不把「做账号」「出爆款」当成主痛点</td></tr>
   </table></div>
+  <p class="note">主痛点你都过目了。「为什么」这一栏是我按扮演卡写的草稿，等你看一眼。</p>
 </section>
 
 <section>
@@ -373,12 +374,12 @@ code{font-family:var(--mono);font-size:.9em;background:var(--sunk);padding:1px 5
     <tr><td>红线</td><td>G4 不用平台禁用的宣传说法</td><td>已定</td></tr>
     <tr><td>红线</td><td>G1、G3、G5</td><td>已定：G1 降成扣分项，放进 A4；G3 保留为独立一条；G5 老板自己提出来的可以用</td></tr>
     <tr><td>红线</td><td>G2 地基不能是猜的</td><td>已定：只管主痛点的原因、档案定位的依据、复盘的结论这三处</td></tr>
-    <tr><td>A 经营诊断</td><td>A1 的答案（六个画像的真实主痛点）</td><td>素菜馆丙已定，其余待你过目</td></tr>
+    <tr><td>A 经营诊断</td><td>A1 的答案（六个画像的真实主痛点）</td><td>已定：六个画像的主痛点；答案加一层「为什么」，产品必须问清原因。「为什么」一栏的内容是我的草稿</td></tr>
     <tr><td>A 经营诊断</td><td>A1 到 A4 的检查点和分值</td><td>已定：A1 判错整条 0 分、15 分；A2 必问七项；A3 只在敏感问题上说明原因；A4 降到 2 分</td></tr>
     <tr><td>B 账号档案</td><td>B1 到 B3</td><td>已定：B1 记下来就行（5 分）；B2 10 分；B2 里加了一个独特性检查点；B3 要说明理由、给最低版本、发得多时安排集中拍摄。分值现为 4、9、9</td></tr>
     <tr><td>整体</td><td>业务分和模型能力分</td><td>已定：两种分法都显示；同一条目里的业务问题和模型问题分开标，标到每个检查点。具体每个点标哪边是我的草稿</td></tr>
     <tr><td>C 对话</td><td>C1 到 C4</td><td>已定：加 C4 回答有用（6 分）；C3 加查长度，一屏看完；C 升到 15 分，A 降到 28、B 降到 22</td></tr>
-    <tr><td>D 数据复盘</td><td>D1 到 D4，以及九个剧本的答案</td><td>已定：加 D4 定期问老板经营现况；S1 先问老板再加码有效栏目；S2 先问老板再改承接。每周问一次、最多 3 个问题是我的草稿。其余七个剧本的答案待你过目</td></tr>
+    <tr><td>D 数据复盘</td><td>D1 到 D4，以及九个剧本的答案</td><td>已定：加 D4 定期问老板经营现况；S1 先问老板再加码有效栏目；S2 先问老板再改承接。每周问一次、最多 3 个问题是我的草稿。S3 先集中拍摄再降节奏；S6 改成错峰引流，要老板点头；其余五个剧本按草稿</td></tr>
     <tr><td>E 档案迭代</td><td>E1 到 E3</td><td>已定：改动幅度看账号阶段，试水期放开、稳定期不大改；小改直接生效并告知，大改要老板点头。两个阶段怎么划界是我的草稿</td></tr>
     <tr><td>成本、可信度</td><td>K1 到 K4，T1 到 T6</td><td>待商量</td></tr>
     <tr><td>整体</td><td>五个维度的权重，放行线的数</td><td>待商量</td></tr>
