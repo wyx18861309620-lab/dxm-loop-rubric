@@ -64,10 +64,10 @@ details .body p{max-width:none}
   <div class="eyebrow">店小谋 · 产品 LOOP · 一期：经营诊断</div>
   <h1>Loop 看板</h1>
   <div class="pills">
-    <span class="pill on">R03 已跑完</span>
+    <span class="pill on">R03 已跑完并复查过</span>
     <span class="pill">已跑 3 轮，最新 R03</span>
     <span class="pill">产品版本 6e9fae4 · 模型 doubao-seed-2-1-turbo-260628</span>
-    <span class="pill">更新于 10-04 14:54</span>
+    <span class="pill">更新于 10-04 15:01</span>
   </div>
   <p class="note">按<a href="../v2/">评分标准 v2</a>打分。每轮用三个虚构画像和产品的真实接口对话，判分模型对照检查点逐条判。</p>
 </header>
@@ -78,6 +78,7 @@ details .body p{max-width:none}
     <div class="tile"><span class="k">业务分（满分 100）</span><b>57.8</b><span class="s">判断对不对</span></div>
     <div class="tile"><span class="k">模型能力分（满分 100）</span><b>69.0</b><span class="s">做事靠不靠谱</span></div>
     <div class="tile"><span class="k">踩红线的案例</span><b>0/3</b><span class="s">有一个就不能放行</span></div>
+    <div class="tile"><span class="k">盲比不输率</span><b>—</b><span class="s">和强模型基准比，放行要 ≥ 50%</span></div>
   </div>
 </section>
 
@@ -89,9 +90,19 @@ details .body p{max-width:none}
     <div class="fig" id="c0"></div>
   </div>
   <div class="scroll"><table>
-    <tr><th>轮次</th><th>这一轮改了什么</th><th class="num">总分（满分 100）</th><th class="num">踩红线的案例</th><th>决策</th></tr>
-    <tr><td class='id'>R03</td><td>平台禁用的说法由代码拦住；档案只排老板做得了的事并写明理由；对话去掉术语、不和档案矛盾、接口出错时有兜底</td><td class='num'><b>62.9</b></td><td class='num'>0/3</td><td>继续改</td></tr><tr><td class='id'>R02</td><td>诊断改成先问清原因、最多五轮给出方案；档案改成按诊断简报来写，不再编老板没说过的内容</td><td class='num'><b>57.3</b></td><td class='num'>1/3</td><td>继续改</td></tr><tr><td class='id'>R01</td><td>基线：线上当前版本，没有改动</td><td class='num'><b>29.2</b></td><td class='num'>3/3</td><td>继续改</td></tr>
+    <tr><th>轮次</th><th>这一轮改了什么</th><th class="num">总分（满分 100）</th><th class="num">盲比不输率</th><th class="num">踩红线的案例</th><th>决策</th></tr>
+    <tr><td class='id'>R03</td><td>平台禁用的说法由代码拦住；档案只排老板做得了的事并写明理由；对话去掉术语、不和档案矛盾、接口出错时有兜底</td><td class='num'><b>62.9</b></td><td class='num'>—</td><td class='num'>0/3</td><td>继续改</td></tr><tr><td class='id'>R02</td><td>诊断改成先问清原因、最多五轮给出方案；档案改成按诊断简报来写，不再编老板没说过的内容</td><td class='num'><b>57.3</b></td><td class='num'>0%</td><td class='num'>1/3</td><td>继续改</td></tr><tr><td class='id'>R01</td><td>基线：线上当前版本，没有改动</td><td class='num'><b>29.2</b></td><td class='num'>0%</td><td class='num'>3/3</td><td>继续改</td></tr>
   </table></div>
+</section>
+
+<section>
+  <h2>和强模型基准盲比</h2>
+  <p>检查点只能查「有没有做到」，查不出「做得好不好」。所以另外让强模型扮一位资深顾问，给同样的画像各做一份诊断和档案当基准。每轮把产品的产出和基准去掉标记放在一起，让判分模型站在老板的角度选哪份更有用，每个案例比三遍。检查点分数高、盲比却输，说明产品只是守了规矩，还不够有用。</p>
+  <div class="scroll"><table>
+    <tr><th>画像</th><th>结果</th><th>胜负关键</th><th>产品最大的不足</th></tr>
+    <tr><td colspan="4">这一轮还没做盲比</td></tr>
+  </table></div>
+  <p class="note">基准自己按同一套标准打分：诊断 93.8、档案 95.1、对话 90.0，六个画像都没踩红线。</p>
 </section>
 
 <section>
@@ -140,9 +151,9 @@ details .body p{max-width:none}
     <div class="tile"><span class="k">8 轮内给出诊断</span><b>3/3</b><span class="s">各画像用的轮数：3、3、4</span></div>
     <div class="tile"><span class="k">产品每个案例耗时</span><b>1.6</b><span class="s">分钟，只算产品接口</span></div>
     <div class="tile"><span class="k">判分一致率</span><b>99%</b><span class="s">每个案例判三遍，要求 ≥ 80%</span></div>
-    <div class="tile"><span class="k">防刷分复查的总分</span><b>—</b><span class="s">这一轮还没用另外三个画像复查</span></div>
+    <div class="tile"><span class="k">防刷分复查的总分</span><b>61.1</b><span class="s">同一版产品换三个没参与选改动的画像；公开画像是 62.9，差 1.8 分，要求 ≤ 10</span></div>
   </div>
-  <p class="note">模型费用这一轮没量：产品接口不返回用量，要另外接账单。强模型基准和噪声这两项可信度检查还没建。</p>
+  <p class="note">模型费用这一轮没量：产品接口不返回用量，要另外接账单。噪声（同一版本跑两遍的分差）这一项可信度检查还没建。</p>
 </section>
 
 <section>
@@ -162,7 +173,7 @@ details .body p{max-width:none}
 </div>
 <script>
 (function(){
-  var D={"hist": [{"round": "R01", "date": "2026-10-04", "appVersion": "1f12c98", "model": "doubao-seed-2-1-turbo-260628", "change": "基线：线上当前版本，没有改动", "total": 29.2, "dims": {"A": 36.3, "B": 31.7, "C": 80.0, "D": 0.0, "E": 0.0}, "biz": 23.4, "model_score": 41.4, "cases": 3, "blocked": 3, "redlines": {"TP02": ["G2", "G3"], "TP03": ["G3", "G4"], "TP06": ["G2", "G3"]}, "agreement": 0.94, "cost": {"product_minutes_per_case": 2.2, "diagnosis_reached": 2, "owner_turns": [5, 4, null]}, "decision": "继续改"}, {"round": "R02", "date": "2026-10-04", "appVersion": "47f3a39", "model": "doubao-seed-2-1-turbo-260628", "change": "诊断改成先问清原因、最多五轮给出方案；档案改成按诊断简报来写，不再编老板没说过的内容", "total": 57.3, "dims": {"A": 97.5, "B": 77.2, "C": 86.7, "D": 0.0, "E": 0.0}, "biz": 50.2, "model_score": 66.6, "cases": 3, "blocked": 1, "redlines": {"TP02": [], "TP03": ["G2", "G4"], "TP06": []}, "agreement": 0.98, "cost": {"product_minutes_per_case": 1.8, "diagnosis_reached": 3, "owner_turns": [4, 3, 4]}, "decision": "继续改"}, {"round": "R03", "date": "2026-10-04", "appVersion": "6e9fae4", "model": "doubao-seed-2-1-turbo-260628", "change": "平台禁用的说法由代码拦住；档案只排老板做得了的事并写明理由；对话去掉术语、不和档案矛盾、接口出错时有兜底", "total": 62.9, "dims": {"A": 97.8, "B": 93.3, "C": 100.0, "D": 0.0, "E": 0.0}, "biz": 57.8, "model_score": 69.0, "cases": 3, "blocked": 0, "redlines": {"TP02": [], "TP03": [], "TP06": []}, "agreement": 0.99, "cost": {"product_minutes_per_case": 1.6, "diagnosis_reached": 3, "owner_turns": [3, 3, 4]}, "decision": "继续改"}], "dims": {"A": "经营诊断", "B": "账号档案", "C": "对话", "D": "数据复盘", "E": "档案迭代"}}, H=D.hist;
+  var D={"hist": [{"round": "R01", "date": "2026-10-04", "appVersion": "1f12c98", "model": "doubao-seed-2-1-turbo-260628", "change": "基线：线上当前版本，没有改动", "total": 29.2, "dims": {"A": 36.3, "B": 31.7, "C": 80.0, "D": 0.0, "E": 0.0}, "biz": 23.4, "model_score": 41.4, "cases": 3, "blocked": 3, "redlines": {"TP02": ["G2", "G3"], "TP03": ["G3", "G4"], "TP06": ["G2", "G3"]}, "agreement": 0.94, "cost": {"product_minutes_per_case": 2.2, "diagnosis_reached": 2, "owner_turns": [5, 4, null]}, "decision": "继续改", "blind_not_lose": 0.0}, {"round": "R02", "date": "2026-10-04", "appVersion": "47f3a39", "model": "doubao-seed-2-1-turbo-260628", "change": "诊断改成先问清原因、最多五轮给出方案；档案改成按诊断简报来写，不再编老板没说过的内容", "total": 57.3, "dims": {"A": 97.5, "B": 77.2, "C": 86.7, "D": 0.0, "E": 0.0}, "biz": 50.2, "model_score": 66.6, "cases": 3, "blocked": 1, "redlines": {"TP02": [], "TP03": ["G2", "G4"], "TP06": []}, "agreement": 0.98, "cost": {"product_minutes_per_case": 1.8, "diagnosis_reached": 3, "owner_turns": [4, 3, 4]}, "decision": "继续改", "blind_not_lose": 0.0}, {"round": "R03", "date": "2026-10-04", "appVersion": "6e9fae4", "model": "doubao-seed-2-1-turbo-260628", "change": "平台禁用的说法由代码拦住；档案只排老板做得了的事并写明理由；对话去掉术语、不和档案矛盾、接口出错时有兜底", "total": 62.9, "dims": {"A": 97.8, "B": 93.3, "C": 100.0, "D": 0.0, "E": 0.0}, "biz": 57.8, "model_score": 69.0, "cases": 3, "blocked": 0, "redlines": {"TP02": [], "TP03": [], "TP06": []}, "agreement": 0.99, "cost": {"product_minutes_per_case": 1.6, "diagnosis_reached": 3, "owner_turns": [3, 3, 4]}, "decision": "继续改"}], "dims": {"A": "经营诊断", "B": "账号档案", "C": "对话", "D": "数据复盘", "E": "档案迭代"}}, H=D.hist;
   var dimKeys=["A","B","C","D","E"], cols=["var(--s1)","var(--s2)","var(--s3)","var(--s4)","var(--s5)"];
   var S0=[{name:"总分",color:"var(--accent)",w:3,get:function(h){return h.total}}];
   var S1=dimKeys.map(function(k,i){return {name:D.dims[k],color:cols[i],w:2,get:function(h){return h.dims[k]}}});
