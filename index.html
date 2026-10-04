@@ -143,7 +143,7 @@ code{font-family:var(--mono);font-size:.9em;background:var(--sunk);padding:1px 5
 
 <section>
   <h2>团队分工</h2>
-  <p>团队由 <code>harness/agents/start_team.sh</code> 启动，一个 tmux 会话 <code>dxm-loop</code>，五个 Agent 加一块看板。下表最后两列是这套 rubric 对每个角色的要求：谁能看到打分表，谁负责打哪一部分。</p>
+  <p>团队由 <code>harness/agents/start_team.sh</code> 启动，一个 tmux 会话 <code>dxm-loop</code>，五个 Agent。下表最后两列是这套 rubric 对每个角色的要求：谁能看到打分表，谁负责打哪一部分。</p>
   <div class="scroll"><table class="t-wide">
     <tr><th>角色</th><th>模型</th><th>做什么</th><th>不能做什么</th><th>看得到 rubric</th><th>在打分里的职责</th></tr>
     <tr><td><b>产品经理 Agent</b></td><td>Fable</td><td>逐条判定产出，写评审记录，从不合格项里选 1 到 3 个改动</td><td>改评分规则、读产品源码、碰你确认过的决策</td><td>看得到，只读</td><td>打 Agent 类条目；每个分数要指到原句或截图</td></tr>
@@ -151,10 +151,10 @@ code{font-family:var(--mono);font-size:.9em;background:var(--sunk);padding:1px 5
     <tr><td><b>Reviewer 兼监工</b></td><td>Opus</td><td>复核证据是否支持结论、判定是否与样例一致、改动是否越界、是否在为分数优化</td><td>改正文、提新改动、改标准</td><td>看得到，只读</td><td>不重打分，只判每个分数成不成立；返工最多两轮</td></tr>
     <tr><td><b>前端工程 Agent</b></td><td>Codex</td><td>按改动需求改页面和组件（阶段 0 待命）</td><td>改接口、读评价标准和评审记录</td><td>看不到</td><td>不打分。改动需求里不出现条目编号和及格线</td></tr>
     <tr><td><b>后端工程 Agent</b></td><td>Codex</td><td>按改动需求改诊断、档案、聊天、复盘的逻辑和提示词（阶段 0 待命）</td><td>动数据库和部署、调付费模型验证、读评价标准</td><td>看不到</td><td>同上</td></tr>
-    <tr><td><b>编排看板</b></td><td>脚本</td><td>显示分工和当前轮次；整轮编排脚本还没建，目前由人手动跑</td><td>—</td><td>—</td><td>算脚本类条目、合并分数、判停止条件</td></tr>
     <tr><td><b>协调人</b></td><td>Claude</td><td>在对话里转交收件箱、批复不需要你本人决定的事</td><td>替你做产品决定</td><td>看得到</td><td>不打分</td></tr>
     <tr><td><b>你</b></td><td>—</td><td>拍板、改标准、合并代码</td><td>—</td><td>可改</td><td>填样例的人工判定；每轮抽查一个画像</td></tr>
   </table></div>
+  <p class="note">计分表里标「脚本」的条目、分数合并和停止条件由打分脚本算。脚本还没建，建好之前由协调人手动算。</p>
   <ol class="flow">
     <li><b>冻结</b><span>记下产品、知识库、测试集版本</span></li>
     <li><b>跑测试</b><span>扮演老板按卡对话，产出存档</span></li>
