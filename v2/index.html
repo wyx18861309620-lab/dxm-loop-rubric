@@ -85,7 +85,7 @@ code{font-family:var(--mono);font-size:.9em;background:var(--sunk);padding:1px 5
   <h2>四个部分</h2>
   <div class="grid4">
     <div class="card"><span class="tag">红线</span><b class="big">5 条</b><p>一票否决。踩一条，这个案例就不能放行，不管效果分多高。</p></div>
-    <div class="card"><span class="tag">效果</span><b class="big">100 分</b><p>16 个条目、41 个是非检查点。另有一个盲比指标，和强模型做的基准比。</p></div>
+    <div class="card"><span class="tag">效果</span><b class="big">100 分</b><p>16 个条目、42 个是非检查点。另有一个盲比指标，和强模型做的基准比。</p></div>
     <div class="card"><span class="tag">成本</span><b class="big">4 项</b><p>钱、时间、老板的负担。单独一张表，不和效果分混在一起。</p></div>
     <div class="card"><span class="tag">可信度</span><b class="big">6 项</b><p>查分数本身靠不靠得住。不过，这一轮的分数不算数。</p></div>
   </div>
@@ -167,61 +167,62 @@ code{font-family:var(--mono);font-size:.9em;background:var(--sunk);padding:1px 5
     <div><b>20</b>E 档案迭代</div>
   </div>
   <p>每个条目拆成几个只能答「是」或「否」的检查点。条目得分等于通过的检查点比例，再对所有案例取平均。标「结果」的条目直接对照答案判：A、B 对照扮演卡，D、E 对照模拟数据的剧本答案。查的是做对没有，而不是做了没有。</p>
+  <p>每个条目另外标了「业务」或「模型能力」。业务分看判断对不对：痛点、方案、复盘结论、档案怎么改。模型能力分看做事靠不靠谱：记不记得住、丢没丢信息、说话清不清楚。两种分的修法不一样，业务分低要改产品逻辑和知识库，模型能力分低要改提示词、结构或换模型。按现在的草稿，业务 74 分，模型能力 26 分。</p>
   <div class="grid2">
     <div class="card">
       <span class="tag">A 经营诊断 · 30 分</span>
       <ul class="rows">
-        <li><div class="r"><span><span class="id">A1</span>痛点判对了</span><span>15 分 · 结果</span></div><div class="d">对照每个画像的「真实主痛点」答案。判错了，这一条直接 0 分。</div>
+        <li><div class="r"><span><span class="id">A1</span>痛点判对了</span><span>15 分 · 业务 · 结果</span></div><div class="d">对照每个画像的「真实主痛点」答案。判错了，这一条直接 0 分。</div>
           <details><summary>3 个检查点</summary><ul><li>定出的主痛点和答案一致。不一致则整条 0 分，下面两点不再看</li><li>只定了一个最高优先问题，其余进待处理</li><li>店里接不住客时，先处理接不住的问题</li></ul></details></li>
-        <li><div class="r"><span><span class="id">A2</span>下结论时信息够用</span><span>8 分</span></div><div class="d">该问的问到了，又没被可选项卡住。</div>
+        <li><div class="r"><span><span class="id">A2</span>下结论时信息够用</span><span>8 分 · 业务</span></div><div class="d">该问的问到了，又没被可选项卡住。</div>
           <details><summary>3 个检查点</summary><ul><li>给方案前拿到了七项：地区、行业、主营、客单、当前问题、能不能出镜、什么时候能拍</li><li>扮演卡「被问到才说」里会改变方案的事实，问到的比例（按比例计）</li><li>没有因为团购等可选项没答就不给方案</li></ul></details></li>
-        <li><div class="r"><span><span class="id">A3</span>没有白问的问题</span><span>5 分</span></div><div class="d">每个问题都会改变一个决定。</div>
+        <li><div class="r"><span><span class="id">A3</span>没有白问的问题</span><span>5 分 · 业务</span></div><div class="d">每个问题都会改变一个决定。</div>
           <details><summary>3 个检查点</summary><ul><li>问营业额、成本、能不能出镜这类老板可能不想答的问题时，说了为什么问</li><li>没有答了也不改变任何建议的问题</li><li>没有反复追问同一件事</li></ul></details></li>
-        <li><div class="r"><span><span class="id">A4</span>判断能追到来源</span><span>2 分</span></div><div class="d">方便我们自己查错。只要求内部记录，给老板看的文字不用标。</div>
+        <li><div class="r"><span><span class="id">A4</span>判断能追到来源</span><span>2 分 · 模型能力</span></div><div class="d">方便我们自己查错。只要求内部记录，给老板看的文字不用标。</div>
           <details><summary>2 个检查点</summary><ul><li>内部记录里，每条关键判断标了来源</li><li>回到对话原文核对，来源确实支持这条判断</li></ul></details></li>
       </ul>
     </div>
     <div class="card">
       <span class="tag">B 账号档案 · 25 分</span>
       <ul class="rows">
-        <li><div class="r"><span><span class="id">B1</span>老板说过的话没丢</span><span>8 分 · 脚本</span></div><div class="d">脚本逐项比对，不靠判断。</div>
-          <details><summary>1 个检查点</summary><ul><li>老板确认过的特色、限制、产能、目标，在档案里找得到的比例（按比例计）</li></ul></details></li>
-        <li><div class="r"><span><span class="id">B2</span>方案对得上痛点</span><span>9 分</span></div><div class="d">档案是为诊断定的那个问题服务的。</div>
+        <li><div class="r"><span><span class="id">B1</span>老板说过的话没丢</span><span>5 分 · 模型能力 · 脚本</span></div><div class="d">记下来就行，采不采纳由产品定。脚本逐项比对，不靠判断。</div>
+          <details><summary>1 个检查点</summary><ul><li>老板确认过的特色、限制、产能、目标，在档案里找得到的比例（按比例计）。以后接上抖音或美团的接口，从接口拿到的店铺信息也算进来</li></ul></details></li></ul></details></li>
+        <li><div class="r"><span><span class="id">B2</span>方案对得上痛点</span><span>10 分 · 业务</span></div><div class="d">档案是为诊断定的那个问题服务的。</div>
           <details><summary>3 个检查点</summary><ul><li>定位和栏目服务于诊断定的主痛点</li><li>成功指标是这个痛点对应的指标，不是播放量</li><li>目标客群没有被泛化成所有人</li></ul></details></li>
-        <li><div class="r"><span><span class="id">B3</span>老板能照做</span><span>8 分 · 结果</span></div><div class="d">对照扮演卡上的设备、人手、时间，判方案做不做得了。</div>
-          <details><summary>3 个检查点</summary><ul><li>给老板的每项任务，在扮演卡写的设备、人手、时间条件下做得了</li><li>发布节奏、出镜、拍摄时段和老板说的不一样时，写明「你说过 X，我们建议 Y，因为 Z」</li><li>扮演卡「陷阱」表里适用于档案的条目，按正确做法处理的比例（按比例计）</li></ul></details></li>
+        <li><div class="r"><span><span class="id">B3</span>老板能照做</span><span>10 分 · 业务 · 结果</span></div><div class="d">对照扮演卡上的设备、人手、时间，判方案做不做得了。发得多不等于要老板天天拍。</div>
+          <details><summary>4 个检查点</summary><ul><li>给老板的每项任务，在扮演卡写的设备、人手、时间条件下做得了</li><li>发布节奏、出镜、拍摄时段和老板说的不一样时，写明「你说过 X，我们建议 Y，因为 Z」，并给出按老板现有条件也能开始的最低版本</li><li>发布次数多于老板能拍的次数时，安排集中拍摄：一次拍完、传完素材，够后面多条用，老板不用每天管</li><li>扮演卡「陷阱」表里适用于档案的条目，按正确做法处理的比例（按比例计）</li></ul></details></li><li>发布节奏、出镜、拍摄时段和老板说的不一样时，写明「你说过 X，我们建议 Y，因为 Z」</li><li>扮演卡「陷阱」表里适用于档案的条目，按正确做法处理的比例（按比例计）</li></ul></details></li>
       </ul>
     </div>
     <div class="card">
       <span class="tag">C Chatbot 对话 · 10 分</span>
       <ul class="rows">
-        <li><div class="r"><span><span class="id">C1</span>离题接住再拉回</span><span>4 分</span></div>
+        <li><div class="r"><span><span class="id">C1</span>离题接住再拉回</span><span>4 分 · 模型能力</span></div>
           <details><summary>2 个检查点</summary><ul><li>用一句话接住，没有冷冰冰拒绝，也没有完整陪聊</li><li>同一条回复里拉回经营话题</li></ul></details></li>
-        <li><div class="r"><span><span class="id">C2</span>记得住</span><span>3 分 · 脚本</span></div>
+        <li><div class="r"><span><span class="id">C2</span>记得住</span><span>3 分 · 模型能力 · 脚本</span></div>
           <details><summary>2 个检查点</summary><ul><li>建档收过的城市、行业、主营、价格没有再问</li><li>老板改口后，后续建议全部按新的来</li></ul></details></li>
-        <li><div class="r"><span><span class="id">C3</span>老板看得懂</span><span>3 分</span></div>
+        <li><div class="r"><span><span class="id">C3</span>老板看得懂</span><span>3 分 · 模型能力</span></div>
           <details><summary>2 个检查点</summary><ul><li>没有出现「知识库」「Agent」等内部词</li><li>没有运营术语，或者出现时当场用大白话解释了</li></ul></details></li>
       </ul>
     </div>
     <div class="card">
       <span class="tag">D 发布后数据复盘 · 15 分</span>
       <ul class="rows">
-        <li><div class="r"><span><span class="id">D1</span>结论判对了</span><span>6 分 · 结果</span></div><div class="d">对照剧本答案，判复盘下的结论对不对。</div>
+        <li><div class="r"><span><span class="id">D1</span>结论判对了</span><span>6 分 · 业务 · 结果</span></div><div class="d">对照剧本答案，判复盘下的结论对不对。</div>
           <details><summary>3 个检查点</summary><ul><li>盯的是诊断定的成功指标，带基线和时间窗口</li><li>结论状态和剧本答案一致（主问题未明确、未执行或执行偏差、证据不足、可继续观察、触线暂停）</li><li>同一周有外部变化时，复盘把它指了出来</li></ul></details></li>
-        <li><div class="r"><span><span class="id">D2</span>结论有边界</span><span>4 分</span></div><div class="d">不把观察说成因果。</div>
+        <li><div class="r"><span><span class="id">D2</span>结论有边界</span><span>4 分 · 模型能力</span></div><div class="d">不把观察说成因果。</div>
           <details><summary>3 个检查点</summary><ul><li>没有对照时，不说「因为这条视频」</li><li>老板口述的数据标了「未核实」</li><li>写了「仍不知道什么」</li></ul></details></li>
-        <li><div class="r"><span><span class="id">D3</span>说清档案要改什么</span><span>5 分</span></div><div class="d">复盘要给档案一个明确的交代。</div>
+        <li><div class="r"><span><span class="id">D3</span>说清档案要改什么</span><span>5 分 · 业务</span></div><div class="d">复盘要给档案一个明确的交代。</div>
           <details><summary>3 个检查点</summary><ul><li>明确写了档案哪一项要改，或者写明不改</li><li>每个改动都指到一条数据或观察</li><li>一次只提一个主要改变</li></ul></details></li>
       </ul>
     </div>
     <div class="card">
       <span class="tag">E 档案迭代 · 20 分</span>
       <ul class="rows">
-        <li><div class="r"><span><span class="id">E1</span>改对了</span><span>10 分 · 结果</span></div><div class="d">对照剧本答案，判新一版档案动得对不对。</div>
+        <li><div class="r"><span><span class="id">E1</span>改对了</span><span>10 分 · 业务 · 结果</span></div><div class="d">对照剧本答案，判新一版档案动得对不对。</div>
           <details><summary>3 个检查点</summary><ul><li>动作和答案一致：沿用、调整、暂停，或走重新诊断</li><li>调整的是答案指定的那一项（承接、节奏等）</li><li>没有做答案里禁止的动作</li></ul></details></li>
-        <li><div class="r"><span><span class="id">E2</span>只改该改的</span><span>5 分 · 脚本</span></div><div class="d">新旧两版档案逐项比对。</div>
+        <li><div class="r"><span><span class="id">E2</span>只改该改的</span><span>5 分 · 模型能力 · 脚本</span></div><div class="d">新旧两版档案逐项比对。</div>
           <details><summary>3 个检查点</summary><ul><li>老板确认过的事实，新一版里一条没丢</li><li>复盘没提到的字段没有变</li><li>留了修改记录并告诉了老板：改了什么、为什么、依据哪条数据</li></ul></details></li>
-        <li><div class="r"><span><span class="id">E3</span>信号不够时稳得住</span><span>5 分</span></div><div class="d">数据不足或有干扰时不乱改。</div>
+        <li><div class="r"><span><span class="id">E3</span>信号不够时稳得住</span><span>5 分 · 业务</span></div><div class="d">数据不足或有干扰时不乱改。</div>
           <details><summary>2 个检查点</summary><ul><li>结论是「证据不足」的剧本下，档案没有改</li><li>没有因为单独一周的波动就换定位</li></ul></details></li>
       </ul>
     </div>
@@ -362,7 +363,8 @@ code{font-family:var(--mono);font-size:.9em;background:var(--sunk);padding:1px 5
     <tr><td>红线</td><td>G1、G2、G3、G5</td><td>待商量</td></tr>
     <tr><td>A 经营诊断</td><td>A1 的答案（六个画像的真实主痛点）</td><td>素菜馆丙已定，其余待你过目</td></tr>
     <tr><td>A 经营诊断</td><td>A1 到 A4 的检查点和分值</td><td>已定：A1 判错整条 0 分、15 分；A2 必问七项；A3 只在敏感问题上说明原因；A4 降到 2 分</td></tr>
-    <tr><td>B 账号档案</td><td>B1 到 B3</td><td>待商量</td></tr>
+    <tr><td>B 账号档案</td><td>B1 到 B3</td><td>已定：B1 记下来就行；B3 要说明理由、给最低版本、发得多时安排集中拍摄。要不要加「独特性」还在商量</td></tr>
+    <tr><td>整体</td><td>每个条目标「业务」还是「模型能力」</td><td>我的草稿，待你过目</td></tr>
     <tr><td>C 对话</td><td>C1 到 C3</td><td>待商量</td></tr>
     <tr><td>D 数据复盘</td><td>D1 到 D3，以及九个剧本的答案</td><td>待商量</td></tr>
     <tr><td>E 档案迭代</td><td>E1 到 E3</td><td>待商量</td></tr>
