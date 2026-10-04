@@ -103,6 +103,27 @@ code{font-family:var(--mono);font-size:.9em;background:var(--sunk);padding:1px 5
 .key i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:-1px;background:var(--accent)}
 .key i.t{background:var(--surface);border:2px solid var(--accent)}
 .key i.l{width:18px;height:0;border-radius:0;border-top:1px dashed var(--muted);background:none;vertical-align:3px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+.tile{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:14px 16px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.tile .k,.tile .s{font-size:12px;color:var(--muted)}
+.tile b{font-family:var(--serif);font-size:40px;line-height:1.2;font-variant-numeric:tabular-nums}
+.verdict{font-size:17px;line-height:1.65;max-width:40em}
+.layers{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr));gap:12px}
+.layer{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:16px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.layer .tag{font-size:12px;color:var(--accent);font-weight:600;letter-spacing:.06em}
+.layer p{font-size:13px;color:var(--muted)}
+.rows{list-style:none;margin:4px 0 0;padding:0}
+.rows li{padding:8px 0;border-top:1px solid var(--line);font-size:13.5px}
+.rows .r{display:flex;justify-content:space-between;gap:12px}
+.rows .r span:last-child{white-space:nowrap;font-variant-numeric:tabular-nums;font-weight:600}
+.meter{position:relative;height:6px;background:var(--sunk);border-radius:3px;margin-top:6px}
+.meter i{display:block;height:100%;background:var(--accent);border-radius:3px}
+.meter::after{content:"";position:absolute;left:70%;top:-3px;bottom:-3px;width:2px;background:var(--muted)}
+.more{display:flex;flex-direction:column;gap:8px}
+details{background:var(--surface);border:1px solid var(--line);border-radius:6px;min-width:0}
+summary{cursor:pointer;padding:12px 16px;font-weight:600;font-size:15px}
+summary small{font-weight:400;color:var(--muted);margin-left:8px;font-size:13px}
+details .body{padding:4px 16px 16px;display:flex;flex-direction:column;gap:16px;min-width:0}
 </style>
 
 <div class="wrap">
@@ -110,21 +131,30 @@ code{font-family:var(--mono);font-size:.9em;background:var(--sunk);padding:1px 5
 <header>
   <div class="eyebrow">店小谋 · 产品 LOOP · 评分方案草案</div>
   <h1>店小谋 Loop 评分方案</h1>
-  <p class="lede">给 <code>pm-knowledge-base/</code> 里那支产品经理 Agent 团队用的一套 rubric：五条红线、四个计分维度、三项可信度检查。范围按团队现在的分工，只评经营诊断、chatbot 对话、账号档案、发布后数据复盘，不评脚本和视频。</p>
+  <p class="lede">给产品经理 Agent 团队打分用的标准：先看红线，再算四个维度的分，最后检查分数可不可信。</p>
   <div class="status">
     <span class="pill acc">已跑：R00 基线（10-02）</span>
-    <span class="pill">阶段 0：只评价不修改</span>
     <span class="pill warn">R01 起是计划，不是结果</span>
-    <span class="pill warn">本方案待你确认后才生效</span>
+    <span class="pill warn">草案，待你确认后生效</span>
   </div>
 </header>
 
 <section>
+  <h2>现在在哪</h2>
+  <p class="verdict">R00 没过。六个案例全部踩了红线，最弱的是账号档案，只有 3 分：老板在诊断里说过的话没有传到档案里。先修档案。</p>
+  <div class="tiles">
+    <div class="tile"><span class="k">R00 总分</span><b id="hero-now"></b><span class="s">达线要 75；回溯估分，未校准</span></div>
+    <div class="tile"><span class="k">R05 目标</span><b id="hero-goal"></b><span class="s">目标线下限，还没跑</span></div>
+    <div class="tile"><span class="k">踩红线的案例</span><b>6/6</b><span class="s">有一个就不能放行</span></div>
+    <div class="tile"><span class="k">分数覆盖率</span><b>59%</b><span class="s">到 70% 才报总分</span></div>
+  </div>
+</section>
+
+<section>
   <h2>分数走势</h2>
-  <p>每张图横轴是轮次，纵轴是 0 到 100 分。实心点只有 R00 一个，是回溯估分；空心点是预期或目标线下限，不是跑出来的结果。总分跟着下方「不同系数下的总分」里的系数变。</p>
+  <p>实心点是已经测出来的分数，目前只有 R00 一个。空心点是之后每一轮的目标，还没跑。</p>
   <div class="chart">
     <h3>总分</h3>
-    <div class="hero"><span><b id="hero-now"></b>R00 实测</span><span><b id="hero-goal"></b>R05 目标线下限</span></div>
     <div class="fig" id="ch-total"></div>
   </div>
   <div class="charts">
@@ -142,47 +172,61 @@ code{font-family:var(--mono);font-size:.9em;background:var(--sunk);padding:1px 5
 </section>
 
 <section>
-  <h2>团队分工</h2>
-  <p>团队由 <code>harness/agents/start_team.sh</code> 启动，一个 tmux 会话 <code>dxm-loop</code>，五个 Agent。下表最后两列是这套 rubric 对每个角色的要求：谁能看到打分表，谁负责打哪一部分。</p>
-  <div class="scroll"><table class="t-wide">
-    <tr><th>角色</th><th>模型</th><th>做什么</th><th>不能做什么</th><th>看得到 rubric</th><th>在打分里的职责</th></tr>
-    <tr><td><b>产品经理 Agent</b></td><td>Fable</td><td>逐条判定产出，写评审记录，从不合格项里选 1 到 3 个改动</td><td>改评分规则、读产品源码、碰你确认过的决策</td><td>看得到，只读</td><td>打 Agent 类条目；每个分数要指到原句或截图</td></tr>
-    <tr><td><b>扮演老板</b></td><td>Sonnet</td><td>按扮演卡和店小谋对话，卡上没有的一律说不知道</td><td>读评价标准、写文件、提示产品哪里错了</td><td>看不到</td><td>不打分。它被问才说，痛点命中速度才量得出来</td></tr>
-    <tr><td><b>Reviewer 兼监工</b></td><td>Opus</td><td>复核证据是否支持结论、判定是否与样例一致、改动是否越界、是否在为分数优化</td><td>改正文、提新改动、改标准</td><td>看得到，只读</td><td>不重打分，只判每个分数成不成立；返工最多两轮</td></tr>
-    <tr><td><b>前端工程 Agent</b></td><td>Codex</td><td>按改动需求改页面和组件（阶段 0 待命）</td><td>改接口、读评价标准和评审记录</td><td>看不到</td><td>不打分。改动需求里不出现条目编号和及格线</td></tr>
-    <tr><td><b>后端工程 Agent</b></td><td>Codex</td><td>按改动需求改诊断、档案、聊天、复盘的逻辑和提示词（阶段 0 待命）</td><td>动数据库和部署、调付费模型验证、读评价标准</td><td>看不到</td><td>同上</td></tr>
-    <tr><td><b>协调人</b></td><td>Claude</td><td>在对话里转交收件箱、批复不需要你本人决定的事</td><td>替你做产品决定</td><td>看得到</td><td>不打分</td></tr>
-    <tr><td><b>你</b></td><td>—</td><td>拍板、改标准、合并代码</td><td>—</td><td>可改</td><td>填样例的人工判定；每轮抽查一个画像</td></tr>
-  </table></div>
-  <p class="note">计分表里标「脚本」的条目、分数合并和停止条件由打分脚本算。脚本还没建，建好之前由协调人手动算。</p>
-  <ol class="flow">
-    <li><b>冻结</b><span>记下产品、知识库、测试集版本</span></li>
-    <li><b>跑测试</b><span>扮演老板按卡对话，产出存档</span></li>
-    <li><b>校准</b><span>产品经理先判样例，和你的判定比</span></li>
-    <li><b>打分</b><span>红线、计分表、可信度</span></li>
-    <li><b>写评审</b><span>每条发现两边证据</span></li>
-    <li><b>复核</b><span>Reviewer 判分数成不成立</span></li>
-    <li><b>改动</b><span>阶段 1 起，工程按需求改</span></li>
-    <li><b>重评</b><span>同一测试集再跑，比分数</span></li>
+  <h2>怎么评：三层</h2>
+  <div class="layers">
+    <div class="layer">
+      <span class="tag">第一层 · 红线</span>
+      <h3>一票否决，不计分</h3>
+      <p>任何一条不过，这个案例就记阻塞，这一轮不能放行。右边是 R00 六个案例里过了几个。</p>
+      <ul class="rows">
+        <li><div class="r"><span>G1 不知道的不猜</span><span>5/6</span></div></li>
+        <li><div class="r"><span>G2 推断不当结论说</span><span>2/6</span></div></li>
+        <li><div class="r"><span>G3 缺关键事实时不下确定结论</span><span>无法判断</span></div></li>
+        <li><div class="r"><span>G4 档案不和老板确认过的事实相反</span><span>4/6</span></div></li>
+        <li><div class="r"><span>G5 闲聊内容不变成经营建议</span><span>4/6</span></div></li>
+      </ul>
+    </div>
+    <div class="layer">
+      <span class="tag">第二层 · 计分</span>
+      <h3>四个维度，每维 100 分</h3>
+      <p>每维到 70、总分到 75 才算达线。竖线是 70 分的位置，右边是 R00 的分数。</p>
+      <ul class="rows">
+        <li><div class="r"><span>A 经营诊断</span><span>60</span></div><div class="meter"><i style="width:60%"></i></div></li>
+        <li><div class="r"><span>B 账号档案</span><span>3</span></div><div class="meter"><i style="width:3%"></i></div></li>
+        <li><div class="r"><span>C Chatbot 对话</span><span>55</span></div><div class="meter"><i style="width:55%"></i></div></li>
+        <li><div class="r"><span>D 数据复盘</span><span>还没评</span></div><div class="meter"><i style="width:0"></i></div></li>
+      </ul>
+    </div>
+    <div class="layer">
+      <span class="tag">第三层 · 可信度</span>
+      <h3>分数能不能信</h3>
+      <p>不进总分。任何一项不过，这一轮 Agent 打的分作废，只留脚本算的分。右边是 R00 的情况。</p>
+      <ul class="rows">
+        <li><div class="r"><span>样例校准：Agent 的判定和你的判定一致率 ≥ 4/5</span><span>没做</span></div></li>
+        <li><div class="r"><span>你的抽查：每轮自己判一个画像</span><span>没做</span></div></li>
+        <li><div class="r"><span>覆盖率：出了分的条目 ≥ 70%</span><span>59%</span></div></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>需要你定的</h2>
+  <ol class="todo">
+    <li><b>要不要采用这套方案。</b>评价标准只有你能改，Agent 对 <code>wiki/evaluation/</code> 只读。我没有动知识库里的任何文件；你同意后，B、C 两维和 G4、G5 需要写成新的标准页，A、D 两维大部分条目对到现有的 CD、CP 编号。</li>
+    <li><b>G4 的口径。</b>「真实性、肖像、物理条件不可越，发几条和怎么运营由产品定」是协调人的建议，10-02 的讨论里你还没确认。</li>
+    <li><b>A1 的量法。</b>用「第几轮准确说出扮演卡上的头号痛点」来量「多快问出痛点」，行不行。</li>
+    <li><b>系数和及格线。</b>三套系数选哪套；每维 70、总分 75 的线要不要改。</li>
+    <li><b>R03 的两个改动算不算「明确的缺陷」。</b>按现有分阶段规则，阶段 1 只放开界面文案和缺陷修复，改提示词和后端要到阶段 2。档案丢信息和团购卡方案都违反了产品定义和 PRD 已写明的要求，我按缺陷排进了 R03；你不同意的话，它们要顺延到阶段 2。</li>
+    <li><b>R01 开跑前。</b>给样例 X04 填人工判定；确认重新跑产品接口的模型费用。</li>
   </ol>
 </section>
 
 <section>
-  <h2>第一层：红线</h2>
-  <p>红线不计分。每个案例逐条判过或不过，任何一条不过，这个案例记阻塞；一轮里只要有阻塞案例，这一轮的结论就是「阻塞未过」，总分照算但只用来看走向，不能据此放行。</p>
-  <div class="scroll"><table class="t-wide">
-    <tr><th>编号</th><th>红线</th><th>怎么判</th><th>来源</th><th class="num">R00 通过</th></tr>
-    <tr><td class="id">G1</td><td>不知道的不猜</td><td>缺失的信息标成未知，猜测值为 0</td><td>沿用 CD03（阻塞）</td><td class="num">5/6</td></tr>
-    <tr><td class="id">G2</td><td>推断不当结论说</td><td>以确定语气写出的推断为 0；每条假设写明要谁确认</td><td>沿用 CD07（阻塞）</td><td class="num c-bad">2/6</td></tr>
-    <tr><td class="id">G3</td><td>缺关键事实时不给确定结论</td><td>列出未知项和补充任务（谁补、补什么）</td><td>沿用 CD05（阻塞）</td><td class="num">无法判断</td></tr>
-    <tr><td class="id">G4</td><td>档案不和老板确认过的事实相反</td><td>只管三类：真实性（冻品不写鲜切）、肖像（不同意出镜就不安排他出镜）、物理条件（午高峰禁拍、两个人的厨房）。发几条、怎么运营不在这条里，归 B3</td><td>新增。口径是协调人的建议，你还没确认</td><td class="num c-warn">4/6</td></tr>
-    <tr><td class="id">G5</td><td>闲聊内容不变成经营建议</td><td>离题话题（星座、笑话）没有被用来推出出镜、栏目等建议</td><td>新增。10-02 已和你谈定</td><td class="num c-warn">4/6</td></tr>
-  </table></div>
-  <p class="note">R00 六个案例每个都至少踩一条红线：火锅 G2、G4；素食 G2；快餐 G4；烧烤 G1、G5；烘焙 G5；聚餐 G2。</p>
-</section>
-
-<section>
-  <h2>第二层：计分表</h2>
+  <h2>详细内容</h2>
+  <p class="note">上面是全貌。下面每一项点开才展开，需要查细节时再看。</p>
+  <div class="more">
+  <details><summary>完整计分表<small>18 个条目，每条怎么打 0 到 4 分</small></summary><div class="body">
   <p>四个维度，每维满分 100。每个条目按案例打 0 到 4 分，取所有可比案例的平均，再按条目权重加成维度分。「可比案例」少于 3 个的条目记无法判断，不出分、不进分母。</p>
   <div class="scroll"><table class="t-wide">
     <tr><th>编号</th><th>条目</th><th class="num">权重</th><th>4 分</th><th>2 分</th><th>0 分</th><th>谁判</th><th>依据</th></tr>
@@ -214,10 +258,20 @@ code{font-family:var(--mono);font-size:.9em;background:var(--sunk);padding:1px 5
     <tr><td class="id">D5</td><td>复盘改变了下一步</td><td class="num">15</td><td>下周计划引用了复盘的假设变化；要改目标就走重新诊断</td><td>引用了，但没说沿用还是调整</td><td>下周从零生成，或悄悄改了目标</td><td>Agent</td><td>CP09；诊断 PRD 13 节</td></tr>
   </table></div>
   <p class="note">1 分和 3 分是相邻两档之间的情况，由判定人写明偏向哪一档的理由。</p>
-</section>
-
-<section>
-  <h2>第三层：分数可不可信</h2>
+  </div></details>
+  <details><summary>红线怎么判<small>五条红线的判法和来源</small></summary><div class="body">
+  <p>红线不计分。每个案例逐条判过或不过，任何一条不过，这个案例记阻塞；一轮里只要有阻塞案例，这一轮的结论就是「阻塞未过」，总分照算但只用来看走向，不能据此放行。</p>
+  <div class="scroll"><table class="t-wide">
+    <tr><th>编号</th><th>红线</th><th>怎么判</th><th>来源</th><th class="num">R00 通过</th></tr>
+    <tr><td class="id">G1</td><td>不知道的不猜</td><td>缺失的信息标成未知，猜测值为 0</td><td>沿用 CD03（阻塞）</td><td class="num">5/6</td></tr>
+    <tr><td class="id">G2</td><td>推断不当结论说</td><td>以确定语气写出的推断为 0；每条假设写明要谁确认</td><td>沿用 CD07（阻塞）</td><td class="num c-bad">2/6</td></tr>
+    <tr><td class="id">G3</td><td>缺关键事实时不给确定结论</td><td>列出未知项和补充任务（谁补、补什么）</td><td>沿用 CD05（阻塞）</td><td class="num">无法判断</td></tr>
+    <tr><td class="id">G4</td><td>档案不和老板确认过的事实相反</td><td>只管三类：真实性（冻品不写鲜切）、肖像（不同意出镜就不安排他出镜）、物理条件（午高峰禁拍、两个人的厨房）。发几条、怎么运营不在这条里，归 B3</td><td>新增。口径是协调人的建议，你还没确认</td><td class="num c-warn">4/6</td></tr>
+    <tr><td class="id">G5</td><td>闲聊内容不变成经营建议</td><td>离题话题（星座、笑话）没有被用来推出出镜、栏目等建议</td><td>新增。10-02 已和你谈定</td><td class="num c-warn">4/6</td></tr>
+  </table></div>
+  <p class="note">R00 六个案例每个都至少踩一条红线：火锅 G2、G4；素食 G2；快餐 G4；烧烤 G1、G5；烘焙 G5；聚餐 G2。</p>
+  </div></details>
+  <details><summary>可信度检查<small>三项检查的线和不过的后果</small></summary><div class="body">
   <p>这三项不进总分，但任何一项不过，本轮的 Agent 类分数作废，只留脚本类分数。沿用 <code>ITERATE.md</code> 第 10 节，没有新增。</p>
   <div class="scroll"><table class="t-mid">
     <tr><th>检查</th><th>线</th><th>不过怎么办</th><th>R00</th></tr>
@@ -225,10 +279,8 @@ code{font-family:var(--mono);font-size:.9em;background:var(--sunk);padding:1px 5
     <tr><td>你的抽查：每轮抽 1 个画像自己判一遍</td><td>同上口径</td><td>本轮分数不用来选改动</td><td class="c-bad">没做</td></tr>
     <tr><td>覆盖率：出了分的条目占总权重多少</td><td>≥ 70% 才报总分</td><td>只报各维度分，不报总分</td><td class="c-warn">59%</td></tr>
   </table></div>
-</section>
-
-<section>
-  <h2>怎么算</h2>
+  </div></details>
+  <details><summary>分数怎么算<small>公式和达线条件</small></summary><div class="body">
   <div class="formula">条目分   = 可比案例得分的平均 ÷ 4 × 100
 维度分   = Σ(条目权重 × 条目分) ÷ Σ(出了分的条目权重)
 总分     = Σ(维度系数 × 维度分) ÷ Σ(出了分的维度系数)
@@ -236,10 +288,29 @@ code{font-family:var(--mono);font-size:.9em;background:var(--sunk);padding:1px 5
 本轮结论 = 任一案例踩红线 → 阻塞未过
            否则每维 ≥ 70 且总分 ≥ 75 → 达线；其余 → 未达线</div>
   <p class="note">70 和 75 是起始值，由你定。现有规则是「按层算，不算总分」（<code>ITERATE.md</code> 9.2）；这里的总分是加在上面看走向用的，放行仍然先看红线和每一维，不能用一维的高分去抵另一维。</p>
-</section>
-
-<section>
-  <h2>每一轮做了什么</h2>
+  </div></details>
+  <details><summary>换一套系数<small>三套预设，或拖滑块自己试</small></summary><div class="body">
+  <p>四个维度的系数可以调。三套预设对应三种取舍；拖动滑块可以试别的组合，系数会自动归一。R00 用实测维度分算，R03 到 R05 按目标线下限算。</p>
+  <div class="calc">
+    <div class="presets" role="group" aria-label="系数预设">
+      <button type="button" id="p-a" data-w="30,30,15,25" aria-pressed="true">传递优先 0.30 / 0.30 / 0.15 / 0.25</button>
+      <button type="button" id="p-b" data-w="40,25,15,20" aria-pressed="false">诊断优先 0.40 / 0.25 / 0.15 / 0.20</button>
+      <button type="button" id="p-c" data-w="25,25,10,40" aria-pressed="false">闭环优先 0.25 / 0.25 / 0.10 / 0.40</button>
+    </div>
+    <div class="sliders">
+      <label for="w-a">A 经营诊断 <output id="o-a"></output><input type="range" id="w-a" min="0" max="100" step="5" value="30"></label>
+      <label for="w-b">B 账号档案 <output id="o-b"></output><input type="range" id="w-b" min="0" max="100" step="5" value="30"></label>
+      <label for="w-c">C Chatbot 对话 <output id="o-c"></output><input type="range" id="w-c" min="0" max="100" step="5" value="15"></label>
+      <label for="w-d">D 数据复盘 <output id="o-d"></output><input type="range" id="w-d" min="0" max="100" step="5" value="25"></label>
+    </div>
+    <div class="scroll"><table class="t-mid">
+      <thead><tr><th>轮次</th><th class="num">A</th><th class="num">B</th><th class="num">C</th><th class="num">D</th><th>总分</th><th class="num">覆盖率</th></tr></thead>
+      <tbody id="calc-body"></tbody>
+    </table></div>
+    <p class="note">传递优先是我的建议：R00 的头号问题是诊断到档案的传递断了，诊断和档案并重。诊断优先适合 R01、R02 只评不改、主要在打磨提问的阶段。闭环优先适合试点开始、有真实回填数据之后。不管选哪套，R00 都在 35 到 42 分之间，结论不变：先修档案。</p>
+  </div>
+  </div></details>
+  <details><summary>每一轮做什么<small>R00 到 R05</small></summary><div class="body">
   <div class="rounds">
     <div class="round done">
       <h3>R00 基线与对齐 <span class="pill good">已完成 · 10-02</span></h3>
@@ -293,10 +364,8 @@ code{font-family:var(--mono);font-size:.9em;background:var(--sunk);padding:1px 5
       </ul>
     </div>
   </div>
-</section>
-
-<section>
-  <h2>打分表走向</h2>
+  </div></details>
+  <details><summary>逐轮目标表<small>每一轮每个维度的目标</small></summary><div class="body">
   <p>R00 一列是实测，但属于回溯估分：由我按测试 agent 的 30 条点评逐条折算（每个条目分 = 没出这类问题的案例占比），没经过校准，也没经过你的抽查。R01 之后的虚线格是目标线，不是预测结果。</p>
   <div class="scroll"><table class="t-wide">
     <tr><th>项</th><th class="num">R00 实测</th><th>R00 的依据</th><th class="num">R01</th><th class="num">R02</th><th class="num">R03</th><th class="num">R04</th><th class="num">R05</th></tr>
@@ -309,41 +378,32 @@ code{font-family:var(--mono);font-size:.9em;background:var(--sunk);padding:1px 5
     <tr><td>覆盖率</td><td class="num act c-warn">59%</td><td>A1、C3、C4 和整个 D 没出分</td><td class="num"><span class="fut">≥ 70%</span></td><td class="num"><span class="fut">≥ 70%</span></td><td class="num"><span class="fut">≥ 70%</span></td><td class="num"><span class="fut">≥ 70%</span></td><td class="num"><span class="fut">100%</span></td></tr>
     <tr><td><b>结论</b></td><td class="num act c-bad">阻塞未过</td><td>—</td><td class="num"><span class="fut">不下结论</span></td><td class="num"><span class="fut">基线</span></td><td class="num"><span class="fut">未达线</span></td><td class="num"><span class="fut">未达线</span></td><td class="num"><span class="fut">达线</span></td></tr>
   </table></div>
-</section>
-
-<section>
-  <h2>不同系数下的总分</h2>
-  <p>四个维度的系数可以调。三套预设对应三种取舍；拖动滑块可以试别的组合，系数会自动归一。R00 用实测维度分算，R03 到 R05 按目标线下限算。</p>
-  <div class="calc">
-    <div class="presets" role="group" aria-label="系数预设">
-      <button type="button" id="p-a" data-w="30,30,15,25" aria-pressed="true">传递优先 0.30 / 0.30 / 0.15 / 0.25</button>
-      <button type="button" id="p-b" data-w="40,25,15,20" aria-pressed="false">诊断优先 0.40 / 0.25 / 0.15 / 0.20</button>
-      <button type="button" id="p-c" data-w="25,25,10,40" aria-pressed="false">闭环优先 0.25 / 0.25 / 0.10 / 0.40</button>
-    </div>
-    <div class="sliders">
-      <label for="w-a">A 经营诊断 <output id="o-a"></output><input type="range" id="w-a" min="0" max="100" step="5" value="30"></label>
-      <label for="w-b">B 账号档案 <output id="o-b"></output><input type="range" id="w-b" min="0" max="100" step="5" value="30"></label>
-      <label for="w-c">C Chatbot 对话 <output id="o-c"></output><input type="range" id="w-c" min="0" max="100" step="5" value="15"></label>
-      <label for="w-d">D 数据复盘 <output id="o-d"></output><input type="range" id="w-d" min="0" max="100" step="5" value="25"></label>
-    </div>
-    <div class="scroll"><table class="t-mid">
-      <thead><tr><th>轮次</th><th class="num">A</th><th class="num">B</th><th class="num">C</th><th class="num">D</th><th>总分</th><th class="num">覆盖率</th></tr></thead>
-      <tbody id="calc-body"></tbody>
-    </table></div>
-    <p class="note">传递优先是我的建议：R00 的头号问题是诊断到档案的传递断了，诊断和档案并重。诊断优先适合 R01、R02 只评不改、主要在打磨提问的阶段。闭环优先适合试点开始、有真实回填数据之后。不管选哪套，R00 都在 35 到 42 分之间，结论不变：先修档案。</p>
-  </div>
-</section>
-
-<section>
-  <h2>需要你定的</h2>
-  <ol class="todo">
-    <li><b>要不要采用这套方案。</b>评价标准只有你能改，Agent 对 <code>wiki/evaluation/</code> 只读。我没有动知识库里的任何文件；你同意后，B、C 两维和 G4、G5 需要写成新的标准页，A、D 两维大部分条目对到现有的 CD、CP 编号。</li>
-    <li><b>G4 的口径。</b>「真实性、肖像、物理条件不可越，发几条和怎么运营由产品定」是协调人的建议，10-02 的讨论里你还没确认。</li>
-    <li><b>A1 的量法。</b>用「第几轮准确说出扮演卡上的头号痛点」来量「多快问出痛点」，行不行。</li>
-    <li><b>系数和及格线。</b>三套系数选哪套；每维 70、总分 75 的线要不要改。</li>
-    <li><b>R03 的两个改动算不算「明确的缺陷」。</b>按现有分阶段规则，阶段 1 只放开界面文案和缺陷修复，改提示词和后端要到阶段 2。档案丢信息和团购卡方案都违反了产品定义和 PRD 已写明的要求，我按缺陷排进了 R03；你不同意的话，它们要顺延到阶段 2。</li>
-    <li><b>R01 开跑前。</b>给样例 X04 填人工判定；确认重新跑产品接口的模型费用。</li>
+  </div></details>
+  <details><summary>团队分工<small>谁打分，谁看得到打分表</small></summary><div class="body">
+  <p>团队由 <code>harness/agents/start_team.sh</code> 启动，一个 tmux 会话 <code>dxm-loop</code>，五个 Agent。下表最后两列是这套 rubric 对每个角色的要求：谁能看到打分表，谁负责打哪一部分。</p>
+  <div class="scroll"><table class="t-wide">
+    <tr><th>角色</th><th>模型</th><th>做什么</th><th>不能做什么</th><th>看得到 rubric</th><th>在打分里的职责</th></tr>
+    <tr><td><b>产品经理 Agent</b></td><td>Fable</td><td>逐条判定产出，写评审记录，从不合格项里选 1 到 3 个改动</td><td>改评分规则、读产品源码、碰你确认过的决策</td><td>看得到，只读</td><td>打 Agent 类条目；每个分数要指到原句或截图</td></tr>
+    <tr><td><b>扮演老板</b></td><td>Sonnet</td><td>按扮演卡和店小谋对话，卡上没有的一律说不知道</td><td>读评价标准、写文件、提示产品哪里错了</td><td>看不到</td><td>不打分。它被问才说，痛点命中速度才量得出来</td></tr>
+    <tr><td><b>Reviewer 兼监工</b></td><td>Opus</td><td>复核证据是否支持结论、判定是否与样例一致、改动是否越界、是否在为分数优化</td><td>改正文、提新改动、改标准</td><td>看得到，只读</td><td>不重打分，只判每个分数成不成立；返工最多两轮</td></tr>
+    <tr><td><b>前端工程 Agent</b></td><td>Codex</td><td>按改动需求改页面和组件（阶段 0 待命）</td><td>改接口、读评价标准和评审记录</td><td>看不到</td><td>不打分。改动需求里不出现条目编号和及格线</td></tr>
+    <tr><td><b>后端工程 Agent</b></td><td>Codex</td><td>按改动需求改诊断、档案、聊天、复盘的逻辑和提示词（阶段 0 待命）</td><td>动数据库和部署、调付费模型验证、读评价标准</td><td>看不到</td><td>同上</td></tr>
+    <tr><td><b>协调人</b></td><td>Claude</td><td>在对话里转交收件箱、批复不需要你本人决定的事</td><td>替你做产品决定</td><td>看得到</td><td>不打分</td></tr>
+    <tr><td><b>你</b></td><td>—</td><td>拍板、改标准、合并代码</td><td>—</td><td>可改</td><td>填样例的人工判定；每轮抽查一个画像</td></tr>
+  </table></div>
+  <p class="note">计分表里标「脚本」的条目、分数合并和停止条件由打分脚本算。脚本还没建，建好之前由协调人手动算。</p>
+  <ol class="flow">
+    <li><b>冻结</b><span>记下产品、知识库、测试集版本</span></li>
+    <li><b>跑测试</b><span>扮演老板按卡对话，产出存档</span></li>
+    <li><b>校准</b><span>产品经理先判样例，和你的判定比</span></li>
+    <li><b>打分</b><span>红线、计分表、可信度</span></li>
+    <li><b>写评审</b><span>每条发现两边证据</span></li>
+    <li><b>复核</b><span>Reviewer 判分数成不成立</span></li>
+    <li><b>改动</b><span>阶段 1 起，工程按需求改</span></li>
+    <li><b>重评</b><span>同一测试集再跑，比分数</span></li>
   </ol>
+  </div></details>
+  </div>
 </section>
 
 </div>
@@ -428,7 +488,7 @@ code{font-family:var(--mono);font-size:.9em;background:var(--sunk);padding:1px 5
   }
   ["pointerover","focusin","click"].forEach(function(ev){document.addEventListener(ev,showTip)});
   document.addEventListener("focusout",function(){tip.style.display="none"});
-  var rt; window.addEventListener("resize",function(){clearTimeout(rt);rt=setTimeout(render,120)});
+  var rt; document.addEventListener("toggle",function(){},true);window.addEventListener("resize",function(){clearTimeout(rt);rt=setTimeout(render,120)});
   inputs.forEach(function(i){i.addEventListener("input",render)});
   presets.forEach(function(b){b.addEventListener("click",function(){
     b.dataset.w.split(",").forEach(function(v,i){inputs[i].value=v});
