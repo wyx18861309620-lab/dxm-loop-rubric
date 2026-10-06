@@ -86,7 +86,7 @@ code{font-family:var(--mono);font-size:.9em;background:var(--sunk);padding:1px 5
   <h2>四个部分</h2>
   <div class="grid4">
     <div class="card"><span class="tag">红线</span><b class="big">4 条</b><p>一票否决。踩一条，这个案例就不能放行，不管效果分多高。</p></div>
-    <div class="card"><span class="tag">效果</span><b class="big">100 分</b><p>18 个条目、55 个是非检查点。另有一个盲比指标，和强模型做的基准比。</p></div>
+    <div class="card"><span class="tag">效果</span><b class="big">100 分</b><p>22 个条目、66 个是非检查点。另有一个盲比指标，和强模型做的基准比。</p></div>
     <div class="card"><span class="tag">成本</span><b class="big">4 项</b><p>钱、时间、老板的负担。单独一张表，不和效果分混在一起。</p></div>
     <div class="card"><span class="tag">可信度</span><b class="big">6 项</b><p>查分数本身靠不靠得住。不过，这一轮的分数不算数。</p></div>
   </div>
@@ -204,14 +204,22 @@ code{font-family:var(--mono);font-size:.9em;background:var(--sunk);padding:1px 5
     <div class="card">
       <span class="tag">C Chatbot 对话 · 15 分</span>
       <ul class="rows">
-        <li><div class="r"><span><span class="id">C1</span>离题接住再拉回</span><span>3 分</span></div>
+        <li><div class="r"><span><span class="id">C1</span>离题接住再拉回</span><span>2 分</span></div>
           <details><summary>2 个检查点</summary><ul><li><span class="tg">模型</span>用一句话接住，没有冷冰冰拒绝，也没有完整陪聊</li><li><span class="tg">模型</span>同一条回复里拉回经营话题</li></ul></details></li>
-        <li><div class="r"><span><span class="id">C2</span>记得住</span><span>3 分 · 脚本</span></div>
+        <li><div class="r"><span><span class="id">C2</span>记得住</span><span>2 分 · 脚本</span></div>
           <details><summary>2 个检查点</summary><ul><li><span class="tg">模型</span>建档收过的城市、行业、主营、价格没有再问</li><li><span class="tg">模型</span>老板改口后，后续建议全部按新的来</li></ul></details></li>
-        <li><div class="r"><span><span class="id">C3</span>老板看得懂</span><span>3 分</span></div>
+        <li><div class="r"><span><span class="id">C3</span>老板看得懂</span><span>1 分</span></div>
           <details><summary>3 个检查点</summary><ul><li><span class="tg">模型</span>没有出现「知识库」「Agent」等内部词</li><li><span class="tg">模型</span>没有运营术语，或者出现时当场用大白话解释了</li><li><span class="tg">模型</span>单条回复在手机上一屏能看完（约 150 字以内），脚本数字数</li></ul></details></li>
-        <li><div class="r"><span><span class="id">C4</span>回答有用</span><span>6 分</span></div><div class="d">老板问经营问题时答得有没有用。扮演老板对每个画像固定问 3 个经营问题，比如「这周发什么」「为什么没流量」。</div>
+        <li><div class="r"><span><span class="id">C4</span>回答有用</span><span>4 分</span></div><div class="d">老板问经营问题时答得有没有用。扮演老板对每个画像固定问 3 个经营问题，比如「这周发什么」「为什么没流量」。</div>
           <details><summary>3 个检查点</summary><ul><li><span class="tg">业务</span>回答用到了这家店的诊断和档案，不是换谁问都一样的通用建议</li><li><span class="tg">业务</span>给出老板今天就能做的下一步</li><li><span class="tg">模型</span>和档案里定的方向不矛盾</li></ul></details></li>
+        <li><div class="r"><span><span class="id">C5</span>听得懂</span><span>2 分</span></div><div class="d">老板不会按标准话术提问。测试里故意带错别字、口语，一句话问两件事。</div>
+          <details><summary>3 个检查点</summary><ul><li><span class="tg">模型</span>带错别字、口语或语音转出来的错字时，回答对上了老板的原意</li><li><span class="tg">模型</span>一句话里问了两件事，两件都答到了</li><li><span class="tg">模型</span>老板没说清时，抓住了真正想问的，或者用一句话确认，没有答非所问</li></ul></details></li>
+        <li><div class="r"><span><span class="id">C6</span>稳定</span><span>2 分 · 脚本</span></div><div class="d">同一个问题分三次单独问，再查每条回复有没有坏掉。</div>
+          <details><summary>3 个检查点</summary><ul><li><span class="tg">模型</span>同一个问题问三遍，三次回答的方向一致</li><li><span class="tg">模型</span>没有截断、乱码、重复标点，脚本检查</li><li><span class="tg">模型</span>没有接口出错或空回复，脚本检查</li></ul></details></li>
+        <li><div class="r"><span><span class="id">C7</span>速度</span><span>1 分 · 脚本</span></div><div class="d">脚本计时。出第一个字的时间要等原型的流式回复合进 loop 之后才量得了。</div>
+          <details><summary>2 个检查点</summary><ul><li><span class="tg">模型</span>整条回复 12 秒内说完（按比例计：达标的回复占多少）</li><li><span class="tg">模型</span>3 秒内出第一个字（暂时量不了，先不计分）</li></ul></details></li>
+        <li><div class="r"><span><span class="id">C8</span>分寸</span><span>1 分</span></div><div class="d">老板着急、抱怨、质疑时的应对。</div>
+          <details><summary>3 个检查点</summary><ul><li><span class="tg">模型</span>老板着急或抱怨时，先接住再给办法，不说教</li><li><span class="tg">模型</span>拒绝时（平台不允许的说法、保证能火）说清原因，不生硬</li><li><span class="tg">模型</span>老板质疑建议时，给出依据或承认不确定，不硬顶也不马上改口</li></ul></details></li>
       </ul>
     </div>
     <div class="card">
@@ -384,7 +392,7 @@ code{font-family:var(--mono);font-size:.9em;background:var(--sunk);padding:1px 5
     <tr><td>A 经营诊断</td><td>A1 到 A4 的检查点和分值</td><td>已定：A1 判错整条 0 分、15 分；A2 必问七项；A3 只在敏感问题上说明原因；A4 降到 2 分</td></tr>
     <tr><td>B 账号档案</td><td>B1 到 B3</td><td>已定：B1 记下来就行（5 分）；B2 10 分；B2 里加了一个独特性检查点；B3 要说明理由、给最低版本、发得多时安排集中拍摄。分值现为 4、9、9</td></tr>
     <tr><td>整体</td><td>业务分和模型能力分</td><td>已定：两种分法都显示；同一条目里的业务问题和模型问题分开标，标到每个检查点。具体每个点标哪边是我的草稿</td></tr>
-    <tr><td>C 对话</td><td>C1 到 C4</td><td>已定：加 C4 回答有用（6 分）；C3 加查长度，一屏看完；C 升到 15 分，A 降到 28、B 降到 22</td></tr>
+    <tr><td>C 对话</td><td>C1 到 C4</td><td>已定：加 C4 回答有用；C3 加查长度；C 占 15 分。10-06 又加了四条：C5 听得懂、C6 稳定、C7 速度、C8 分寸。八条怎么分这 15 分、速度的秒数是我的草稿</td></tr>
     <tr><td>D 数据复盘</td><td>D1 到 D4，以及九个剧本的答案</td><td>已定：加 D4 定期问老板经营现况；S1 先问老板再加码有效栏目；S2 先问老板再改承接。每周问一次、最多 3 个问题是我的草稿。S3 先集中拍摄再降节奏；S6 改成错峰引流，要老板点头；其余五个剧本按草稿</td></tr>
     <tr><td>E 档案迭代</td><td>E1 到 E3</td><td>已定：改动幅度看账号阶段，试水期放开、稳定期不大改；小改直接生效并告知，大改要老板点头。两个阶段怎么划界是我的草稿</td></tr>
     <tr><td>成本、可信度</td><td>K1 到 K4，T1 到 T6</td><td>已定：老板的负担和模型费用都设硬上限；先把效果做到放行线，再换便宜模型压成本；业务类判三遍，其余一遍；留出集再建 2 个新画像。上限的数是起始值或待量</td></tr>
