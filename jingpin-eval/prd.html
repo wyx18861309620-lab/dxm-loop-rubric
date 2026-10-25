@@ -1,0 +1,130 @@
+<!doctype html><html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>精品视频 PRD v1</title>
+<style>
+body{font:15px/1.7 -apple-system,"PingFang SC",sans-serif;max-width:920px;margin:0 auto;padding:20px 16px 60px;background:#fafaf9;color:#1c1b1a}
+h1{font-size:26px;margin:0 0 4px}h2{font-size:20px;margin:34px 0 10px;padding-top:10px;border-top:1px solid #e7e5e2}h3{font-size:16px;margin:20px 0 6px}
+.sub{color:#6b6966;font-size:13px}
+table{border-collapse:collapse;width:100%;font-size:14px;margin:8px 0;background:#fff}td,th{border:1px solid #e7e5e2;padding:6px 8px;text-align:left;vertical-align:top}th{background:#f1f0ee}
+.box{background:#fff;border:1px solid #e7e5e2;border-radius:12px;padding:12px 16px;margin:10px 0}
+.key{background:#1c1b1a;color:#fafaf9;border-radius:12px;padding:14px 16px}
+.flow{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:8px 0}.flow span{background:#fff;border:1px solid #d6d3cf;border-radius:999px;padding:4px 12px;font-size:14px}.flow i{color:#a8a29e;font-style:normal}
+.flow .on{background:#1c1b1a;color:#fff;border-color:#1c1b1a}
+.phone{display:inline-block;vertical-align:top;width:230px;margin:6px 8px 6px 0;background:#fff;border:1px solid #d6d3cf;border-radius:18px;padding:10px;font-size:12.5px}
+.phone .t{font-weight:700;font-size:14px;margin-bottom:6px}.phone .c{background:#f1f0ee;border-radius:10px;padding:6px 8px;margin:5px 0}.phone .b{background:#1c1b1a;color:#fff;border-radius:999px;text-align:center;padding:6px;margin-top:6px}
+.phone .nav{display:flex;justify-content:space-around;border-top:1px solid #e7e5e2;margin-top:8px;padding-top:6px;color:#6b6966}
+.tag{display:inline-block;font-size:12px;border-radius:6px;padding:0 6px;margin-left:4px}.new{background:#dcfce7;color:#166534}.chg{background:#fef3c7;color:#92400e}.del{background:#fee2e2;color:#991b1b}.keep{background:#e5e7eb;color:#374151}
+ul{margin:4px 0;padding-left:20px}li{margin:3px 0}
+.q{color:#9a3412}
+</style></head><body>
+<h1>精品视频 · 产品需求文档（PRD）v1</h1>
+<div class="sub">产品线总 PM · 2026-10-25 · 草稿，待老板定 · 示例店都是虚构的</div>
+
+<div class="key" style="margin-top:14px"><b>一句话：</b>店老板花 15 分钟回答几件事、传几段手机里的视频，店小谋就照着同行爆款，用他店里真的菜、价和团购，做出一条能直接发的好视频，并告诉他团购怎么改。<br>
+<b>不做的：</b>账号复盘、播放和涨粉的追踪、为数据结果负责（这些归代运营服务线）。</div>
+
+<h2>1. 为什么要做</h2>
+<ul>
+<li>老板 10-24：「产品线（精品视频）：不为数据结果负责，只根据商户经营痛点生成质量高的视频，帮助商家剪辑发布。」</li>
+<li>现在的问题：功能散在「计划 / 素材 / 上传 / 档案」四个页面里，商户不知道自己做到哪一步、下一步该干什么；问诊问得碎、问得久；没有爆款、没有素材填空、没有补拍指引。</li>
+<li>目标：商户<b>任何时候打开店小谋，第一眼就知道「这条视频做到哪了、下一步点哪里」</b>。</li>
+</ul>
+
+<h2>2. 给谁用</h2>
+<div class="box">单店餐饮老板（先做火锅、烤肉、烧烤、自助餐、地方菜、海鲜酒楼、烤鱼小龙虾、西餐八类）。手机上用，一天干十几个小时，没有专门拍视频的人，不懂「完播率」这些词。他要的是：<b>拍什么、怎么拍、团购怎么定，告诉我就行</b>。</div>
+
+<h2>3. 用户路径（重新设计）</h2>
+<p>整个产品只有一条主线，分三层：<b>第一次来</b>做一次；<b>每个月</b>定一次方案；<b>每条视频</b>走一遍做片流程。</p>
+
+<h3>3.1 第一次来（约 5 分钟，只做一次）</h3>
+<div class="flow"><span>认识你的店</span><i>→</i><span>问三件事</span><i>→</i><span>这个月的方案</span><i>→</i><span class="on">进入首页</span></div>
+<ul>
+<li><b>认识你的店：</b>店小谋先把找到的门店信息和在卖的团购摆出来，老板只点「对 / 改」。</li>
+<li><b>问三件事：</b>最头疼哪件 → 跟着追问一句 → 团购底价计算器（老板自己填成本、抽成，自己定最低能接受的价）。</li>
+<li><b>这个月的方案：</b>先做哪件事 + 团购怎么改 + 这个月拍几条、拍什么方向。点「就这么办」才生效。</li>
+</ul>
+
+<h3>3.2 每个月（1 分钟）</h3>
+<div class="flow"><span>月初提醒</span><i>→</i><span>这个月有变化吗（一问）</span><i>→</i><span>新方案</span><i>→</i><span>就这么办</span></div>
+
+<h3>3.3 每条视频（约 10 分钟 + 拍摄）</h3>
+<div class="flow"><span>挑一条爆款</span><i>→</i><span>看我家的脚本</span><i>→</i><span>传素材 / 补拍</span><i>→</i><span>出片</span><i>→</i><span>发布</span></div>
+<ul>
+<li>方案说这个月拍 4 条，首页就排 4 条「待做」，一条一条往下走。</li>
+<li>素材只传一次进素材库，以后每条视频自动从库里挑；缺哪段才让老板拍哪段。</li>
+</ul>
+
+<h2>4. 页面结构（重新设计）</h2>
+<table>
+<tr><th>底栏</th><th>这一页是干什么的</th><th>和线上比</th></tr>
+<tr><td><b>首页</b>（原「计划」）</td><td>最上面「这个月的方案」一张卡；下面是本月 N 条视频，每条一张进度卡（挑爆款 → 脚本 → 素材 → 出片 → 发布，当前在哪一步高亮）+ 一个「继续」大按钮</td><td><span class="tag chg">改</span> 原「这次拍什么」改成按条显示进度</td></tr>
+<tr><td><b>素材</b></td><td>手机里传上来的所有素材；每段自动标「拍的是什么」和美化状态</td><td><span class="tag chg">改</span> 加识别和美化</td></tr>
+<tr><td><b>＋ 上传</b></td><td>随手传，传完自动进素材库</td><td><span class="tag keep">留</span></td></tr>
+<tr><td><b>我的店</b>（原「档案」）</td><td>门店信息、团购、我能接受的最低价、老板原话；改了下个月方案跟着变</td><td><span class="tag chg">改</span> 去掉账号诊断、本月目标那几块</td></tr>
+<tr><td>复盘</td><td>—</td><td><span class="tag del">去掉</span> 归服务线</td></tr>
+</table>
+
+<div class="box"><b>首页长这样（草图）</b><br>
+<div class="phone"><div class="t">蜀香火锅 · 10 月</div>
+<div class="c"><b>这个月先做：卖了能赚到钱</b><br>双人餐改 99、只放工作日；拍 4 条四人餐</div>
+<div class="c"><b>第 1 条</b> 四个人吃火锅 238 能吃成这样？<br>✓爆款 ✓脚本 ● 素材（还差 2 段）○出片 ○发布<div class="b">去拍这 2 段</div></div>
+<div class="c"><b>第 2 条</b> 现切黄喉 12 年<br>○ 还没开始</div>
+<div class="nav"><span>首页</span><span>素材</span><span>＋</span><span>我的店</span></div></div>
+<div class="phone"><div class="t">第 1 条 · 看脚本</div>
+<div class="c">0–3 秒 满桌四人餐 + 字幕「<b>238</b> 能吃成这样？」<br>✓ 用你的素材</div>
+<div class="c">3–9 秒 <b>鲜毛肚</b>、<b>现切黄喉</b> 上桌<br>✓ 用你的素材</div>
+<div class="c">17–25 秒 涮毛肚 8 秒<br>✗ 还没有，下一步教你拍</div>
+<div class="b">就拍这个</div></div>
+</div>
+
+<h2>5. 每一步要做到什么</h2>
+<table>
+<tr><th>步骤</th><th>商户看到 / 做什么</th><th>规则（谁算）</th><th>算做好了</th></tr>
+<tr><td>① 认识你的店</td><td>店名、地址、人均、营业时间、招牌菜、在卖团购；点「对 / 改」</td><td>演示：虚拟机用老板自己的美团号搜；正式：商户确认 / 上传 / 官方接口（页面不变）</td><td>信息对的店，老板一次点「对」</td></tr>
+<tr><td>② 问三件事</td><td>三问，每问有选项 +「我自己说」；第 3 问是团购底价计算器</td><td>规则定问什么；底价 = 菜单原价 × 食材几成 ÷（1 − 平台抽成 − 达人佣金）</td><td>测评：几轮问出真问题、问得准不准</td></tr>
+<tr><td>③ 这个月的方案</td><td>先做哪件事 + 团购方案（价、时段、限量）+ 拍几条、拍什么、给谁看 + 最多一招顺手的</td><td>四个维度打占比（只内部用）→ 选主维度 → 方案；价格不低于老板自己定的最低价</td><td>测评：老板打 1 / 2 / 3 分</td></tr>
+<tr><td>④ 挑爆款</td><td>3 条同行爆款：封面、赞数、为什么适合你、拆开看怎么拍；对标账号</td><td>行业爆款库（我们定期搜进去：演示用虚拟机搜抖音），按品类 → 痛点 → 店里拍不拍得出来挑</td><td>测评：老板打 1 / 2 / 3 分</td></tr>
+<tr><td>⑤ 素材</td><td>传手机里现有的视频照片；自动标「拍的是什么」、自动美化</td><td>识别 + 美化（调亮调色、裁竖屏、防抖降噪、剪废镜头）；原片保留；有客人脸要同意</td><td>美化后能直接用的比例</td></tr>
+<tr><td>⑥ 看脚本</td><td>按镜头列：几秒、画面、字幕；店里资料插进去的地方高亮；能切回爆款原版对照；每个镜头标用哪段素材</td><td>只用店资料里有的菜、价、地址；镜头店里拍不拍得出来要核；缺的标出来</td><td>测评：插得自不自然；每条要补拍几段</td></tr>
+<tr><td>⑦ 补拍 + 出片</td><td>「还差 N 段」：拍什么、手机怎么拿、几秒；拍好上传；齐了点出片</td><td>出片后端（原出片线），以我们现在的规矩为准</td><td>出片成功率</td></tr>
+<tr><td>⑧ 发布</td><td>成片 + 文案 + 话题 + 挂团购 + 地点 + 时间；定时或现在发</td><td>文案跟这一期爆款走；团购、地点、时间默认上次</td><td>发出去的比例</td></tr>
+</table>
+
+<h2>6. 页面上的规矩</h2>
+<ul>
+<li>每一屏只有一个主按钮；随时能看到这条视频在第几步。</li>
+<li>不写「基于 N 条数据」「AI 生成」「怎么看这页」这类说明小字。</li>
+<li>团购只说卖了多少钱，不提核销。</li>
+<li>老板自己说的话照用、不改；他说的夸张话不评判，只是平台禁用的词（最、第一）不写进文案。</li>
+<li>每家店的数据只给这家店用。</li>
+</ul>
+
+<h2>7. 怎么算做得好（产品线不为播放和团购负责）</h2>
+<table><tr><th>看什么</th><th>怎么量</th></tr>
+<tr><td>视频质量</td><td>48 家模拟商户的测评：问诊问准率、诊断分、爆款分、脚本自然率（老板打分）</td></tr>
+<tr><td>商户愿不愿意用</td><td>方案点「就这么办」的比例；脚本点「就拍这个」的比例</td></tr>
+<tr><td>快不快</td><td>从第一次打开到第一条成片用了多久；每条要补拍几段</td></tr></table>
+
+<h2>8. 分工</h2>
+<table><tr><th>组</th><th>管哪几步</th><th>现在谁做</th></tr>
+<tr><td>① 诊断组</td><td>认识你的店、问三件事、这个月的方案</td><td>暂借复盘小队前后端；规则后端已写完（71 条测试过）</td></tr>
+<tr><td>② 爆款脚本组</td><td>爆款库、挑爆款、脚本、素材填空、补拍清单</td><td>待开</td></tr>
+<tr><td>③ 视频生成组</td><td>素材识别美化、出片、发布</td><td>原出片线后端（只要后端，页面我们做）</td></tr>
+<tr><td>④ 记忆组</td><td>记住每家店说过的、做过的</td><td>待开</td></tr></table>
+
+<h2>9. 先做什么（按小时，能并行的并行）</h2>
+<table><tr><th>顺序</th><th>内容</th><th>大约</th></tr>
+<tr><td>1</td><td>老板定这份 PRD → 按第 4 节重画示意图（首页进度卡、认识你的店、问三件事、方案、脚本）</td><td>示意 1 小时</td></tr>
+<tr><td>2</td><td>①②③ 接进页面，旧问诊直接换掉</td><td>前后端 6–8 小时</td></tr>
+<tr><td>3</td><td>爆款库第一版（八个品类各 10 条）+ 脚本填空</td><td>4–6 小时，和 2 并行</td></tr>
+<tr><td>4</td><td>素材识别美化 + 补拍清单 + 接出片后端</td><td>等出片线后端说明，估时后补</td></tr>
+<tr><td>5</td><td>48 家测评（要老板说「可以跑」）→ 换模型复核 → 上线组闸门 → 老板说「上线」</td><td>—</td></tr></table>
+
+<h2>10. 要老板定的</h2>
+<ol>
+<li class="q">这份 PRD 的用户路径和页面结构（第 3、4 节）行不行</li>
+<li class="q">首页改名「首页」、档案改名「我的店」行不行</li>
+<li class="q">精品视频先开给哪些店（出片名单只有老板能定）</li>
+<li class="q">爆款库：我们定期搜进去，商户每次从库里挑（不是每次现搜）行不行</li>
+<li class="q">测评通过线（例：12 家封存题诊断无 1 分、3 分 ≥ 8 家；爆款无 1 分；脚本自然 ≥ 10 家）</li>
+</ol>
+</body></html>
