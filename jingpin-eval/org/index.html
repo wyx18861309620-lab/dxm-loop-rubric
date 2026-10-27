@@ -33,6 +33,7 @@ h1{font-size:22px;margin:0 0 4px}
 .down{text-align:center;color:var(--sub);font-size:20px;line-height:1;margin:6px 0}
 .groups{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:6px}
 .group{background:var(--card);border-radius:14px;padding:12px;border:1.5px solid var(--line)}
+.group h2 a{color:inherit;text-decoration:none;border-bottom:1px dashed currentColor}
 .group h2{font-size:15px;margin:0 0 8px;display:flex;align-items:center;gap:8px}
 .dot{width:10px;height:10px;border-radius:50%}
 .g-be{border-color:var(--be);background:var(--tint-be)} .g-be .dot{background:var(--be)}
@@ -60,46 +61,47 @@ h1{font-size:22px;margin:0 0 4px}
 <body>
 <div class="wrap">
   <h1>店小谋 · 精品视频产品线组织架构</h1>
+  <p class="sub"><a href="https://wyx18861309620-lab.github.io/dxm-loop-rubric/jingpin-eval/board/">全部任务进度 ›</a> · 点每个队的名字看这个队的任务</p>
   <p class="sub">2026-10-27 17:3x 更新 · 三个业务小队（老板 10-26 17:3x 定）· 每队一个 Claude 当产品经理队长，前端、后端都由队长派 Codex 写 · 只有上线组能部署 · 小标签 = 用的模型（蓝框 = 会话本身，灰框 = 它派的 Codex）</p>
 
   <div class="tier"><div class="node boss"><b>老板</b><span>定方向、拍板、说「上线」</span></div></div>
   <div class="down">↓</div>
   <div class="tier">
-    <div class="node pm"><b>产品线总产品经理</b><i class="m c">Claude Opus 5.5</i><i class="m x">Codex gpt-6.1-terra</i><span>dxm-sq4-pm · 派活、定规则、验收、向老板汇报</span></div>
+    <div class="node pm"><b>产品线总产品经理</b><i class="m c">Claude Opus 5.5</i><span>dxm-sq4-pm · 派活、定规则、验收、向老板汇报</span></div>
   </div>
   <div class="down">↓</div>
 
   <div class="groups">
     <div class="group g-be">
-      <h2><i class="dot"></i>档案队</h2>
+      <h2><i class="dot"></i><a href="https://wyx18861309620-lab.github.io/dxm-loop-rubric/jingpin-eval/board/dang-an.html">档案队 · 看进度 ›</a></h2>
       <div class="row"><span class="who">队长</span><span class="what"><b>fe3</b> · dxm-pl-fe3<br>产品经理，派活、验收<br><i class="m c">Claude Opus 5.5</i></span></div>
       <div class="row"><span class="who">前端</span><span class="what">冷启动页、档案页<br><i class="m x">Codex gpt-6.1-terra</i></span></div>
       <div class="row"><span class="who">后端</span><span class="what">读门店、问诊诊断、门店卡、起草<br><i class="m x">Codex gpt-6.1-terra</i></span></div>
       <div class="row"><span class="who">管什么</span><span class="what">冷启动三步（贴链接、读门店、问诊、诊断）、档案页五块、门店卡、账号定位和栏目起草</span></div>
     </div>
     <div class="group g-fe">
-      <h2><i class="dot"></i>素材队</h2>
+      <h2><i class="dot"></i><a href="https://wyx18861309620-lab.github.io/dxm-loop-rubric/jingpin-eval/board/su-cai.html">素材队 · 看进度 ›</a></h2>
       <div class="row"><span class="who">队长</span><span class="what"><b>sq4-fe</b> · dxm-sq4-fe<br>产品经理，派活、验收<br><i class="m c">Claude Opus 5.5</i></span></div>
       <div class="row"><span class="who">前端</span><span class="what">素材页、相机、录音向导<br><i class="m x">Codex gpt-6.1-terra</i></span></div>
       <div class="row"><span class="who">后端</span><span class="what">上传、分类、缩略图、美化、克隆<br><i class="m x">Codex gpt-6.1-terra</i></span></div>
       <div class="row"><span class="who">管什么</span><span class="what">素材页四类、上传和多选、自动分类、缩略图和时长、素材美化、相机、录音色、音色克隆、上线检查脚本</span></div>
     </div>
     <div class="group g-fe">
-      <h2><i class="dot"></i>脚本队</h2>
+      <h2><i class="dot"></i><a href="https://wyx18861309620-lab.github.io/dxm-loop-rubric/jingpin-eval/board/jiao-ben.html">脚本队 · 看进度 ›</a></h2>
       <div class="row"><span class="who">队长</span><span class="what"><b>新队长</b> · dxm-pl-script<br>产品经理，派活、验收<br><i class="m c">Claude Opus 5.5</i></span></div>
       <div class="row"><span class="who">前端</span><span class="what">生成页卡片、抽屉<br><i class="m x">Codex gpt-6.1-terra</i></span></div>
       <div class="row"><span class="who">后端</span><span class="what">出选题、续批、爆款池<br><i class="m x">Codex gpt-6.1-terra</i></span></div>
       <div class="row"><span class="who">管什么</span><span class="what">脚本卡片：出选题、续批 / 重新生成、卡片和首屏、抽屉、去拍入口、额度显示、参考爆款，以及搜爆款 → 导进爆款池</span></div>
     </div>
     <div class="group g-qa">
-      <h2><i class="dot"></i>出片队</h2>
+      <h2><i class="dot"></i><a href="https://wyx18861309620-lab.github.io/dxm-loop-rubric/jingpin-eval/board/chu-pian.html">出片队 · 看进度 ›</a></h2>
       <div class="row"><span class="who">队长</span><span class="what"><b>be7</b> · dxm-pl-be7<br>产品经理，派活、验收<br><i class="m c">Claude Opus 5.5</i></span></div>
       <div class="row"><span class="who">前端</span><span class="what">成片卡、发布页<br><i class="m x">Codex gpt-6.1-terra</i></span></div>
       <div class="row"><span class="who">后端</span><span class="what">出选题、方案单、封面、口播排秒、发布包<br><i class="m x">Codex gpt-6.1-terra</i></span></div>
       <div class="row"><span class="who">管什么</span><span class="what">右滑之后：出片机（备料→方案→出片）、口播配音、人物出镜同意、成片卡、封面、发布包、出片花钱上限</span></div>
     </div>
     <div class="group g-sq">
-      <h2><i class="dot"></i>三队共用</h2>
+      <h2><i class="dot"></i><a href="https://wyx18861309620-lab.github.io/dxm-loop-rubric/jingpin-eval/board/gong-yong.html">各队共用 · 看进度 ›</a></h2>
       <div class="row"><span class="who">装车</span><span class="what">sq4-be · 合车、跑整车检查、交上线组；共用代码（页面外壳、上传路由、迁移）把关<br><i class="m c">Claude Opus 5.5</i><i class="m x">Codex gpt-6.1-terra</i></span></div>
       <div class="row"><span class="who">监工</span><span class="what">dxm-pl-jiangong · 每 5 分钟盯一遍全流程上的队长、装车、上线组和 Codex：谁偷懒、谁出问题，只报不管<br><i class="m c">Claude Haiku 5.5</i></span></div>
       <div class="row"><span class="who">管钱</span><span class="what">dxm-money · 盯账户余额、出片账本、Codex / Claude 额度，快用完提前报，每天 9 点报总表<br><i class="m c">Claude Haiku 5.5</i></span></div>
