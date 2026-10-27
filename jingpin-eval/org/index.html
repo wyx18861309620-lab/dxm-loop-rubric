@@ -62,7 +62,7 @@ h1{font-size:22px;margin:0 0 4px}
 <div class="wrap">
   <h1>店小谋 · 精品视频产品线组织架构</h1>
   <p class="sub"><a href="https://wyx18861309620-lab.github.io/dxm-loop-rubric/jingpin-eval/board/">全部任务进度 ›</a> · 点每个队的名字看这个队的任务</p>
-  <p class="sub">2026-10-27 17:3x 更新 · 三个业务小队（老板 10-26 17:3x 定）· 每队一个 Claude 当产品经理队长，前端、后端都由队长派 Codex 写 · 只有上线组能部署 · 小标签 = 用的模型（蓝框 = 会话本身，灰框 = 它派的 Codex）</p>
+  <p class="sub">2026-10-27 21:4x 更新 · 四个业务小队，照 agentdeck 的架构每队加一个评测（老板 10-27 定，人数不照搬）· 名册 infra-team/records/名册.json· 每队一个 Claude 当产品经理队长，前端、后端都由队长派 Codex 写 · 只有上线组能部署 · 小标签 = 用的模型（蓝框 = 会话本身，灰框 = 它派的 Codex）</p>
 
   <div class="tier"><div class="node boss"><b>老板</b><span>定方向、拍板、说「上线」</span></div></div>
   <div class="down">↓</div>
@@ -77,6 +77,7 @@ h1{font-size:22px;margin:0 0 4px}
       <div class="row"><span class="who">队长</span><span class="what"><b>fe3</b> · dxm-pl-fe3<br>产品经理，派活、验收<br><i class="m c">Claude Opus 5.5</i></span></div>
       <div class="row"><span class="who">前端</span><span class="what">冷启动页、档案页<br><i class="m x">Codex gpt-6.1-terra</i></span></div>
       <div class="row"><span class="who">后端</span><span class="what">读门店、问诊诊断、门店卡、起草<br><i class="m x">Codex gpt-6.1-terra</i></span></div>
+      <div class="row"><span class="who">评测</span><span class="what">只验不做 · 交号前对照交车说明和改动查三件：说的做到没、有没有超范围、相关测试跑没跑过；不过的装车不收<br><i class="m x">Codex gpt-6.1-terra · 只读</i></span></div>
       <div class="row"><span class="who">管什么</span><span class="what">冷启动三步（贴链接、读门店、问诊、诊断）、档案页五块、门店卡、账号定位和栏目起草</span></div>
     </div>
     <div class="group g-fe">
@@ -84,6 +85,7 @@ h1{font-size:22px;margin:0 0 4px}
       <div class="row"><span class="who">队长</span><span class="what"><b>sq4-fe</b> · dxm-sq4-fe<br>产品经理，派活、验收<br><i class="m c">Claude Opus 5.5</i></span></div>
       <div class="row"><span class="who">前端</span><span class="what">素材页、相机、录音向导<br><i class="m x">Codex gpt-6.1-terra</i></span></div>
       <div class="row"><span class="who">后端</span><span class="what">上传、分类、缩略图、美化、克隆<br><i class="m x">Codex gpt-6.1-terra</i></span></div>
+      <div class="row"><span class="who">评测</span><span class="what">只验不做 · 交号前对照交车说明和改动查三件：说的做到没、有没有超范围、相关测试跑没跑过；不过的装车不收<br><i class="m x">Codex gpt-6.1-terra · 只读</i></span></div>
       <div class="row"><span class="who">管什么</span><span class="what">素材页四类、上传和多选、自动分类、缩略图和时长、素材美化、相机、录音色、音色克隆、上线检查脚本</span></div>
     </div>
     <div class="group g-fe">
@@ -91,6 +93,7 @@ h1{font-size:22px;margin:0 0 4px}
       <div class="row"><span class="who">队长</span><span class="what"><b>新队长</b> · dxm-pl-script<br>产品经理，派活、验收<br><i class="m c">Claude Opus 5.5</i></span></div>
       <div class="row"><span class="who">前端</span><span class="what">生成页卡片、抽屉<br><i class="m x">Codex gpt-6.1-terra</i></span></div>
       <div class="row"><span class="who">后端</span><span class="what">出选题、续批、爆款池<br><i class="m x">Codex gpt-6.1-terra</i></span></div>
+      <div class="row"><span class="who">评测</span><span class="what">只验不做 · 交号前对照交车说明和改动查三件：说的做到没、有没有超范围、相关测试跑没跑过；不过的装车不收<br><i class="m x">Codex gpt-6.1-terra · 只读</i></span></div>
       <div class="row"><span class="who">管什么</span><span class="what">脚本卡片：出选题、续批 / 重新生成、卡片和首屏、抽屉、去拍入口、额度显示、参考爆款，以及搜爆款 → 导进爆款池</span></div>
     </div>
     <div class="group g-qa">
@@ -98,6 +101,7 @@ h1{font-size:22px;margin:0 0 4px}
       <div class="row"><span class="who">队长</span><span class="what"><b>be7</b> · dxm-pl-be7<br>产品经理，派活、验收<br><i class="m c">Claude Opus 5.5</i></span></div>
       <div class="row"><span class="who">前端</span><span class="what">成片卡、发布页<br><i class="m x">Codex gpt-6.1-terra</i></span></div>
       <div class="row"><span class="who">后端</span><span class="what">出选题、方案单、封面、口播排秒、发布包<br><i class="m x">Codex gpt-6.1-terra</i></span></div>
+      <div class="row"><span class="who">评测</span><span class="what">只验不做 · 交号前对照交车说明和改动查三件：说的做到没、有没有超范围、相关测试跑没跑过；不过的装车不收<br><i class="m x">Codex gpt-6.1-terra · 只读</i></span></div>
       <div class="row"><span class="who">管什么</span><span class="what">右滑之后：出片机（备料→方案→出片）、口播配音、人物出镜同意、成片卡、封面、发布包、出片花钱上限</span></div>
     </div>
     <div class="group g-sq">
@@ -108,7 +112,7 @@ h1{font-size:22px;margin:0 0 4px}
       <div class="row"><span class="who">用户测试</span><span class="what">dxm-pl-tester · 判「上了」：每车只验改动的路径各 3 遍、页面走查；提示词和模型输出的质量<br><i class="m c">Claude Opus 5.5</i></span></div>
     </div>
   </div>
-  <p class="note">10-27 起：四个业务小队（傍晚从出片队拆出脚本队），每队只有队长一个 Claude Opus 5.5（产品经理），前端、后端都由队长派 Codex 写。</p>
+  <p class="note">10-27 起：四个业务小队（傍晚从出片队拆出脚本队），每队只有队长一个 Claude Opus 5.5（产品经理），前端、后端都由队长派 Codex 写。晚上起每队加一个「评测」：Codex gpt-6.1-terra 在只读沙箱里当，不常驻、不占 Claude 额度；做的人不验自己的。</p>
 
   <div class="side">
     <div class="node ops"><b>上线组</b><i class="m c">Claude Opus 5.5</i><span>dxm-ops · 唯一能动线上：部署、出片机、开关、账号；专管线上出事和要判断的事；先等空闲再重启，部署不断服务</span></div>
@@ -133,8 +137,10 @@ h1{font-size:22px;margin:0 0 4px}
       <span class="step">老板提需求</span><span class="arr">→</span>
       <span class="step">总产品经理定规则、分到队</span><span class="arr">→</span>
       <span class="step">队长写简报，Codex 写前后端</span><span class="arr">→</span>
-      <span class="step">相关测试 0 红交 sq4-be</span><span class="arr">→</span>
-      <span class="step">装车 + 整车闸门（约 3 分钟）</span><span class="arr">→</span>
+      <span class="step">相关测试 0 红</span><span class="arr">→</span>
+      <span class="step">评测 PASS（Codex 只读，不过不收）</span><span class="arr">→</span>
+      <span class="step">交装车收号</span><span class="arr">→</span>
+      <span class="step">装车脚本 + 整车闸门</span><span class="arr">→</span>
       <span class="step">上线组部署</span><span class="arr">→</span>
       <span class="step">冒烟脚本 + 用户测试脚本</span><span class="arr">→</span>
       <span class="step">总产品经理向老板报</span>
