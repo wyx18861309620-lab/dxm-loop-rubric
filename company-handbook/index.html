@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI 公司手册</title>
+<style>
+:root{--bg:#f7f7f5;--card:#fff;--ink:#1c1b1a;--sub:#5f5d59;--line:#e4e2de;--accent:#2563eb;--warn:#b45309;--ok:#15803d}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#121314;--card:#1b1d1f;--ink:#e8e8e6;--sub:#a3a19c;--line:#2f3134;--accent:#7aa2ff;--warn:#f0a35c;--ok:#5fd28a}}
+:root[data-theme="dark"]{--bg:#121314;--card:#1b1d1f;--ink:#e8e8e6;--sub:#a3a19c;--line:#2f3134;--accent:#7aa2ff;--warn:#f0a35c;--ok:#5fd28a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.7 -apple-system,"PingFang SC","Noto Sans SC",sans-serif;padding:24px 16px 48px}
+.wrap{max-width:860px;margin:0 auto}
+h1{font-size:24px;margin:0 0 4px}
+h2{font-size:18px;margin:32px 0 10px;padding-top:8px;border-top:1px solid var(--line)}
+h3{font-size:15px;margin:18px 0 6px}
+.sub{color:var(--sub);font-size:13px;margin:0 0 16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin:10px 0}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--sub);font-weight:600;font-size:13px}
+ol,ul{padding-left:22px;margin:6px 0}
+li{margin:4px 0}
+.tag{display:inline-block;font-size:12px;padding:0 8px;border-radius:999px;border:1px solid var(--line);color:var(--sub);margin-left:4px}
+.why{color:var(--sub);font-size:13px}
+.flow{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:14px}
+.flow span.s{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:4px 10px}
+.toc a{color:var(--accent);text-decoration:none;margin-right:12px;white-space:nowrap}
+@media (max-width:520px){th,td{padding:6px 4px}table{font-size:13px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>用 AI 团队从零建一家公司</h1>
+<p class="sub">通用版公司手册 · 不针对某一个项目 · 从店小谋 10 月踩过的坑里总结 · 2026-10-27 初版</p>
+<p class="toc"><a href="#p0">零 原则</a><a href="#p1">一 第一天建什么</a><a href="#p2">二 组织</a><a href="#p3">三 模型怎么选</a><a href="#p4">四 一件事怎么走</a><a href="#p5">五 硬规矩</a><a href="#p6">六 钱和账号</a><a href="#p7">七 和老板怎么说话</a><a href="#p8">八 常见坑</a><a href="#p9">九 第一周</a></p>
+
+<h2 id="p0">零 · 三条原则</h2>
+<div class="card"><ol>
+<li><b>老板只做只有老板能做的事：</b>定方向、拍板、付钱、点头上线、对外签字。其余一切交给 agent，能写成脚本的写成脚本。</li>
+<li><b>做的人不验自己：</b>写代码、派活、验收、上线是四个不同的人。验收的人独立，只有它能说「上了」。</li>
+<li><b>坑踩一次就变成机器检查：</b>每出一个新问题，当天写成一条自动测试或闸门检查，不靠人记、不靠人再看一遍。</li>
+</ol></div>
+
+<h2 id="p1">一 · 第一天就要建好的 10 样东西</h2>
+<p class="why">项目还没开工就建好。少一样，后面一定以事故的形式补回来。</p>
+<table>
+<tr><th>东西</th><th>做什么用</th><th>谁维护</th></tr>
+<tr><td>任务看板（公网可看）</td><td>每件事一行，带进度条、负责人、卡在哪；老板不问进度，看它</td><td>总经理，每件事一变就更新</td></tr>
+<tr><td>组织图（公网可看）</td><td>谁负责什么、用什么模型，点队名看该队进度</td><td>总经理，组织一变当场改</td></tr>
+<tr><td>公司手册（本页）</td><td>所有现行规矩只有一份；新会话开工先读</td><td>总经理，规矩一改同时改</td></tr>
+<tr><td>老板原话记录</td><td>老板每次拍板的原话 + 时间；后来的推翻前面的</td><td>总经理，只追加</td></tr>
+<tr><td>经验库</td><td>每个坑：哪天、什么事、硬检查是什么、本来能挡住哪次</td><td>各岗位，每件事做完写一条</td></tr>
+<tr><td>账户与预算表</td><td>每个外部账户：谁的、月预算、余额、续费日、告警线</td><td>管钱 agent</td></tr>
+<tr><td>测试账号池</td><td>一批假号，各有用途（有数据的、空白的、专给自动检查的）；密码只在本机文件</td><td>上线组开，验收方用</td></tr>
+<tr><td>代码仓库 + 整车闸门</td><td>类型检查、全量测试（超时算红）、构建、走查、迁移顺序、包含线上版本</td><td>装车</td></tr>
+<tr><td>部署脚本</td><td>先等空闲再重启、整目录换、留上一版可一键回退、部署不断服务</td><td>上线组</td></tr>
+<tr><td>上线后冒烟脚本</td><td>一条命令、两分钟内、不调大模型、只读，每次部署后跑</td><td>验收方</td></tr>
+</table>
+
+<h2 id="p2">二 · 组织</h2>
+<h3>按用户走的路分队，不按技术分</h3>
+<p>把用户从进来到拿到结果的路切成几段，每段一个业务小队（例：进门建档 → 准备材料 → 生成方案 → 产出交付）。一个队从页面到后台全包，跨队的接口写成书面约定。</p>
+<h3>岗位</h3>
+<table>
+<tr><th>岗位</th><th>做什么</th><th>不做什么</th></tr>
+<tr><td>总经理</td><td>收老板的需求、定规则、分到队、拍板队里定不了的事、向老板汇报、维护看板 / 组织图 / 手册</td><td>不写代码，不部署</td></tr>
+<tr><td>业务队长（每队一个）</td><td>定本队做什么、写简报派给写代码的、审交回来的东西、交号</td><td>不写代码，不说「上了」</td></tr>
+<tr><td>写代码的</td><td>照简报和《工程规矩》写代码、写测试（先红后绿）、写交接说明</td><td>不部署，不推共享分支</td></tr>
+<tr><td>装车（脚本）</td><td>每 15 分钟收号、合车、跑整车闸门，过了写进待上线，没过退回并写清原因</td><td>不改业务代码</td></tr>
+<tr><td>上线组</td><td>唯一能动线上：部署、开关、数据库、外部机器、测试账号；线上出事第一个查</td><td>不写功能代码</td></tr>
+<tr><td>验收（用户测试）</td><td>每车上线后，只验改动的路径各 3 遍，过了才标「上了」；落成脚本反复跑</td><td>不修 bug，只报</td></tr>
+<tr><td>监工</td><td>每 5 分钟看一遍谁在偷懒、谁卡住、谁越界，只报给总经理</td><td>不派活，不催人</td></tr>
+<tr><td>管钱</td><td>盯所有账户余额、用量、额度，快用完提前报，每天早上报总表</td><td>不充值，不改配置</td></tr>
+</table>
+<h3>单点要有替补</h3>
+<p>装车、上线这种一停整条线就停的岗位：交接只写文件不靠消息；急修号写进固定文件，谁活着谁就能接着上。</p>
+
+<h2 id="p3">三 · 模型怎么选</h2>
+<table>
+<tr><th>活的性质</th><th>用什么</th><th>例子</th></tr>
+<tr><td>要判断、要和人沟通、出错代价大</td><td>最好的模型</td><td>总经理、队长、上线组</td></tr>
+<tr><td>写代码（任务切小、规矩写清）</td><td>便宜快的写代码模型</td><td>所有功能和修复</td></tr>
+<tr><td>照规矩办事、不需要思考</td><td>写成脚本 + 便宜模型兜底</td><td>装车</td></tr>
+<tr><td>只看只报</td><td>最便宜的模型</td><td>监工、管钱</td></tr>
+</table>
+<p class="why">换模型前先拿一个真实的小活做对比（用时、用量、测试过没过、代码质量），再换。便宜模型一次给大活容易做一截就停、还会虚报「测试过了」：一项一派，每项只要一个可验证的结果，派活的人自己重跑一遍。</p>
+
+<h2 id="p4">四 · 一件事从想法到上线</h2>
+<div class="card flow">
+<span class="s">老板提需求</span>→<span class="s">总经理记原话、画示意图</span>→<span class="s">老板点头定稿</span>→<span class="s">分到队</span>→<span class="s">队长写简报</span>→<span class="s">写代码 + 先红后绿的测试</span>→<span class="s">交号（写文件）</span>→<span class="s">装车 + 整车闸门</span>→<span class="s">上线组部署</span>→<span class="s">冒烟</span>→<span class="s">验收按改动走 3 遍</span>→<span class="s">看板标做完</span>→<span class="s">坑写进经验库</span>
+</div>
+<ul>
+<li>示意图没定稿，不拉工程。定稿后一次交接，不边改边转。</li>
+<li>「上了」= 验收方在线上照定稿逐项核过。没核过只能说「已部署，待验收」。</li>
+<li>出了问题先止血（回退或关开关），再查根，再修；回退只退代码，不动数据。</li>
+</ul>
+
+<h2 id="p5">五 · 硬规矩（所有岗位）</h2>
+<div class="card"><ol>
+<li>没当场跑过，不许说「过了 / 修好了 / 做完了」；说的时候附命令和结果。</li>
+<li>修 bug 先写一条会红的测试，改完变绿；不放松原有断言。</li>
+<li>调用外部服务（存储、模型、第三方网页）的代码，上线前在测试账号上真跑一次；假接口不算。</li>
+<li>失败不能记成「确实没有」：失败要冷却后重试。</li>
+<li>请求里起的后台活不能挡住响应，要有一条「后台永远不回、接口照样马上返回」的测试。</li>
+<li>每次读数据都带上客户 / 门店编号，不跨客户读；不用真客户的账号测试。</li>
+<li>密码、key、token 不进日志、不进消息；外露一次就换。</li>
+<li>只有上线组动线上；部署前核「车头包含当前线上版本」；闸门测试超时算红。</li>
+<li>改「首屏读哪些数据」「每条都要算一遍」的东西，用数据多的、少的、有在途任务的三种账号验。</li>
+<li>换产出引擎 / 模板 / 配音，验收同时看画面、听声音、核时长。</li>
+<li>不往别人的窗口里打字；会话之间只用消息或文件。</li>
+<li>规矩改了，当天同时改手册、组织图、看板；过时的说明比没有说明更害人。</li>
+</ol></div>
+
+<h2 id="p6">六 · 钱和账号</h2>
+<ul>
+<li>每个外部账户（模型、云、存储、配音）开户时就登记：属于谁、月预算、充值方式、告警线。</li>
+<li>管钱 agent 每天报一次：余额、昨天花了多少、还能撑几天；撑不到 7 天就提醒老板充值。</li>
+<li>线上模型调用失败率 5 分钟超过一半，立刻告警，并分清是余额、限流还是别的。</li>
+<li>按客户设上限（如每家每月多少钱），全局上限只当保险，不让它先关闸。</li>
+<li>任何会花钱的评测、批量任务，先拿到老板原话，记下来再跑。</li>
+<li>只有一个模型供应商是风险：至少备一个能切过去的供应商，并定期验它能用。</li>
+</ul>
+
+<h2 id="p7">七 · 和老板怎么说话</h2>
+<ul>
+<li>先结论，再要他定的事；一次最多三问，每问给 A / B / C 和推荐。</li>
+<li>不发工具调用、文件路径、术语；一件事一句人话。</li>
+<li>他看不到的东西不算交付：要看的都发公网链接或截图。</li>
+<li>说错了当场更正，说清楚之前哪句不对、为什么。</li>
+<li>他提的痛点，当天落成规矩并告诉他记在哪。</li>
+</ul>
+
+<h2 id="p8">八 · 店小谋 10 月踩过、换任何项目都会再踩的坑</h2>
+<table>
+<tr><th>坑</th><th>后来的硬检查</th></tr>
+<tr><td>模型账户余额用完，线上 AI 停了 20 多小时没人提前知道</td><td>管钱 agent + 失败率告警 + 备用供应商</td></tr>
+<tr><td>装车和上线的会话额度同时用完，修好的急修多等 15 小时</td><td>交接写文件、急修文件谁活着谁上、照规矩的活改脚本</td></tr>
+<tr><td>做的人自己验，「上了」说了好几次又收回</td><td>只有独立验收方能说上了</td></tr>
+<tr><td>一个队担子太重，大部分 bug 都出在那里</td><td>按用户路线把大队拆开</td></tr>
+<tr><td>换了引擎只看画面没听声音，出的片全是静音</td><td>产出类改动验画面 + 声音 + 时长</td></tr>
+<tr><td>失败写成「没有」且不再重试，坏数据变永久</td><td>失败冷却重试</td></tr>
+<tr><td>后来的车冲掉先上的车</td><td>部署前核包含线上版本</td></tr>
+<tr><td>测试挂住，闸门半小时不出结果</td><td>测试超时算红</td></tr>
+<tr><td>规矩改了，说明文件没改，有人照旧规矩办事</td><td>规矩一改，手册 / 组织图 / 看板同时改</td></tr>
+<tr><td>密码被写进日志两次</td><td>共用日志函数先抹敏感字段，外露即换</td></tr>
+</table>
+
+<h2 id="p9">九 · 新公司第一周</h2>
+<table>
+<tr><th>时间</th><th>做什么</th></tr>
+<tr><td>第 1 天</td><td>开总经理会话；建看板、组织图、手册、原话记录、经验库；登记所有外部账户和预算；开管钱 agent</td></tr>
+<tr><td>第 2 天</td><td>仓库、闸门、部署脚本（不断服务 + 回退）、冒烟脚本；开上线组；开测试账号池</td></tr>
+<tr><td>第 3 天</td><td>画出用户路线，切成业务小队；每队开一个队长；写《工程规矩》附给写代码的</td></tr>
+<tr><td>第 4 天</td><td>装车脚本、验收方、监工到位；第一件小功能走完整条流程，当演练</td></tr>
+<tr><td>第 5–7 天</td><td>按看板推进；每天早上管钱报表、晚上把当天的坑落成检查；周末对着手册删掉不再用的规矩</td></tr>
+</table>
+</div>
+</body>
+</html>
