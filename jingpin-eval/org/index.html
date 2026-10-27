@@ -105,14 +105,14 @@ h1{font-size:22px;margin:0 0 4px}
       <div class="row"><span class="who">装车</span><span class="what">装车脚本 dxm-car-builder · 每 15 分钟照《装车规矩》收号、合车、跑整车检查、交上线组或退回队长；共用代码把关<br><i class="m x">Codex gpt-6.1-terra</i><br><span style="font-size:12px">sq4-be（Claude）看完两辆真车后停</span></span></div>
       <div class="row"><span class="who">监工</span><span class="what">dxm-pl-jiangong · 每 5 分钟盯一遍全流程上的队长、装车、上线组和 Codex：谁偷懒、谁出问题，只报不管<br><i class="m c">Claude Haiku 5.5</i></span></div>
       <div class="row"><span class="who">管钱</span><span class="what">dxm-money · 盯账户余额、出片账本、Codex / Claude 额度，快用完提前报，每天 9 点报总表<br><i class="m c">Claude Haiku 5.5</i></span></div>
-      <div class="row"><span class="who">用户测试</span><span class="what">dxm-pl-tester · 线上用测试号把用户路径各走 3 遍，落成脚本；提示词和模型输出的质量<br><i class="m c">Claude Opus 5.5</i></span></div>
+      <div class="row"><span class="who">用户测试</span><span class="what">dxm-pl-tester · 判「上了」：每车只验改动的路径各 3 遍、页面走查；提示词和模型输出的质量<br><i class="m c">Claude Opus 5.5</i></span></div>
     </div>
   </div>
   <p class="note">10-27 起：四个业务小队（傍晚从出片队拆出脚本队），每队只有队长一个 Claude Opus 5.5（产品经理），前端、后端都由队长派 Codex 写。</p>
 
   <div class="side">
-    <div class="node ops"><b>上线组</b><i class="m c">Claude Opus 5.5</i><span>dxm-ops · 唯一能部署：服务器、出片机、开关、账号；跑冒烟；先等空闲再重启，部署不断服务</span></div>
-    <div class="node peer"><b>工程组 / 界面组</b><i class="m c">Claude Opus 5.5</i><i class="m x">复核用 Codex gpt-6.1-sol</i><span>dxm-eng · dxm-ui · 别的线，页脚、官网、页面走查</span></div>
+    <div class="node ops"><b>上线组</b><i class="m c">Claude Opus 5.5</i><span>dxm-ops · 唯一能动线上：部署、出片机、开关、账号；专管线上出事和要判断的事；先等空闲再重启，部署不断服务</span></div>
+    <div class="node peer"><b>工程组 / 界面组</b><span>10-27 老板同意并掉：全站共用页面归装车脚本把关、由队长派 Codex 写；页面走查并给用户测试。交接完就停</span></div>
     <div class="node peer"><b>出片线</b><i class="m c">Claude Opus 5.5</i><span>hnq-manager · 10-26 起出片改动归产品线管</span></div>
     <div class="node peer"><b>Codex<i class="m x">gpt-6.1-terra</i></b><span>每个分身同时最多 2 路，所有代码都由它写（10-27 起一律 gpt-6.1-terra，推理 medium；之前依次用过 gpt-6-astra、gpt-5.6-sol）</span></div>
   </div>
