@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>店小谋组织架构</title>
+<style>
+:root{
+  --bg:#f6f7f9; --card:#ffffff; --ink:#1d2129; --sub:#5b6472; --line:#c9ced6;
+  --boss:#1f2937; --pm:#2563eb; --be:#0f766e; --fe:#7c3aed; --qa:#c2410c; --ops:#b91c1c; --peer:#6b7280; --codex:#374151;
+  --tint-pm:#eff4ff; --tint-be:#ecfdf8; --tint-fe:#f5f0ff; --tint-qa:#fff4ec; --tint-ops:#fff1f1; --tint-peer:#f3f4f6;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#111418; --card:#1a1e24; --ink:#e7eaee; --sub:#9aa3af; --line:#39404a;
+    --boss:#e5e7eb; --pm:#7aa2ff; --be:#4fd1b5; --fe:#b79cff; --qa:#fb9a5c; --ops:#f87171; --peer:#9ca3af; --codex:#cbd5e1;
+    --tint-pm:#18223a; --tint-be:#10261f; --tint-fe:#211a33; --tint-qa:#2b1d12; --tint-ops:#2b1616; --tint-peer:#20242a;
+  }
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 -apple-system,"PingFang SC","Noto Sans SC",sans-serif;padding:24px 16px 40px}
+h1{font-size:22px;margin:0 0 4px}
+.sub{color:var(--sub);font-size:13px;margin:0 0 20px}
+.wrap{max-width:1180px;margin:0 auto}
+.tier{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
+.node{background:var(--card);border:1.5px solid var(--line);border-radius:12px;padding:10px 14px;min-width:150px}
+.node b{display:block;font-size:15px}
+.node span{display:block;color:var(--sub);font-size:12.5px}
+.boss{border-color:var(--boss);border-width:2px}
+.pm{border-color:var(--pm);background:var(--tint-pm)}
+.ops{border-color:var(--ops);background:var(--tint-ops)}
+.peer{border-color:var(--peer);background:var(--tint-peer)}
+.down{text-align:center;color:var(--sub);font-size:20px;line-height:1;margin:6px 0}
+.groups{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin-top:6px}
+.group{background:var(--card);border-radius:14px;padding:12px;border:1.5px solid var(--line)}
+.group h2{font-size:15px;margin:0 0 8px;display:flex;align-items:center;gap:8px}
+.dot{width:10px;height:10px;border-radius:50%}
+.g-be{border-color:var(--be);background:var(--tint-be)} .g-be .dot{background:var(--be)}
+.g-fe{border-color:var(--fe);background:var(--tint-fe)} .g-fe .dot{background:var(--fe)}
+.g-qa{border-color:var(--qa);background:var(--tint-qa)} .g-qa .dot{background:var(--qa)}
+.g-sq{border-color:var(--pm);background:var(--tint-pm)} .g-sq .dot{background:var(--pm)}
+.row{display:flex;gap:8px;padding:5px 0;border-top:1px dashed var(--line);font-size:13.5px}
+.row:first-of-type{border-top:0}
+.row .who{min-width:64px;font-weight:600}
+.row .what{color:var(--sub)}
+.flow{margin-top:22px;background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:14px}
+.flow h2{font-size:15px;margin:0 0 10px}
+.steps{display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-size:13.5px}
+.step{padding:6px 10px;border-radius:8px;background:var(--tint-peer);border:1px solid var(--line)}
+.arr{color:var(--sub)}
+.side{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin-top:14px}
+.note{font-size:12.5px;color:var(--sub);margin-top:6px}
+.m{display:inline-block;margin-top:3px;font-size:11.5px;font-weight:600;padding:1px 7px;border-radius:999px;margin-left:6px;vertical-align:1px;border:1px solid var(--line);color:var(--ink);background:var(--card)}
+.m.c{border-color:var(--pm)}
+.m.x{border-color:var(--codex)}
+.m.p{border-color:var(--qa)}
+.models{margin-top:14px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>店小谋 · 精品视频产品线组织架构</h1>
+  <p class="sub">2026-10-27 更新 · 三个业务小队（老板 10-26 17:3x 定）· 每队一个 Claude 当产品经理队长，前端、后端都由队长派 Codex 写 · 只有上线组能部署 · 小标签 = 用的模型（蓝框 = 会话本身，灰框 = 它派的 Codex）</p>
+
+  <div class="tier"><div class="node boss"><b>老板</b><span>定方向、拍板、说「上线」</span></div></div>
+  <div class="down">↓</div>
+  <div class="tier">
+    <div class="node pm"><b>产品线总产品经理</b><i class="m c">Claude Opus 5.5</i><i class="m x">Codex gpt-5.6-sol</i><span>dxm-sq4-pm · 派活、定规则、验收、向老板汇报</span></div>
+  </div>
+  <div class="down">↓</div>
+
+  <div class="groups">
+    <div class="group g-be">
+      <h2><i class="dot"></i>档案队</h2>
+      <div class="row"><span class="who">队长</span><span class="what"><b>fe3</b> · dxm-pl-fe3<br>产品经理，派活、验收<br><i class="m c">Claude Opus 5.5</i></span></div>
+      <div class="row"><span class="who">前端</span><span class="what"><b>fe4</b> · dxm-pl-fe4 · 冷启动页、档案页<br><i class="m c">Claude Opus 5.5</i><i class="m x">Codex gpt-5.6-sol</i></span></div>
+      <div class="row"><span class="who">后端</span><span class="what"><b>be8</b> · dxm-pl-be8 · 读门店、问诊诊断、门店卡、起草<br><i class="m c">Claude Opus 5.5</i><i class="m x">Codex gpt-5.6-sol</i></span></div>
+      <div class="row"><span class="who">管什么</span><span class="what">冷启动三步（贴链接、读门店、问诊、诊断）、档案页五块、门店卡、账号定位和栏目起草</span></div>
+    </div>
+    <div class="group g-fe">
+      <h2><i class="dot"></i>素材队</h2>
+      <div class="row"><span class="who">队长</span><span class="what"><b>sq4-fe</b> · dxm-sq4-fe<br>产品经理，派活、验收<br><i class="m c">Claude Opus 5.5</i></span></div>
+      <div class="row"><span class="who">前端</span><span class="what"><b>fe2</b> · dxm-pl-fe2 · 素材页、相机、录音向导<br><i class="m c">Claude Opus 5.5</i><i class="m x">Codex gpt-5.6-sol</i></span></div>
+      <div class="row"><span class="who">后端</span><span class="what"><b>be9</b> · dxm-pl-be9 · 上传、分类、缩略图、美化、克隆<br><i class="m c">Claude Opus 5.5</i><i class="m x">Codex gpt-5.6-sol</i></span></div>
+      <div class="row"><span class="who">管什么</span><span class="what">素材页四类、上传和多选、自动分类、缩略图和时长、素材美化、相机、录音色、音色克隆、上线检查脚本</span></div>
+    </div>
+    <div class="group g-qa">
+      <h2><i class="dot"></i>出片队</h2>
+      <div class="row"><span class="who">队长</span><span class="what"><b>be7</b> · dxm-pl-be7<br>产品经理，派活、验收<br><i class="m c">Claude Opus 5.5</i></span></div>
+      <div class="row"><span class="who">前端</span><span class="what"><b>fe5</b> · dxm-pl-fe5 · 生成页、成片卡、发布页<br><i class="m c">Claude Opus 5.5</i><i class="m x">Codex gpt-5.6-sol</i></span></div>
+      <div class="row"><span class="who">后端</span><span class="what"><b>be2</b> · dxm-pl-be2 · 出选题、方案单、封面、口播排秒、发布包<br><i class="m c">Claude Opus 5.5</i><i class="m x">Codex gpt-5.6-sol</i></span></div>
+      <div class="row"><span class="who">管什么</span><span class="what">生成页脚本卡片、出片机（备料→方案→出片）、口播、成片卡、封面、发布包、出片花钱上限</span></div>
+    </div>
+    <div class="group g-sq">
+      <h2><i class="dot"></i>三队共用</h2>
+      <div class="row"><span class="who">装车</span><span class="what">sq4-be · 合车、跑整车检查、交上线组<br><i class="m c">Claude Opus 5.5</i><i class="m x">Codex gpt-5.6-sol</i></span></div>
+      <div class="row"><span class="who">用户测试</span><span class="what">dxm-pl-tester · 线上用测试号把用户路径各走 3 遍，落成脚本<br><i class="m c">Claude Opus 5.5</i></span></div>
+    </div>
+  </div>
+  <p class="note">10-27 起：三个业务小队，每队三个 Opus 5.5 会话（产品经理队长、前端、后端），代码都交 Codex 写。</p>
+
+  <div class="side">
+    <div class="node ops"><b>上线组</b><i class="m c">Claude Opus 5.5</i><span>dxm-ops · 唯一能部署：服务器、出片机、开关、账号；跑冒烟；先等空闲再重启，部署不断服务</span></div>
+    <div class="node peer"><b>工程组 / 界面组</b><i class="m c">Claude Opus 5.5</i><i class="m x">复核用 Codex gpt-6.1-sol</i><span>dxm-eng · dxm-ui · 别的线，页脚、官网、页面走查</span></div>
+    <div class="node peer"><b>出片线</b><i class="m c">Claude Opus 5.5</i><span>hnq-manager · 10-26 起出片改动归产品线管</span></div>
+    <div class="node peer"><b>Codex<i class="m x">gpt-5.6-sol</i></b><span>每个分身同时最多 2 路，所有代码都由它写（17:2x 起一律 gpt-5.6-sol，推理 medium；之前用的是 gpt-6-astra）</span></div>
+  </div>
+
+
+  <div class="flow models">
+    <h2>线上给商户干活的模型</h2>
+    <div class="row"><span class="who">文字</span><span class="what">脚本卡片、问诊、诊断、口播、起草、发布文案：实际是 <b>GPT-5.5</b>（代码里写的是 Claude，那条线 10-11 起关着，一直自动换成 GPT-5.5）。<b>10-26 20:23 起 OpenAI 余额用完，停着，等老板定充值 / 换模型</b></span></div>
+    <div class="row"><span class="who">口播核对</span><span class="what">第二道模型核对也是 GPT-5.5（开关关着，评测没过线）</span></div>
+    <div class="row"><span class="who">素材打标签</span><span class="what">出片引擎：<b>qwen3.8-flash</b>（约 0.0025 元 / 次）</span></div>
+    <div class="row"><span class="who">配音</span><span class="what">MiniMax <b>speech-2.8-hd</b>，三个标准音色（开关关着）</span></div>
+    <div class="row"><span class="who">音色克隆</span><span class="what">百炼 MiniMax（开关关着，等 key）</span></div>
+    <div class="row"><span class="who">评测</span><span class="what">用 Codex 额度（gpt-6-astra / gpt-5.6-sol）当相对比较，不是线上同款</span></div>
+  </div>
+
+  <div class="flow">
+    <h2>一件事怎么从想法到上线</h2>
+    <div class="steps">
+      <span class="step">老板提需求</span><span class="arr">→</span>
+      <span class="step">总产品经理定规则、分到队</span><span class="arr">→</span>
+      <span class="step">队长写简报，Codex 写前后端</span><span class="arr">→</span>
+      <span class="step">相关测试 0 红交 sq4-be</span><span class="arr">→</span>
+      <span class="step">装车 + 整车闸门（约 3 分钟）</span><span class="arr">→</span>
+      <span class="step">上线组部署</span><span class="arr">→</span>
+      <span class="step">冒烟脚本 + 用户测试脚本</span><span class="arr">→</span>
+      <span class="step">总产品经理向老板报</span>
+    </div>
+    <p class="note">用户测试发现的 bug 报总产品经理，再分给对应的队长；跨队的改动，两个队长先写好约定再动手。</p>
+  </div>
+</div>
+</body>
+</html>
