@@ -4,7 +4,7 @@
 :root{color-scheme:light dark;--bg:#f5f6f8;--surface:#fff;--text:#202631;--muted:#536174;--border:#cbd3df;--link:#154fa1}
 @media(prefers-color-scheme:dark){:root{--bg:#15191f;--surface:#202630;--text:#edf1f7;--muted:#bac6d4;--border:#4e5d70;--link:#9bc5ff}}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.7 system-ui,sans-serif;overflow-wrap:anywhere}main{max-width:1000px;margin:auto;padding:20px 16px 48px}h1{margin:0}header p{color:var(--muted);margin:.2em 0 1em}details{background:var(--surface);border:1px solid var(--border);border-radius:10px;margin:12px 0;padding:0 16px 12px;min-width:0}summary{font-size:1.2em;font-weight:700;cursor:pointer;padding:14px 0}details:not([open]){padding-bottom:0}p{margin:.7em 0}li{margin:.3em 0}.table-wrap{overflow-x:auto;max-width:100%;border:1px solid var(--border);border-radius:6px}table{border-collapse:collapse;min-width:450px;width:100%}th,td{border:1px solid var(--border);padding:8px;text-align:left;vertical-align:top}th{background:var(--bg)}a{color:var(--link)}
-</style></head><body><main><header><h1>公司手册</h1><p>共 11 章 · 155 条 · 更新日期：2026-10-28</p></header>
+</style></head><body><main><header><h1>公司手册</h1><p>共 11 章 · 156 条 · 更新日期：2026-10-29</p></header>
 <details id="chapter-0" open><summary>0. 怎么用这本手册</summary>
 <p><strong>0.1 这本手册讲什么。</strong></p>
 <p>这本手册讲怎样用 AI Agent 组成一家公司，并让它把事做成：开公司之前要想清楚什么，公司分几层，怎样开公司、搭团队、给团队和成员定目标，活怎样跑、怎样验收，团队怎样一轮比一轮好，哪些事必须由老板定，哪些事谁都不能做。</p>
@@ -1221,6 +1221,81 @@
 <p><strong>7.23 验收时限和误拦要看实际。</strong></p>
 <p>验收前按工作大小和实测时间约定出结果的时限；有拦截的检查，记录误拦并统计比例。</p>
 <p>为什么：时限和误拦都影响交付，固定时限未必适合每种活。（店小谋补）</p>
+<p><strong>7.24 用户体验的硬规矩。</strong></p>
+<p>给用户用的页面和对话，按下面的数验收。设想的用户是年纪偏大、很忙、用手机、网可能慢的人；数字是下限，不是目标。</p>
+<ul><li>
+测速按常见的差条件测：中档手机、限速的慢网，用录屏或浏览器性能记录量，同一路径量多次取 75 分位；开发机和办公室网络上量的不算达标。为什么：用户多在手机和慢网上用，开发机上快不代表他手里快。（店小谋补）
+</li><li>
+点、按、输入以后，0.1 秒内界面要有看得见的变化：按下态、他刚发的话先上屏、按钮变成「正在发送」。为什么：0.1 秒内有反应，用户才觉得是自己点动了它；没反应他会再点一次，或以为没点上。（店小谋补）
+</li><li>
+连着做的操作（翻页、切换、选选项），每一步结果 0.4 秒内出来；页面交互延迟的 75 分位不超过 0.2 秒，超过 0.5 秒算不合格。为什么：快过这个节奏，人和机器不用互相等，做事最顺；慢了用户会觉得卡、以为点错。（店小谋补）
+</li><li>
+等模型生成的回答，1 秒内出现第一个真实的字，之后边生成边显示（流式），新出的字接在后面，不把已显示的清掉重画；不等整段写完才一次给。为什么：1 秒是人思路不断的上限；看着内容一点点出来和干等完全不同，流式是缩短等待最有效的办法。（店小谋补）
+</li><li>
+打开一页，主要内容（最大的那块正文或图）2.5 秒内显示出来，超过 4 秒算不合格；只出了框架和底色不算。为什么：用户判断「开了没」看的是主内容，不是外壳。（店小谋补）
+</li><li>
+每一步 10 秒内要么做完，要么给出真实进度：做完了哪几步、正在做哪一步、大概还要多久。为什么：10 秒是用户还能盯着这件事的上限，过了没有交代，他就走开或以为坏了。（店小谋补）
+</li><li>
+进度只跟真实发生的事走：进度条、百分比、「第 2/4 步」都对应后台真完成的量；不许按时间自己往前跑的假进度条，不许先冲到九成再停住。为什么：假进度被看穿一次，用户连真结果也不信；先快后卡的进度条比没有更让人着急。（店小谋补）
+</li><li>
+不许假「收到」：显示「已收到」「已保存」「已提交」之前，服务器必须真的收到或存好；没确认的写「正在发送」，失败了换成失败提示并保留内容。为什么：假确认让用户以为事办完了走开，后面丢了他也不知道。（店小谋补）
+</li><li>
+不先给残缺信息冒充结果：没算完的不显示成结论；先出来的部分要么本身完整能用（比如先出那句结论），要么看得出还在写（末尾有光标，写完才出操作按钮）；不用套话、占位话、半截数字撑场面。为什么：用户第一眼看到的就当成全部本事，残缺的东西让他觉得能力差。（店小谋补）
+</li><li>
+等待时的提示只说真在做的事（「在读最近 30 天的评价」），不写不代表任何进展的话（「正在努力思考」）；故意加的延迟和装饰动画不算进度。为什么：说不出在做什么的提示和假进度条一样，是安慰不是信息。（店小谋补）
+</li><li>
+1 秒内能出来的，不加转圈和骨架屏；1 到 10 秒的整页加载可以用骨架屏或转圈，骨架形状和真内容一致；超过 10 秒的必须换成写明进度的提示，不许只挂骨架屏或无限转圈。为什么：太快的加载上转圈只会闪一下添乱；骨架屏只说明「在加载」，等久了就成了假安慰。（店小谋补）
+</li><li>
+错误提示放在出错的地方旁边，用大白话说清三件事：发生了什么、他的东西还在不在、下一步怎么办（给一个能点的按钮，比如「再试一次」）；不出现错误码、英文和技术词，不怪用户。为什么：只写「出错了」，用户不知道该等、该重试还是该找人；年纪大的用户读错误提示本来就吃力。（店小谋补）
+</li><li>
+出错时保留用户已经输入、选好、上传的东西，重试不让他从头再来。为什么：让人重新填一遍，比错误本身更让人放弃。（店小谋补）
+</li><li>
+网慢或请求 10 秒没回，要说出来是网慢还是我们这边慢，并给「再试一次」；已经显示的内容不清掉。为什么：慢网下没交代的等待和死机看起来一样。（店小谋补）
+</li><li>
+空的地方（还没有数据、搜不到、列表为空）说清是「本来就没有」，不让人当成还在加载或出错，并给一个直接开始的入口。为什么：一片空白时，用户分不清是没有、没加载完还是坏了。（店小谋补）
+</li><li>
+能点的东西，触控区域不小于 48×48 像素（CSS 像素），相邻两个之间留开，不让一按碰到两个；任何情况下不小于 24×24。为什么：手机上手指粗、年纪大的手不稳，小按钮常点错；各家平台建议的下限是 44 到 48，无障碍标准的最低线是 24。（店小谋补）
+</li><li>
+手机上正文不小于 17 像素，页面上要读的字不小于 14 像素；用户把系统字号放大到 200% 时，内容不丢、按钮不被挤掉。为什么：17 是手机系统默认的正文大小，平台最小 11 对年纪大的人太小；看不清的字等于没写。（店小谋补）
+</li><li>
+文字和背景的对比度不低于 4.5:1，大字（18 磅以上，或 14 磅以上加粗）不低于 3:1；图标、输入框边框、按钮边界不低于 3:1；重要信息不用浅灰小字。为什么：年纪大的人看浅色小字吃力，对比不够等于藏起来。（店小谋补）
+</li></ul>
+<p>出处（查看日期都是 2026-10-29）：</p>
+<ul><li>
+响应时间三档（0.1 / 1 / 10 秒，超过 10 秒用完成百分比）：https://www.nngroup.com/articles/response-times-3-important-limits/
+</li><li>
+进度提示（超过约 1 秒给提示，2–10 秒用循环动画，10 秒以上用完成百分比；别装精确，先快后卡惹人烦）：https://www.nngroup.com/articles/progress-indicators/
+</li><li>
+骨架屏（1 秒内不需要，10 秒内的整页加载才用，10 秒以上要明确估时）：https://www.nngroup.com/articles/skeleton-screens/
+</li><li>
+错误提示写法（靠近出错处、说人话、讲清问题、给建设性办法、保留输入、不怪用户）：https://www.nngroup.com/articles/error-message-guidelines/
+</li><li>
+空状态（说明系统状态、给学习线索、给直接开始的入口）：https://www.nngroup.com/articles/empty-state-interface-design/
+</li><li>
+老年用户可用性（字太小太浅、按钮太小、读错误提示吃力）：https://www.nngroup.com/articles/usability-for-senior-citizens/
+</li><li>
+400 毫秒阈值（二手汇编；原文是 1982 年的一篇期刊论文，未找到在线全文）：https://lawsofux.com/doherty-threshold/
+</li><li>
+RAIL 模型（100 毫秒内看得见的响应；中档手机慢网 5 秒内可用）：https://web.dev/articles/rail
+</li><li>
+INP 交互延迟（≤200 毫秒好，&gt;500 毫秒差，按 75 分位）：https://web.dev/articles/inp
+</li><li>
+LCP 主内容显示（≤2.5 秒好，&gt;4 秒差，按 75 分位）：https://web.dev/articles/lcp
+</li><li>
+大模型延迟优化（流式把等待缩到一秒左右；展示真实步骤，真进度越多越好）：https://developers.openai.com/api/docs/guides/latency-optimization
+</li><li>
+大模型首字时间与流式（首字时间的定义；流式提升感知响应）：https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/reduce-latency
+</li><li>
+流式回答的渲染（新内容接在后面，不扔掉已显示的）：https://developer.chrome.com/docs/ai/render-llm-responses
+</li><li>
+手机系统无障碍（控件默认 44×44 点；正文默认 17 点、最小 11 点；对比度 4.5:1 / 3:1）：https://developer.apple.com/design/human-interface-guidelines/accessibility
+</li><li>
+安卓无障碍（触控目标至少 48×48 dp；文字对比度 4.5:1，大字 3:1）：https://developer.android.com/guide/topics/ui/accessibility/apps
+</li><li>
+无障碍标准 2.2（1.4.3 对比度 4.5:1 / 3:1，1.4.4 放大到 200%，1.4.11 非文字对比 3:1，2.5.8 目标至少 24×24）：https://www.w3.org/TR/WCAG22/
+</li><li>
+目标大小（最低线）的说明：https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum.html
+</li></ul>
 </details>
 <details id="chapter-8"><summary>8. 团队怎么越做越好</summary>
 <p>回答：怎么让团队一轮比一轮好，又不变成只会背题。</p>
